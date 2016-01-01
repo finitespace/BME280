@@ -1,6 +1,6 @@
 /*
 BME280 Test.ino
-This code records data from the BME280 sensor.
+This code shows how to record data from the BME280 environmental sensor.
 This file is an example file, part of the Arduino BME280 library.
 Copyright (C) 2016  Tyler Glenn
 
