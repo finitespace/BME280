@@ -6,8 +6,6 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
 
 ## Table of Contents
 
----
-
 * [BME280](#bme280)
 * [Table of Contents](#table_of_contents)
 * [Summary](#summary)
@@ -32,15 +30,15 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
 <snippet>
 <content>
 ## Summary
----
+
 Reads temperature, humidity, and pressure. Calculates altitude and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
 
 ## Installation
----
+
 To use this library download the zip file, uncompress it to a folder named BME280. Move the folder to {Arduino Path}/libraries.
 
 ## Usage
----
+
 Include the library at the top of your Arduino script. `#include <BME280>`
 Create a global or local variable. `BME280 bme`
 In your start up call `bme.begin()`.
@@ -60,10 +58,10 @@ or
 `dewPoint = bme.CalculateDewPoint()`
 
 ## Methods
----
+
 
 #### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)
----
+
   Constructor used to create the class. All parameters have default values.
   Return: None
 
@@ -95,12 +93,12 @@ or
 
 
 #### bool  begin()
----
+
   Method used at start up to initialize the class. Starts the I2C interface.
   Return: bool, true = success, false = failure (no device found)
 
 #### float ReadTemperature(bool celsius = true)
----
+
   Read the temperature from the BME280 and return a float.
   Return: float = temperature
 
@@ -110,7 +108,7 @@ or
 
 
 #### float ReadPressure(uint8_t unit = 0x0)
----
+
   Read the pressure from the BME280 and return a float with the specified unit.
   Return: float = pressure
 
@@ -119,12 +117,12 @@ or
       B101 = torr, B110 = N/m^2, B111 = psi
 
 #### float ReadHumidity()
----
+
   Read the humidity from the BME280 and return a percentage as a float.
   Return: float = percent relative humidity
 
 #### void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)
----
+
   Read the data from the BME280 with the specified units.
   Return: None, however, pressure, temp and humidity are changed.
 
@@ -145,7 +143,7 @@ or
         B101 = torr, B110 = N/m^2, B111 = psi
 
 #### float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325)
----
+
   Read the data from the BME280 with the specified units and then calculate the altitude.
   Return: float = altitude
 
@@ -157,7 +155,7 @@ or
 
 
 #### float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
----
+
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
 
@@ -171,7 +169,7 @@ or
       values:  any float
 
 #### float CalculateDewPoint(bool metric = true)
----
+
   Read BME280 data and calculate the dew point with the specified units.
   Return: float = dew point
 
@@ -180,7 +178,7 @@ or
       temperature in degrees Fahrenheit
 
 #### float CalculateDewPoint(float temp, float hum, bool metric = true)
----
+
   Calculate the dew point based on the temperature and humidity with the specified units.
   Return: float = dew point
 
@@ -194,7 +192,7 @@ or
       values: true = return degrees Celsius, false = return degrees Fahrenheit
 
 ## Contributing
----
+
 1. Fork the project.
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
@@ -202,15 +200,15 @@ or
 5. Submit a pull request.
 
 ## History
----
+
 Jan 1, 2016 - Version 1.0.0 released.
 
 ## Credits
----
+
 Written by Tyler Glenn, 2016.
 
 ## License
----
+
 GNU GPL, see License.txt
 </content>
 </snippet>
