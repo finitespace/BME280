@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 30 2015.
-Last Updated: Dec 31 2015.
+Last Updated: Jan 1 2016.
  */
 
 /* ==== Includes ==== */
