@@ -1,12 +1,14 @@
 # BME280
 Provides an Arduino library for reading and interpreting Bosch BME280 data.
 <snippet>
-<content><![CDATA[
-# ${1:Project Name}
+<content>
+<![CDATA[
+# Summary
 Reads temperature, humidity, and pressure. Calculates altitude and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
 
 ## Installation
 To use this library download the zip file, uncompress it to a folder named BME280. Move the folder to {Arduino Path}/libraries.
+
 ## Usage
 Include the library at the top of your Arduino script. `#include <BME280>`
 Create a global or local variable. `BME280 bme;`
@@ -24,7 +26,6 @@ altitude = bme.CalculateAltitude();
 dewPoint = bme.CalculateDewPoint();`
 
 ## Methods
-
 /* Constructor used to create the class. All parameters have default values. */
 
 BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
