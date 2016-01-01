@@ -13,16 +13,16 @@ Include the library at the top of your Arduino script. `#include <BME280>`
 Create a global or local variable. `BME280 bme;`
 In your start up call `bme.begin()`.
 Read the temperature, humidity, pressure, altitude and/or dew point.
-`float pres, temp, hum;
-bme.ReadData(pres, temp, hum);
+`float pres, temp, hum;`
+`bme.ReadData(pres, temp, hum);`
 or
-temp = bme.ReadTemperature();
-hum = bme.ReadHumidity();
-pres = bme.ReadPressure();
+`temp = bme.ReadTemperature();`
+`hum = bme.ReadHumidity();`
+`pres = bme.ReadPressure();`
 
-float altitude, dewPoint;
-altitude = bme.CalculateAltitude();
-dewPoint = bme.CalculateDewPoint();`
+`float altitude, dewPoint;`
+`altitude = bme.CalculateAltitude();`
+`dewPoint = bme.CalculateDewPoint();`
 
 ## Methods
 
@@ -30,17 +30,20 @@ dewPoint = bme.CalculateDewPoint();`
   Constructor used to create the class. All parameters have default values.
   Return: None
 
-    *Temperature Oversampling Rate: uint8_t, default = 0x1
+    *Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
       values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
-    *Humidity Oversampling Rate: uint8_t, default = 0x1
+    *Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
       values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
-    *Pressure Oversampling Rate: uint8_t, default = 0x1
+    *Pressure Oversampling Rate (posr): uint8_t, default = 0x1
       values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
     *Mode: uint8_t, default = forced
       values: Sleep = B00, Normal = B01 and B10, Forced = B11
+
+    *Standby Time (st): uint8_t, default = 1000ms
+      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
 
     *Filter: uint8_t, default = None
       values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
@@ -58,11 +61,11 @@ dewPoint = bme.CalculateDewPoint();`
   Method used at start up to initialize the class. Starts the I2C interface.
   Return: bool, true = success, false = failure (no device found)
 
-#### float ReadTemperature(bool celsius = false);
+#### float ReadTemperature(bool celsius = true);
   Read the temperature from the BME280 and return a float.
   Return: float = temperature
 
-    *Celsius: bool, default = false
+    *Celsius: bool, default = true
       values: true = return temperature in degrees Celsius, false = return
       temperature in degrees Fahrenheit
 

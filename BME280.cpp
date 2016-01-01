@@ -1,6 +1,6 @@
 /*
 BME280.cpp
-This code records data from the BME280 sensor and provides an api.
+This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
 Copyright (C) 2016  Tyler Glenn
 

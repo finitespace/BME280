@@ -1,6 +1,6 @@
 /*
 BME280.h
-This code records data from the BME280 sensor and provides an api.
+This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
 Copyright (C) 2016  Tyler Glenn
 
@@ -78,13 +78,13 @@ public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
   BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
     uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false,
-    uint8_t bme_280_addr = 0x76);  // Oversampling = 2, mode = normal, standby time = 125ms, filter = none.
+    uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
   bool  begin();
 
   /* ==== Read the temperature from the BME280 and return a float. ==== */
-  float ReadTemperature(bool celsius = false);
+  float ReadTemperature(bool celsius = true);
 
   /* ==== Read the pressure from the BME280 and return a float with the specified unit.  ==== */
   float ReadPressure(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
