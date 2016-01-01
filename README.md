@@ -2,30 +2,30 @@
 
 - [BME280](#)
 - [Summary](#)
-	- [Installation](#)
-	- [Usage](#)
-	- [Methods](#)
-			- [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);](#)
-			- [bool  begin();](#)
-			- [float ReadTemperature(bool celsius = true);](#)
-			- [float ReadPressure(uint8_t unit = 0x0);](#)
-			- [float ReadHumidity();](#)
-			- [void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);](#)
-			- [float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);](#)
-			- [float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.](#)
-			- [float CalculateDewPoint(bool metric = true);](#)
-			- [float CalculateDewPoint(float temp, float hum, bool metric = true);](#)
-	- [Contributing](#)
-	- [History](#)
-	- [Credits](#)
-	- [License](#)
+- [Installation](#)
+- [Usage](#)
+- [Methods](#)
+		- [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);](#)
+		- [bool  begin();](#)
+		- [float ReadTemperature(bool celsius = true);](#)
+		- [float ReadPressure(uint8_t unit = 0x0);](#)
+		- [float ReadHumidity();](#)
+		- [void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);](#)
+		- [float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);](#)
+		- [float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.](#)
+		- [float CalculateDewPoint(bool metric = true);](#)
+		- [float CalculateDewPoint(float temp, float hum, bool metric = true);](#)
+- [Contributing](#)
+- [History](#)
+- [Credits](#)
+- [License](#)
 
 
 # BME280
 Provides an Arduino library for reading and interpreting Bosch BME280 data.
 <snippet>
 <content>
-# Summary
+## Summary
 Reads temperature, humidity, and pressure. Calculates altitude and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
 
 ## Installation
