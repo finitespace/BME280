@@ -13,9 +13,12 @@ Include the library at the top of your Arduino script. `#include <BME280>`
 Create a global or local variable. `BME280 bme;`
 In your start up call `bme.begin()`.
 Read the temperature, humidity, pressure, altitude and/or dew point.
+
 `float pres, temp, hum;`
 `bme.ReadData(pres, temp, hum);`
+
 or
+
 `temp = bme.ReadTemperature();`
 `hum = bme.ReadHumidity();`
 `pres = bme.ReadPressure();`
