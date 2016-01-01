@@ -26,8 +26,8 @@ dewPoint = bme.CalculateDewPoint();`
 
 ## Methods
 
-###### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);  
-  Info: Constructor used to create the class. All parameters have default values.
+#### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);  
+  Constructor used to create the class. All parameters have default values.
   Return: None
 
     *Temperature Oversampling Rate: uint8_t, default = 0x1
@@ -54,12 +54,12 @@ dewPoint = bme.CalculateDewPoint();`
 
 
 
-###### bool  begin();
-  Info: Method used at start up to initialize the class. Starts the I2C interface.
+#### bool  begin();
+  Method used at start up to initialize the class. Starts the I2C interface.
   Return: bool, true = success, false = failure (no device found)
 
-###### float ReadTemperature(bool celsius = false);
-  Info: Read the temperature from the BME280 and return a float.
+#### float ReadTemperature(bool celsius = false);
+  Read the temperature from the BME280 and return a float.
   Return: float = temperature
 
     *Celsius: bool, default = false
@@ -67,20 +67,20 @@ dewPoint = bme.CalculateDewPoint();`
       temperature in degrees Fahrenheit
 
 
-###### float ReadPressure(uint8_t unit = 0x0);
-  Info: Read the pressure from the BME280 and return a float with the specified unit.
+#### float ReadPressure(uint8_t unit = 0x0);
+  Read the pressure from the BME280 and return a float with the specified unit.
   Return: float = pressure
 
     *Unit: uint8_t, default = 0x0
       values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
       B101 = torr, B110 = N/m^2, B111 = psi
 
-###### float ReadHumidity();
-  Info: Read the humidity from the BME280 and return a percentage as a float.
+#### float ReadHumidity();
+  Read the humidity from the BME280 and return a percentage as a float.
   Return: float = percent relative humidity
 
-###### void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);
-  Info: Read the data from the BME280 with the specified units.
+#### void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);
+  Read the data from the BME280 with the specified units.
   Return: None, however, pressure, temp and humidity are changed.
 
     *Pressure: float, reference
@@ -99,8 +99,8 @@ dewPoint = bme.CalculateDewPoint();`
         values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
         B101 = torr, B110 = N/m^2, B111 = psi
 
-###### float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);
-  Info: Read the data from the BME280 with the specified units and then calculate the altitude.
+#### float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);
+  Read the data from the BME280 with the specified units and then calculate the altitude.
   Return: float = altitude
 
     *Metric: bool, default = true
@@ -110,8 +110,8 @@ dewPoint = bme.CalculateDewPoint();`
       values:  any float
 
 
-###### float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.
-  Info: Calculate the altitude based on the pressure with the specified units.
+#### float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.
+  Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
 
     *Pressure: float, unit = Pa
@@ -123,16 +123,16 @@ dewPoint = bme.CalculateDewPoint();`
     *Sea Level Pressure: float, unit = Pa, default = 101325
       values:  any float
 
-###### float CalculateDewPoint(bool metric = true);
-  Info: Read BME280 data and calculate the dew point with the specified units.
+#### float CalculateDewPoint(bool metric = true);
+  Read BME280 data and calculate the dew point with the specified units.
   Return: float = dew point
 
     *Metric: bool, default = true
       values: true = return temperature in degrees Celsius, false = return
       temperature in degrees Fahrenheit
 
-###### float CalculateDewPoint(float temp, float hum, bool metric = true);
-  Info: Calculate the dew point based on the temperature and humidity with the specified units.
+#### float CalculateDewPoint(float temp, float hum, bool metric = true);
+  Calculate the dew point based on the temperature and humidity with the specified units.
   Return: float = dew point
 
     *Temperature: float, unit = Celsius if metric is true, Fahrenheit if metric is false
