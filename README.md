@@ -14,16 +14,17 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
 * [Installation](#installation)
 * [Usage](#usage)
 * [Methods](#methods)
-		* [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);](#bme280_constructor)
-		* [bool  begin()](#begin)
-		* [float ReadTemperature(bool celsius = true);](#read_temperature)
-		* [float ReadPressure(uint8_t unit = 0x0);](#read_pressure)
-		* [float ReadHumidity()](#read_humidity)
-		* [void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);](#read_data)
-		* [float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);](#calculate_altitude1)
-		* [float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.](#calculate_altitude2)
-		* [float CalculateDewPoint(bool metric = true);](#calculate_dew_point1)
-		* [float CalculateDewPoint(float temp, float hum, bool metric = true);](#calculate_dew_point2)
+
+		** [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)](#bme280(uint8_t_tosr_=_0x1,_uint8_t_hosr_=_0x1,_uint8_t_posr_=_0x1,_uint8_t_mode_=_0x3,_uint8_t_st_=_0x5,_uint8_t_filter_=_0x0,_bool_spienable_=_false,_uint8_t_bme_280_addr_=_0x76))
+		** [bool  begin()](#begin)
+		** [float ReadTemperature(bool celsius = true)](float_readtemperature(bool_celsius_=_true))
+		** [float ReadPressure(uint8_t unit = 0x0)](#float_readpressure(uint8_t_unit_=_0x0))
+		** [float ReadHumidity()](#float_readhumidity())
+		** [void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)](#void _readdata(float&_pressure,_float&_temp,_float&_humidity,_bool_metric_=_true,_uint8_t_p_unit_=_0x0))
+		** [float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325)](#float_calculatealtitude(bool_metric_=_true,_float_sealevelpressure_=_101325))
+		** [float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#float_calculatealtitude(float_pressure,_bool_metric_=_true,_float_sealevelpressure_=_101325))
+		** [float CalculateDewPoint(bool metric = true)](#float_calculatedewpoint(bool_metric_=_true))
+		** [float CalculateDewPoint(float temp, float hum, bool metric = true)](#float_calculatedewpoint(float_temp,_float_hum,_bool_metric_=_true))
 * [Contributing](#contributing)
 * [History](#history)
 * [Credits](#credits)
@@ -41,27 +42,27 @@ To use this library download the zip file, uncompress it to a folder named BME28
 ## Usage
 ---
 Include the library at the top of your Arduino script. `#include <BME280>`
-Create a global or local variable. `BME280 bme;`
+Create a global or local variable. `BME280 bme`
 In your start up call `bme.begin()`.
 Read the temperature, humidity, pressure, altitude and/or dew point.
 
-`float pres, temp, hum;`
-`bme.ReadData(pres, temp, hum);`
+`float pres, temp, hum`
+`bme.ReadData(pres, temp, hum)`
 
 or
 
-`temp = bme.ReadTemperature();`
-`hum = bme.ReadHumidity();`
-`pres = bme.ReadPressure();`
+`temp = bme.ReadTemperature()`
+`hum = bme.ReadHumidity()`
+`pres = bme.ReadPressure()`
 
-`float altitude, dewPoint;`
-`altitude = bme.CalculateAltitude();`
-`dewPoint = bme.CalculateDewPoint();`
+`float altitude, dewPoint`
+`altitude = bme.CalculateAltitude()`
+`dewPoint = bme.CalculateDewPoint()`
 
 ## Methods
 ---
 
-#### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76);
+#### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)
 ---
   Constructor used to create the class. All parameters have default values.
   Return: None
@@ -93,12 +94,12 @@ or
 
 
 
-#### bool  begin();
+#### bool  begin()
 ---
   Method used at start up to initialize the class. Starts the I2C interface.
   Return: bool, true = success, false = failure (no device found)
 
-#### float ReadTemperature(bool celsius = true);
+#### float ReadTemperature(bool celsius = true)
 ---
   Read the temperature from the BME280 and return a float.
   Return: float = temperature
@@ -108,7 +109,7 @@ or
       temperature in degrees Fahrenheit
 
 
-#### float ReadPressure(uint8_t unit = 0x0);
+#### float ReadPressure(uint8_t unit = 0x0)
 ---
   Read the pressure from the BME280 and return a float with the specified unit.
   Return: float = pressure
@@ -117,12 +118,12 @@ or
       values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
       B101 = torr, B110 = N/m^2, B111 = psi
 
-#### float ReadHumidity();
+#### float ReadHumidity()
 ---
   Read the humidity from the BME280 and return a percentage as a float.
   Return: float = percent relative humidity
 
-#### void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);
+#### void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)
 ---
   Read the data from the BME280 with the specified units.
   Return: None, however, pressure, temp and humidity are changed.
@@ -143,7 +144,7 @@ or
         values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
         B101 = torr, B110 = N/m^2, B111 = psi
 
-#### float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);
+#### float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325)
 ---
   Read the data from the BME280 with the specified units and then calculate the altitude.
   Return: float = altitude
@@ -155,7 +156,7 @@ or
       values:  any float
 
 
-#### float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325);
+#### float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
 ---
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
@@ -169,7 +170,7 @@ or
     * Sea Level Pressure: float, unit = Pa, default = 101325
       values:  any float
 
-#### float CalculateDewPoint(bool metric = true);
+#### float CalculateDewPoint(bool metric = true)
 ---
   Read BME280 data and calculate the dew point with the specified units.
   Return: float = dew point
@@ -178,7 +179,7 @@ or
       values: true = return temperature in degrees Celsius, false = return
       temperature in degrees Fahrenheit
 
-#### float CalculateDewPoint(float temp, float hum, bool metric = true);
+#### float CalculateDewPoint(float temp, float hum, bool metric = true)
 ---
   Calculate the dew point based on the temperature and humidity with the specified units.
   Return: float = dew point
