@@ -207,6 +207,8 @@ Jan 1, 2016 - Version 1.0.0 released.
 
 Written by Tyler Glenn, 2016.
 
+Special thanks to Mike Glenn for editing and reviewing the code.
+
 ## License
 
 GNU GPL, see License.txt
