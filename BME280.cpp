@@ -30,10 +30,8 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 
 
 /* ==== Includes ==== */
-#include "Wire.h"
+#include <Wire.h>
 #include "BME280.h"
-#include "Arduino.h"
-
 /* ====  END Includes ==== */
 
 /* ==== Methods ==== */

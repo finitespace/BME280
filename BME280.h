@@ -28,8 +28,11 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 #ifndef TG_BME_280_H
 #define TG_BME_280_H
 
-/* ==== Defines ==== */
+/* ==== Includes ==== */
+#include "Arduino.h"
+/* ==== END Includes ==== */
 
+/* ==== Defines ==== */
 #define CTRL_HUM_ADDR  0xF2
 #define CTRL_MEAS_ADDR 0xF4
 #define CONFIG_ADDR    0xF5

@@ -24,6 +24,7 @@ Last Updated: Jan 1 2016.
 
 /* ==== Includes ==== */
 #include <BME280.h>
+#include <Wire.h>             // Needed for legacy versions of Arduino.
 /* ====  END Includes ==== */
 
 /* ==== Defines ==== */

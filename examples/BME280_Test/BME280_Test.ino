@@ -32,6 +32,7 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 
 /* ==== Includes ==== */
 #include <BME280.h>
+#include <Wire.h>             // Needed for legacy versions of Arduino.
 /* ====  END Includes ==== */
 
 /* ==== Defines ==== */
