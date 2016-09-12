@@ -88,6 +88,7 @@ bool BME280::ReadTrim()
   }
   return ord == 32;
 }
+
 bool BME280::ReadData(int32_t data[8]){
   uint8_t ord = 0;
 
@@ -102,6 +103,7 @@ bool BME280::ReadData(int32_t data[8]){
   }
   return ord == 8;
 }
+
 float BME280::CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius)
 {
   // Code based on calibration algorthim provided by Bosch.
@@ -115,6 +117,7 @@ float BME280::CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius)
   final = (t_fine * 5 + 128) >> 8;
   return celsius ? final/100.0 : final/100.0*9.0/5.0 + 32.0;
 }
+
 float BME280::CalculateHumidity(int32_t raw, int32_t t_fine){
   // Code based on calibration algorthim provided by Bosch.
   int32_t var1;
@@ -135,6 +138,7 @@ float BME280::CalculateHumidity(int32_t raw, int32_t t_fine){
   var1 = (var1 > 419430400 ? 419430400 : var1);
   return ((uint32_t)(var1 >> 12))/1024.0;
 }
+
 float BME280::CalculatePressure(int32_t raw, int32_t t_fine, uint8_t unit){
   // Code based on calibration algorthim provided by Bosch.
   int64_t var1, var2, pressure;
@@ -207,8 +211,20 @@ BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t s
   config = (standbyTime << 5) | (filter << 2) | spiEnable;
 }
 
+#if defined(ARDUINO_ARCH_ESP8266)
+bool BME280::begin(int SDA, int SCL) {
+  // allow config of pins
+  Wire.begin(SDA,SCL);
+  return Initialize();
+}
+#endif
+
 bool BME280::begin(){
   Wire.begin();
+  return Initialize();
+}
+
+bool BME280::Initialize() {
   WriteRegister(CTRL_HUM_ADDR, controlHumidity);
   WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
   WriteRegister(CONFIG_ADDR, config);
@@ -222,6 +238,7 @@ float BME280::ReadTemperature(bool celsius){
   uint32_t rawTemp  = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4);
   return CalculateTemperature(rawTemp, t_fine, celsius);
 }
+
 float BME280::ReadPressure(uint8_t unit){
   int32_t data[8];
   int32_t t_fine;
@@ -231,6 +248,7 @@ float BME280::ReadPressure(uint8_t unit){
   CalculateTemperature(rawTemp, t_fine);
   return CalculatePressure(rawPressure, t_fine, unit);
 }
+
 float BME280::ReadHumidity(){
   int32_t data[8];
   int32_t t_fine;
@@ -276,9 +294,9 @@ float BME280::CalculateDewPoint(bool metric){
   ReadData(pres, temp, hum, metric);
   return CalculateDewPoint(temp, hum, metric);
 }
+
 float BME280::CalculateDewPoint(float temp, float hum, bool metric){
   // Equations courtesy of Brian McNoldy from http://andrew.rsmas.miami.edu;
-
   float dewPoint = NAN;
   if (metric && !isnan(temp) && !isnan(hum)){
     dewPoint = 243.04 * (log(hum/100.0) + ((17.625 * temp)/(243.04 + temp)))
@@ -291,7 +309,5 @@ float BME280::CalculateDewPoint(float temp, float hum, bool metric){
   }
   return dewPoint;
 }
-
-
 
 /* ==== END Methods ==== */
