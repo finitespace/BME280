@@ -59,6 +59,9 @@ protected:
   uint8_t dig[32];
   bool spiEnable;
 
+  /* ==== Write configuration to BME280, return true if successful. ==== */
+  bool Initialize();
+
   /* ==== Write values to BME280 registers. ==== */
   void WriteRegister(uint8_t addr, uint8_t data);
 
@@ -84,7 +87,11 @@ public:
     uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
-  bool  begin();
+  bool begin();
+#if defined(ARDUINO_ARCH_ESP8266)
+  /* ==== On esp8266 it is possible to define I2C pins ==== */
+  bool begin(int SDA, int SCL);
+#endif
 
   /* ==== Read the temperature from the BME280 and return a float. ==== */
   float ReadTemperature(bool celsius = true);
