@@ -1,8 +1,8 @@
 BME280	KEYWORD1
 begin KEYWORD2
-ReadTemperature KEYWORD2
-ReadPressure  KEYWORD2
-ReadHumidity KEYWORD2
-ReadData  KEYWORD2
-CalculateAltitude KEYWORD2
-CalculateDewPoint KEYWORD2
+temp KEYWORD2
+pres  KEYWORD2
+hum KEYWORD2
+data  KEYWORD2
+alt KEYWORD2
+dew KEYWORD2

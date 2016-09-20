@@ -35,74 +35,6 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 /* ====  END Includes ==== */
 
 /* ==== Methods ==== */
-void BME280::WriteRegister(uint8_t addr, uint8_t data)
-{
-    Wire.beginTransmission(bme_280_addr);
-    Wire.write(addr);
-    Wire.write(data);
-    Wire.endTransmission();
-}
-
-bool BME280::ReadTrim()
-{
-  uint8_t ord(0);
-
-  // Temp. Dig
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(TEMP_DIG_ADDR);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)6);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-  // Pressure Dig
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(PRESS_DIG_ADDR);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)18);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-  // Humidity Dig 1
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(HUM_DIG_ADDR1);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)1);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-  // Humidity Dig 2
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(HUM_DIG_ADDR2);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)7);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-  return ord == 32;
-}
-
-bool BME280::ReadData(int32_t data[8]){
-  uint8_t ord = 0;
-
-  // Registers are in order. So we can start at the pressure register and read 8 bytes.
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(PRESS_ADDR);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)8);
-  while(Wire.available()){
-      data[ord++] = Wire.read();
-  }
-  return ord == 8;
-}
 
 float BME280::CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius)
 {
@@ -211,18 +143,6 @@ BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t s
   config = (standbyTime << 5) | (filter << 2) | spiEnable;
 }
 
-#if defined(ARDUINO_ARCH_ESP8266)
-bool BME280::begin(int SDA, int SCL) {
-  // allow config of pins
-  Wire.begin(SDA,SCL);
-  return Initialize();
-}
-#endif
-
-bool BME280::begin(){
-  Wire.begin();
-  return Initialize();
-}
 
 bool BME280::Initialize() {
   WriteRegister(CTRL_HUM_ADDR, controlHumidity);
@@ -231,7 +151,21 @@ bool BME280::Initialize() {
   return ReadTrim();
 }
 
-float BME280::ReadTemperature(bool celsius){
+
+#if defined(ARDUINO_ARCH_ESP8266)
+bool BME280::begin(int SDA, int SCL) {
+  // allow config of pins
+  Wire.begin(SDA,SCL);
+  return Initialize();
+}
+#endif //defined(ARDUINO_ARCH_ESP8266)
+
+bool BME280::begin(){
+  Wire.begin();
+  return Initialize();
+}
+
+float BME280::temp(bool celsius){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -239,7 +173,7 @@ float BME280::ReadTemperature(bool celsius){
   return CalculateTemperature(rawTemp, t_fine, celsius);
 }
 
-float BME280::ReadPressure(uint8_t unit){
+float BME280::press(uint8_t unit){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -249,7 +183,7 @@ float BME280::ReadPressure(uint8_t unit){
   return CalculatePressure(rawPressure, t_fine, unit);
 }
 
-float BME280::ReadHumidity(){
+float BME280::hum(){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -259,7 +193,7 @@ float BME280::ReadHumidity(){
   return CalculateHumidity(rawHumidity, t_fine);
 }
 
-void BME280::ReadData(float& pressure, float& temp, float& humidity, bool metric, uint8_t p_unit){
+void BME280::read(float& pressure, float& temp, float& humidity, bool metric, uint8_t p_unit){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){
@@ -274,13 +208,13 @@ void BME280::ReadData(float& pressure, float& temp, float& humidity, bool metric
   humidity = CalculateHumidity(rawHumidity, t_fine);
 }
 
-float BME280::CalculateAltitude(bool metric, float seaLevelPressure){
+float BME280::alt(bool metric, float seaLevelPressure){
   float temp, hum, pres;
   ReadData(pres, temp, hum, metric);
   return CalculateAltitude(pres, metric, seaLevelPressure);
 }
 
-float BME280::CalculateAltitude(float pressure, bool metric, float seaLevelPressure){
+float BME280::alt(float pressure, bool metric, float seaLevelPressure){
   // Equations courtesy of NOAA;
   float altitude = NAN;
   if (!isnan(pressure) && !isnan(seaLevelPressure)){
@@ -289,13 +223,13 @@ float BME280::CalculateAltitude(float pressure, bool metric, float seaLevelPress
   return metric ? altitude * 0.3048 : altitude;
 }
 
-float BME280::CalculateDewPoint(bool metric){
+float BME280::dew(bool metric){
   float temp, hum, pres;
   ReadData(pres, temp, hum, metric);
   return CalculateDewPoint(temp, hum, metric);
 }
 
-float BME280::CalculateDewPoint(float temp, float hum, bool metric){
+float BME280::dew(float temp, float hum, bool metric){
   // Equations courtesy of Brian McNoldy from http://andrew.rsmas.miami.edu;
   float dewPoint = NAN;
   if (metric && !isnan(temp) && !isnan(hum)){

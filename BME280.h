@@ -59,17 +59,15 @@ protected:
   uint8_t dig[32];
   bool spiEnable;
 
-  /* ==== Write configuration to BME280, return true if successful. ==== */
-  bool Initialize();
 
   /* ==== Write values to BME280 registers. ==== */
-  void WriteRegister(uint8_t addr, uint8_t data);
+  virtual void WriteRegister(uint8_t addr, uint8_t data);
 
   /* ==== Read the the trim data from the BME280, return true if successful. ==== */
-  bool ReadTrim();
+  virtual bool ReadTrim();
 
   /* ==== Read the raw data from the BME280 into an array and return true if successful. ==== */
-  bool ReadData(int32_t data[8]);
+  virtual bool ReadData(int32_t data[8]);
 
   /* ==== Calculate the temperature from the BME280 raw data and BME280 trim, return a float. ==== */
   float CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius = true);
@@ -86,37 +84,33 @@ public:
     uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false,
     uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
 
-  /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
-  bool begin();
-#if defined(ARDUINO_ARCH_ESP8266)
-  /* ==== On esp8266 it is possible to define I2C pins ==== */
-  bool begin(int SDA, int SCL);
-#endif
+  /* ==== Method used at start up to initialize the class. ==== */
+  virtual bool begin();
 
   /* ==== Read the temperature from the BME280 and return a float. ==== */
-  float ReadTemperature(bool celsius = true);
+  float temp(bool celsius = true);
 
   /* ==== Read the pressure from the BME280 and return a float with the specified unit.  ==== */
-  float ReadPressure(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
+  float press(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
 
   /* ==== Read the humidity from the BME280 and return a percentage as a float. ==== */
-  float ReadHumidity();
+  float hum();
 
   /* ==== Read the data from the BME280 with the specified units. ==== */
-  void  ReadData(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);
+  void  read(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0);
 
 
   /* ==== Read the data from the BME280 with the specified units and then calculate the altitude. ==== */
-  float CalculateAltitude(bool metric = true, float seaLevelPressure = 101325);
+  float alt(bool metric = true, float seaLevelPressure = 101325);
 
   /* ==== Calculate the altitude based on the pressure with the specified units. ==== */
-  float CalculateAltitude(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.
+  float alt(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.
 
   /* ==== Read BME280 data and calculate the dew point with the specified units. ==== */
-  float CalculateDewPoint(bool metric = true);
+  float dew(bool metric = true);
 
   /* ==== Calculate the dew point based on the temperature and humidity with the specified units. ==== */
-  float CalculateDewPoint(float temp, float hum, bool metric = true);
+  float dew(float temp, float hum, bool metric = true);
 
 };
 #endif // TG_BME_280_H
