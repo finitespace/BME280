@@ -1,8 +1,8 @@
 /*
-BME280 Modes.ino
+BME280I2C Modes.ino
 This code shows how to use predefined recommended settings from Bosch for
-the BME280 environmental sensor.
-This file is an example file, part of the Arduino BME280 library.
+the BME280I2C environmental sensor.
+This file is an example file, part of the Arduino BME280I2C library.
 Copyright (C) 2016  Tyler Glenn
 
 This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ Last Updated: Jan 1 2016.
  */
 
 /* ==== Includes ==== */
-#include <BME280.h>
+#include <BME280I2C.h>
 #include <Wire.h>             // Needed for legacy versions of Arduino.
 /* ====  END Includes ==== */
 
@@ -32,24 +32,24 @@ Last Updated: Jan 1 2016.
 /* ==== END Defines ==== */
 
 /* ==== Global Variables ==== */
-BME280 bme;                     // Default : forced mode, standby time = 1000 ms
+BME280I2C bme;                     // Default : forced mode, standby time = 1000 ms
                                 // pressure ×1, temperature ×1, humidity ×1, filter off
 
-/* Based on Bosch BME280 environmental sensor data sheet. */
+/* Based on Bosch BME280I2C environmental sensor data sheet. */
 
-//BME280 bme;                   // Weather Monitoring : forced mode, 1 sample/minute
+//BME280I2C bme;                   // Weather Monitoring : forced mode, 1 sample/minute
                                 // pressure ×1, temperature ×1, humidity ×1, filter off
                                 // Current Consumption =  0.16 μA
                                 // RMS Noise = 3.3 Pa/30 cm, 0.07 %RH
                                 // Data Output Rate 1/60 Hz
 
-//BME280 bme(0, 1, 1);          // Humidity Sensing : forced mode, 1 sample/second
+//BME280I2C bme(0, 1, 1);          // Humidity Sensing : forced mode, 1 sample/second
                                 // pressure ×0, temperature ×1, humidity ×1, filter off
                                 // Current Consumption = 2.9 μA
                                 // RMS Noise = 0.07 %RH
                                 // Data Output Rate =  1 Hz
 
-//BME280 bme(5, 2, 1, 1, 0, 4); // Indoor Navigation : normal mode, standby time = 0.5ms
+//BME280I2C bme(5, 2, 1, 1, 0, 4); // Indoor Navigation : normal mode, standby time = 0.5ms
                                 // pressure ×16, temperature ×2, humidity ×1, filter = x16
                                 // Current Consumption = 633 μA
                                 // RMS Noise = 0.2 Pa/1.7 cm
@@ -58,7 +58,7 @@ BME280 bme;                     // Default : forced mode, standby time = 1000 ms
                                 // Response Time (75%) = 0.9 s
 
 
-//BME280 bme(3, 1, 0, 1, 0, 4); // Gaming : normal mode, standby time = 0.5ms
+//BME280I2C bme(3, 1, 0, 1, 0, 4); // Gaming : normal mode, standby time = 0.5ms
                                 // pressure ×4, temperature ×1, humidity ×0, filter = x16
                                 // Current Consumption = 581 μA
                                 // RMS Noise = 0.3 Pa/2.5 cm
@@ -80,7 +80,7 @@ void setup() {
   Serial.begin(SERIAL_BAUD);
   while(!Serial) {} // Wait
   while(!bme.begin()){
-    Serial.println("Could not find BME280 sensor!");
+    Serial.println("Could not find BME280I2C sensor!");
     delay(1000);
   }
 }
