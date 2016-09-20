@@ -143,28 +143,6 @@ BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t s
   config = (standbyTime << 5) | (filter << 2) | spiEnable;
 }
 
-
-bool BME280::Initialize() {
-  WriteRegister(CTRL_HUM_ADDR, controlHumidity);
-  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
-  WriteRegister(CONFIG_ADDR, config);
-  return ReadTrim();
-}
-
-
-#if defined(ARDUINO_ARCH_ESP8266)
-bool BME280::begin(int SDA, int SCL) {
-  // allow config of pins
-  Wire.begin(SDA,SCL);
-  return Initialize();
-}
-#endif //defined(ARDUINO_ARCH_ESP8266)
-
-bool BME280::begin(){
-  Wire.begin();
-  return Initialize();
-}
-
 float BME280::temp(bool celsius){
   int32_t data[8];
   int32_t t_fine;
