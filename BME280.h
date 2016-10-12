@@ -55,19 +55,18 @@ protected:
   uint8_t controlHumidity;                    // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
   uint8_t controlMeasure;                     // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
   uint8_t config;                             // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-  uint8_t bme_280_addr;
   uint8_t dig[32];
   bool spiEnable;
 
 
   /* ==== Write values to BME280 registers. ==== */
-  virtual void WriteRegister(uint8_t addr, uint8_t data);
+  virtual void WriteRegister(uint8_t addr, uint8_t data)=0;
 
   /* ==== Read the the trim data from the BME280, return true if successful. ==== */
-  virtual bool ReadTrim();
+  virtual bool ReadTrim()=0;
 
   /* ==== Read the raw data from the BME280 into an array and return true if successful. ==== */
-  virtual bool ReadData(int32_t data[8]);
+  virtual bool ReadData(int32_t data[8])=0;
 
   /* ==== Calculate the temperature from the BME280 raw data and BME280 trim, return a float. ==== */
   float CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius = true);
@@ -81,11 +80,10 @@ protected:
 public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
   BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
-    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false,
-    uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
+    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. ==== */
-  virtual bool begin();
+  virtual bool begin()=0;
 
   /* ==== Read the temperature from the BME280 and return a float. ==== */
   float temp(bool celsius = true);

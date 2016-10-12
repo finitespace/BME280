@@ -130,10 +130,10 @@ float BME280::CalculatePressure(int32_t raw, int32_t t_fine, uint8_t unit){
 }
 
 BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter,
-  bool spiEnable, uint8_t bme_280_addr):
+  bool spiEnable):
     tempOversamplingRate(tosr), humidityOversamplingRate(hosr),
     pressureOversamplingRate(posr), mode(mode), standbyTime(st), filter(filter),
-    spiEnable(spiEnable), bme_280_addr(bme_280_addr)
+    spiEnable(spiEnable)
 {
   // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
   controlHumidity = humidityOversamplingRate;
@@ -188,8 +188,8 @@ void BME280::read(float& pressure, float& temp, float& humidity, bool metric, ui
 
 float BME280::alt(bool metric, float seaLevelPressure){
   float temp, hum, pres;
-  ReadData(pres, temp, hum, metric);
-  return CalculateAltitude(pres, metric, seaLevelPressure);
+  read(pres, temp, hum, metric);
+  return alt(pres, metric, seaLevelPressure);
 }
 
 float BME280::alt(float pressure, bool metric, float seaLevelPressure){
@@ -203,8 +203,8 @@ float BME280::alt(float pressure, bool metric, float seaLevelPressure){
 
 float BME280::dew(bool metric){
   float temp, hum, pres;
-  ReadData(pres, temp, hum, metric);
-  return CalculateDewPoint(temp, hum, metric);
+  read(pres, temp, hum, metric);
+  return dew(temp, hum, metric);
 }
 
 float BME280::dew(float temp, float hum, bool metric){

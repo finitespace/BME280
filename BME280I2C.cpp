@@ -116,7 +116,7 @@ bool BME280I2C::ReadData(int32_t data[8]){
 
 BME280I2C::BME280I2C(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter,
   bool spiEnable, uint8_t bme_280_addr):
-    BME280(tosr, hosr, posr, mode, st, filter, spiEnable, bme_280_addr), bme_280_addr(bme_280_addr)
+    BME280(tosr, hosr, posr, mode, st, filter, spiEnable), bme_280_addr(bme_280_addr)
 {
   // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
   controlHumidity = humidityOversamplingRate;
