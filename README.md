@@ -15,6 +15,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
 
  * [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)](#methods)
  * [bool  begin()](#methods)
+ * [void  setMode(uint8_t mode)](#methods)
  * [float temp(bool celsius = true)](#methods)
  * [float pres(uint8_t unit = 0x0)](#methods)
  * [float hum()](#methods)
@@ -58,6 +59,8 @@ or
 `altitude = bme.alt()`
 `dewPoint = bme.dew()`
 
+Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes ~8ms to measure all values (temp, humidity & pressure) when using x1 oversampling (see datasheet 11.1). Thus a delay of >8ms should be used after triggering a measurement and before reading data to ensure that read values are the latest ones.
+
 ## Methods
 
 
@@ -97,6 +100,10 @@ or
 
   Method used at start up to initialize the class. Starts the I2C interface.
   Return: bool, true = success, false = failure (no device found)
+
+#### void setMode(uint8_t mode)
+
+  Method to set the sensor mode. Sleep = B00, Forced = B01 and B10, Normal = B11. Set to B01 to trigger a new measurement when using forced mode.
 
 #### float temp(bool celsius = true)
 
