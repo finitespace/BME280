@@ -78,8 +78,8 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
     * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
       values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
-    * Mode: uint8_t, default = forced
-      values: Sleep = B00, Normal = B01 and B10, Forced = B11
+    * Mode: uint8_t, default = Normal
+      values: Sleep = B00, Forced = B01 and B10, Normal = B11
 
     * Standby Time (st): uint8_t, default = 1000ms
       values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
