@@ -85,6 +85,8 @@ public:
   /* ==== Method used at start up to initialize the class. ==== */
   virtual bool begin()=0;
 
+  void setMode(uint8_t mode);
+
   /* ==== Read the temperature from the BME280 and return a float. ==== */
   float temp(bool celsius = true);
 

@@ -143,6 +143,11 @@ BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t s
   config = (standbyTime << 5) | (filter << 2) | spiEnable;
 }
 
+void BME280::setMode(uint8_t mode){
+  controlMeasure = controlMeasure | mode;
+  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
+}
+
 float BME280::temp(bool celsius){
   int32_t data[8];
   int32_t t_fine;
