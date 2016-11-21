@@ -80,10 +80,12 @@ protected:
 public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
   BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
-    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false);  // Oversampling = 1, mode = normal, standby time = 125ms, filter = none.
+    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. ==== */
   virtual bool begin()=0;
+
+  void setMode(uint8_t mode);
 
   /* ==== Read the temperature from the BME280 and return a float. ==== */
   float temp(bool celsius = true);
