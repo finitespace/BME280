@@ -129,7 +129,7 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
   Read the humidity from the BME280 and return a percentage as a float.
   Return: float = percent relative humidity
 
-#### void  data(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)
+#### void  read(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)
 
   Read the data from the BME280 with the specified units.
   Return: None, however, pressure, temp and humidity are changed.
