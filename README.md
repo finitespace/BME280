@@ -13,7 +13,9 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
 * [Usage](#usage)
 * [Methods](#methods)
 
- * [BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)](#methods)
+ * [BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)](#methods)
+ * [BME280Spi(uint8_t spiCsPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)](#methods)
+ * [BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)](#methods)
  * [bool  begin()](#methods)
  * [void  setMode(uint8_t mode)](#methods)
  * [float temp(bool celsius = true)](#methods)
@@ -64,9 +66,9 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 ## Methods
 
 
-#### BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)
+#### BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)
 
-  Constructor used to create the class. All parameters have default values.
+  Constructor used to create the I2C Bme class. All parameters have default values.
   Return: None
 
     * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
@@ -93,7 +95,66 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
     * BME280 Address: uint8_t, default = 0x76
       values: any uint8_t
 
+#### BME280Spi(uint8_t spiCsPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)
 
+  Constructor used to create the Spi Bme class. All parameters have default values.
+  Return: None
+
+    * SPI Chip Select Pin (spiCsPin): uint8_t
+      values: Any pin 0-31
+
+    * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Mode: uint8_t, default = Normal
+      values: Sleep = B00, Forced = B01 and B10, Normal = B11
+
+    * Standby Time (st): uint8_t, default = 1000ms
+      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
+
+    * Filter: uint8_t, default = None
+      values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
+
+#### BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)
+
+  Constructor used to create the software Spi Bme class. All parameters have default values.
+  Return: None
+
+    * SPI Chip Select Pin (spiCsPin): uint8_t
+      values: Any pin 0-31
+
+    * SPI Master Out Slave In Pin (spiMosiPin): uint8_t
+      values: Any pin 0-31
+
+    * SPI Master In Slave Out Pin (spiMisoPin): uint8_t
+      values: Any pin 0-31
+
+    * SPI Serial Clock Pin (spiSckPin): uint8_t
+      values: Any pin 0-31
+
+    * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
+      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+
+    * Mode: uint8_t, default = Normal
+      values: Sleep = B00, Forced = B01 and B10, Normal = B11
+
+    * Standby Time (st): uint8_t, default = 1000ms
+      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
+
+    * Filter: uint8_t, default = None
+      values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
 
 
 #### bool  begin()
