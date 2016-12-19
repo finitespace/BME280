@@ -43,6 +43,9 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 #define PRESS_DIG_ADDR 0x8E
 #define HUM_DIG_ADDR1  0xA1
 #define HUM_DIG_ADDR2  0xE1
+#define ID_ADDR        0xD0
+#define BME_ID         0x60
+#define BMP_ID         0x58
 /* ==== END Defines ==== */
 
 

@@ -17,8 +17,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Written: Dec 30 2015.
-Last Updated: Jan 1 2016. - Happy New year!
+Written: Dec 18 2016. - Happy Holidays!
+Last Updated: Dec 18 2016. - Happy Holidays!
 
 This header must be included in any derived code or copies of the code.
 
@@ -30,8 +30,10 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 
 
 /* ==== Includes ==== */
+#include "Arduino.h"
 #include <SPI.h>
 #include "BME280Spi.h"
+#include <Adafruit_BMP280.h>
 /* ====  END Includes ==== */
 
 /* ==== Methods ==== */
@@ -46,13 +48,14 @@ bool BME280Spi::Initialize() {
 
 bool BME280Spi::ReadAddr(uint8_t addr, uint8_t array[], uint8_t len) {
 
+  SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
+
   // bme280 uses the msb to select read and write
   // combine the addr with the read/write bit
-  uint8_t readAddr = addr & BME280_SPI_READ;
+  uint8_t readAddr = addr |  BME280_SPI_READ;
 
   //select the device
-  digitalWrite(chipSelectPin, LOW);
-
+  digitalWrite(csPin, LOW);
   // transfer the addr
   SPI.transfer(readAddr);
 
@@ -60,66 +63,58 @@ bool BME280Spi::ReadAddr(uint8_t addr, uint8_t array[], uint8_t len) {
   for(int i = 0; i < len; ++i)
   {
     // transfer 0x00 to get the data
-    array[i] = SPI.transfer(0x00);
+    array[i] = SPI.transfer(0);
   }
 
   // de-select the device
-  digitalWrite(chipSelectPin, HIGH);
+  digitalWrite(csPin, HIGH);
+
+  SPI.endTransaction();
 
   return true;
 }
 
 void BME280Spi::WriteRegister(uint8_t addr, uint8_t data)
 {
+  SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
+
   // bme280 uses the msb to select read and write
   // combine the addr with the read/write bit
-  uint8_t writeAddr = addr | BME280_SPI_WRITE;
+  uint8_t writeAddr = addr & ~0x80;
 
   // select the device
-  digitalWrite(chipSelectPin, LOW);
+  digitalWrite(csPin, LOW);
 
   // transfer the addr and then the data to spi device
   SPI.transfer(writeAddr);
   SPI.transfer(data);
 
   // de-select the device
-  digitalWrite(chipSelectPin, HIGH);
+  digitalWrite(csPin, HIGH);
+
+  SPI.endTransaction();
 }
 
 bool BME280Spi::ReadTrim()
 {
   uint8_t ord(0);
 
-  // Temp. Dig
-  if(!ReadAddr(TEMP_DIG_ADDR, &dig[ord], (uint8_t)6))
-  {
-    return false;
-  }
+  // Temp dig.
+  ReadAddr(TEMP_DIG_ADDR, &dig[ord], 6);
   ord += 6;
 
-
-  // Pressure Dig
-  if(!ReadAddr(PRESS_DIG_ADDR, &dig[ord], (uint8_t)18))
-  {
-    return false;
-  }
+  // Pressure dig.
+  ReadAddr(PRESS_DIG_ADDR, &dig[ord], 18);
   ord += 18;
 
-
-  // Humidity Dig 1
-  if(!ReadAddr(HUM_DIG_ADDR1, &dig[ord], (uint8_t)1))
-  {
-    return false;
-  }
+  // Humidity dig1.
+  ReadAddr(HUM_DIG_ADDR1, &dig[ord], 1);
   ord += 1;
 
-
-  // Humidity Dig 2
-  if(!ReadAddr(HUM_DIG_ADDR2, &dig[ord], (uint8_t)7))
-  {
-    return false;
-  }
+  // Humidity dig2.
+  ReadAddr(HUM_DIG_ADDR2, &dig[ord], 7);
   ord += 7;
+
 
   // should always return true
   return ord == 32;
@@ -127,27 +122,48 @@ bool BME280Spi::ReadTrim()
 
 bool BME280Spi::ReadData(int32_t data[8]){
 
-  // read from the pressure addr out 8 bytes
-  return ReadAddr(PRESS_ADDR, data, (uint8_t)8);
+  uint8_t temp[8];
+  uint8_t ord(0);
 
+  ReadAddr(PRESS_ADDR, &temp[ord], 3);
+  ord += 3;
+
+  ReadAddr(TEMP_ADDR, &temp[ord], 3);
+  ord += 3;
+
+  ReadAddr(HUM_ADDR, &temp[ord], 2);
+  ord += 2;
+
+
+  for(int i = 0; i < 8; ++i)
+  {
+    data[i] = temp[i];
+  }
+
+  return true;
 }
 
 
-BME280Spi::BME280Spi(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter, uint8_t spiChipSelectPin):
-    BME280(tosr, hosr, posr, mode, st, filter, true), chipSelectPin(spiChipSelectPin)
+BME280Spi::BME280Spi(uint8_t spiCsPin, uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter):
+    BME280(tosr, hosr, posr, mode, st, filter, false), csPin(spiCsPin)
 {
-  pinMode(chipSelectPin, OUTPUT);
-
-  // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
-  controlHumidity = humidityOversamplingRate;
-  // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
-  controlMeasure = (tempOversamplingRate << 5) | (pressureOversamplingRate << 2) | mode;
-  // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-  config = (standbyTime << 5) | (filter << 2) | spiEnable;
 }
+
 
 bool BME280Spi::begin(){
+
+  digitalWrite(csPin, HIGH);
+  pinMode(csPin, OUTPUT);
   SPI.begin();
+
+  uint8_t id[1];
+  ReadAddr(ID_ADDR, &id[0], 1);
+
+  if (id[0] != BME_ID && id[0] != BMP_ID)
+  {
+      return false;
+  }
+
   return Initialize();
 }
 

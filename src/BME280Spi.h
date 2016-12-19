@@ -17,8 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Written: Sep 19 2016.
-Last Updated: Sep 19 2016. - Happy Fall! <5
+Written: Dec 18 2016. - Happy Holidays!
+Last Updated: Dec 18 2016. - Happy Holidays!
+
 This code is licensed under the GNU LGPL and is open for ditrbution
 and copying in accordance with the license.
 This header must be included in any derived code or copies of the code.
@@ -33,20 +34,20 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 /* ==== END Includes ==== */
 
 /* ==== Defines ==== */
-#define BME280_SPI_WRITE 0x80
-#define BME280_SPI_READ  0x7F
+#define BME280_SPI_WRITE 0x7F
+#define BME280_SPI_READ  0x80
 
 /* ==== END Defines ==== */
 
 
 class BME280Spi: public BME280{
-  uint8_t chipSelectPin;
+  uint8_t csPin;
 
   /* ==== Write configuration to BME280, return true if successful. ==== */
   bool Initialize();
 
   /* ==== Read the data from the BME280 addr into an array and return true if successful. ==== */
-  bool ReadAddr(uint8_t addr, uint8_t array[], int len);
+  bool ReadAddr(uint8_t addr, uint8_t array[], uint8_t len);
 
   /* ==== Write values to BME280 registers. ==== */
   virtual void WriteRegister(uint8_t addr, uint8_t data);
@@ -59,16 +60,11 @@ class BME280Spi: public BME280{
 
 public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
-  BME280Spi(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
-    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false,
-    uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
+  BME280Spi(uint8_t spiCsPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
+    uint8_t st = 0x5, uint8_t filter = 0x0);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
   virtual bool begin();
-#if defined(ARDUINO_ARCH_ESP8266)
-  /* ==== On esp8266 it is possible to define I2C pins ==== */
-  bool begin(int SDA, int SCL);
-#endif
 
 };
 #endif // TG_BME_280_SPI_H

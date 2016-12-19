@@ -95,6 +95,16 @@ bool BME280I2C::ReadTrim()
   while(Wire.available()){
     dig[ord++] = Wire.read();
   }
+
+  Serial.print("Dig: ");
+  for(int i = 0; i < 32; ++i)
+  {
+    Serial.print(dig[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+
+
   return ord == 32;
 }
 
@@ -110,6 +120,15 @@ bool BME280I2C::ReadData(int32_t data[8]){
   while(Wire.available()){
       data[ord++] = Wire.read();
   }
+
+  Serial.print("Data: ");
+  for(int i = 0; i < 8; ++i)
+  {
+    Serial.print(data[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+
   return ord == 8;
 }
 
