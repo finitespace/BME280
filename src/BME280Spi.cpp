@@ -1,5 +1,5 @@
 /*
-BME280SpiI2C.cpp
+BME280Spi.cpp
 This code records data from the BME280Spi sensor and provides an API.
 This file is part of the Arduino BME280Spi library.
 Copyright (C) 2016  Tyler Glenn
