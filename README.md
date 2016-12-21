@@ -2,7 +2,7 @@
 
 
 # BME280
-Provides an Arduino library for reading and interpreting Bosch BME280 data.
+Provides an Arduino library for reading and interpreting Bosch BME280 data over I2C and SPI.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data.
  * [float temp(bool celsius = true)](#methods)
  * [float pres(uint8_t unit = 0x0)](#methods)
  * [float hum()](#methods)
- * [void  data(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)](#methods)
+ * [void  read(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)](#methods)
  * [float alt(bool metric = true, float seaLevelPressure = 101325)](#methods)
  * [float alt(float pressure, bool metric = true, float seaLevelPressure = 101325)](#methods)
  * [float dew(bool metric = true)](#methods)
@@ -49,7 +49,7 @@ In your start up call `bme.begin()`.
 Read the temperature, humidity, pressure, altitude and/or dew point.
 
 `float pres, temp, hum`
-`bme.data(pres, temp, hum)`
+`bme.read(pres, temp, hum)`
 
 or
 
