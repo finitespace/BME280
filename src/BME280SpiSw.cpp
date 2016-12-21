@@ -32,7 +32,6 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 /* ==== Includes ==== */
 #include "Arduino.h"
 #include "BME280SpiSw.h"
-#include <Adafruit_BMP280.h>
 /* ====  END Includes ==== */
 
 /* ==== Methods ==== */
@@ -152,8 +151,8 @@ bool BME280SpiSw::ReadData(int32_t data[8]){
 }
 
 
-BME280SpiSw::BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1,
-  uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0):
+BME280SpiSw::BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr,
+  uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter):
   BME280(tosr, hosr, posr, mode, st, filter, false),
   csPin(spiCsPin), mosiPin(spiMosiPin), misoPin(spiMisoPin), sckPin(spiSckPin)
   {

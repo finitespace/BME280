@@ -33,7 +33,6 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 #include "Arduino.h"
 #include <SPI.h>
 #include "BME280Spi.h"
-#include <Adafruit_BMP280.h>
 /* ====  END Includes ==== */
 
 /* ==== Methods ==== */
