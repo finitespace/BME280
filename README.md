@@ -270,10 +270,10 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
 ## History
 
-Jan 1, 2016 - Version 1.0.0 released.
-Sep 19, 2016 - Version 2.0.0 released (restructure for I2C and SPI).
-Dec 19, 2016 - Version 2.1.0 released (support for SPI)
-Dec 21, 2016 - Version 2.1.01 released (Fixing compilation errors)
+- Jan 1, 2016 - Version 1.0.0 released.
+- Sep 19, 2016 - Version 2.0.0 released (restructure for I2C and SPI).
+- Dec 19, 2016 - Version 2.1.0 released (support for SPI)
+- Dec 21, 2016 - Version 2.1.1 released (Fixing compilation errors)
 
 ## Credits
 
