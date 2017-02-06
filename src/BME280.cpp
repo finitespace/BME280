@@ -113,7 +113,7 @@ float BME280::CalculatePressure(int32_t raw, int32_t t_fine, uint8_t unit){
       final /= 101324.99766353; /* final pa * 1 atm/101324.99766353Pa */
       break;
     case 0x4: /* bar */
-      final /= 100*1000;          /* final pa * 1 bar/100kPa */
+      final /= 100000.0;          /* final pa * 1 bar/100kPa */
       break;
     case 0x5: /* torr */
       final /= 133.32236534674;        /* final pa * 1 torr/133.32236534674Pa */
