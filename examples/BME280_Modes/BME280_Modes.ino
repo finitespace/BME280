@@ -43,13 +43,13 @@ BME280I2C bme;                     // Default : forced mode, standby time = 1000
                                 // RMS Noise = 3.3 Pa/30 cm, 0.07 %RH
                                 // Data Output Rate 1/60 Hz
 
-//BME280I2C bme(0, 1, 1);          // Humidity Sensing : forced mode, 1 sample/second
+//BME280I2C bme(1, 1, 0);          // Humidity Sensing : forced mode, 1 sample/second
                                 // pressure ×0, temperature ×1, humidity ×1, filter off
                                 // Current Consumption = 2.9 μA
                                 // RMS Noise = 0.07 %RH
                                 // Data Output Rate =  1 Hz
 
-//BME280I2C bme(5, 2, 1, 1, 0, 4); // Indoor Navigation : normal mode, standby time = 0.5ms
+//BME280I2C bme(2, 1, 5, 3, 0, 4); // Indoor Navigation : normal mode, standby time = 0.5ms
                                 // pressure ×16, temperature ×2, humidity ×1, filter = x16
                                 // Current Consumption = 633 μA
                                 // RMS Noise = 0.2 Pa/1.7 cm
@@ -58,7 +58,7 @@ BME280I2C bme;                     // Default : forced mode, standby time = 1000
                                 // Response Time (75%) = 0.9 s
 
 
-//BME280I2C bme(3, 1, 0, 1, 0, 4); // Gaming : normal mode, standby time = 0.5ms
+//BME280I2C bme(1, 0, 4, 3, 0, 4); // Gaming : normal mode, standby time = 0.5ms
                                 // pressure ×4, temperature ×1, humidity ×0, filter = x16
                                 // Current Consumption = 581 μA
                                 // RMS Noise = 0.3 Pa/2.5 cm
