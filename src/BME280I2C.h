@@ -54,9 +54,9 @@ class BME280I2C: public BME280{
 
 public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
-  BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
+  BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x1,
     uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false,
-    uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
+    uint8_t bme_280_addr = 0x76);  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
   virtual bool begin();
