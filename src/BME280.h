@@ -94,7 +94,7 @@ public:
   float temp(bool celsius = true);
 
   /* ==== Read the pressure from the BME280 and return a float with the specified unit.  ==== */
-  float press(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
+  float pres(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
 
   /* ==== Read the humidity from the BME280 and return a percentage as a float. ==== */
   float hum();

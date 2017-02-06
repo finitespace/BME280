@@ -156,7 +156,7 @@ float BME280::temp(bool celsius){
   return CalculateTemperature(rawTemp, t_fine, celsius);
 }
 
-float BME280::press(uint8_t unit){
+float BME280::pres(uint8_t unit){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
