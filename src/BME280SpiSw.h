@@ -67,7 +67,7 @@ class BME280SpiSw: public BME280{
 public:
   /* ==== Constructor for software spi ==== */
   BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1,
-    uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
+    uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x1, uint8_t st = 0x5, uint8_t filter = 0x0);  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. Starts the I2C interface. ==== */
   virtual bool begin();

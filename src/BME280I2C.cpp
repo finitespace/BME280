@@ -96,6 +96,7 @@ bool BME280I2C::ReadTrim()
     dig[ord++] = Wire.read();
   }
 
+#ifdef DEBUG_ON
   Serial.print("Dig: ");
   for(int i = 0; i < 32; ++i)
   {
@@ -103,13 +104,17 @@ bool BME280I2C::ReadTrim()
     Serial.print(" ");
   }
   Serial.println();
-
+#endif
 
   return ord == 32;
 }
 
 bool BME280I2C::ReadData(int32_t data[8]){
   uint8_t ord = 0;
+
+  // for forced mode we need to write the mode to BME280 register before reading
+  if ( (mode == 0x01) || (mode == 0x10) )
+    setMode(mode);
 
   // Registers are in order. So we can start at the pressure register and read 8 bytes.
   Wire.beginTransmission(bme_280_addr);
@@ -121,6 +126,7 @@ bool BME280I2C::ReadData(int32_t data[8]){
       data[ord++] = Wire.read();
   }
 
+#ifdef DEBUG_ON
   Serial.print("Data: ");
   for(int i = 0; i < 8; ++i)
   {
@@ -128,6 +134,7 @@ bool BME280I2C::ReadData(int32_t data[8]){
     Serial.print(" ");
   }
   Serial.println();
+#endif
 
   return ord == 8;
 }

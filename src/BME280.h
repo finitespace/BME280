@@ -82,8 +82,8 @@ protected:
 
 public:
   /* ==== Constructor used to create the class. All parameters have default values. ==== */
-  BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3,
-    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false);  // Oversampling = 1, mode = normal, standby time = 1000ms, filter = none.
+  BME280(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x1,
+    uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false);  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
   /* ==== Method used at start up to initialize the class. ==== */
   virtual bool begin()=0;
@@ -94,7 +94,7 @@ public:
   float temp(bool celsius = true);
 
   /* ==== Read the pressure from the BME280 and return a float with the specified unit.  ==== */
-  float press(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
+  float pres(uint8_t unit = 0x0);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
 
   /* ==== Read the humidity from the BME280 and return a percentage as a float. ==== */
   float hum();
