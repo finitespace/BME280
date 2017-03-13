@@ -109,6 +109,12 @@ public:
   /* ==== Calculate the altitude based on the pressure with the specified units. ==== */
   float alt(float pressure, bool metric = true, float seaLevelPressure = 101325); // Pressure given in Pa.
 
+  double sealevel(double P, double A, double T);
+			// convert absolute pressure to sea-level pressure (as used in weather data)
+			// P: absolute pressure (mbar)
+			// A: current altitude (meters)
+			// returns sealevel pressure in mbar
+  
   /* ==== Read BME280 data and calculate the dew point with the specified units. ==== */
   float dew(bool metric = true);
 
