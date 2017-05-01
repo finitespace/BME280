@@ -206,6 +206,15 @@ float BME280::alt(float pressure, bool metric, float seaLevelPressure){
   return metric ? altitude * 0.3048 : altitude;
 }
 
+float BME280::sealevel(float A) // Altitude A (in meters), temperature T in Celsius, pressure P in mb, return the equivalent pressure (in mb) at sea level.
+{
+	float T(NAN), P(NAN);
+	T = temp(true);
+	P = pres(1);
+	
+	return(P / pow(1-((0.0065 *A) / (T + (0.0065 *A) + 273.15)),5.257));
+}
+
 float BME280::dew(bool metric){
   float temp, hum, pres;
   read(pres, temp, hum, metric);
