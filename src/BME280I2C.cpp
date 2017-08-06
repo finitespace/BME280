@@ -28,141 +28,95 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-
-/* ==== Includes ==== */
 #include <Wire.h>
+
 #include "BME280I2C.h"
-/* ====  END Includes ==== */
 
-/* ==== Methods ==== */
-
-bool BME280I2C::Initialize() {
-  WriteRegister(CTRL_HUM_ADDR, controlHumidity);
-  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
-  WriteRegister(CONFIG_ADDR, config);
-  return ReadTrim();
-}
-
-
-void BME280I2C::WriteRegister(uint8_t addr, uint8_t data)
+/****************************************************************/
+BME280I2C::BME280I2C
+(
+  uint8_t tosr,
+  uint8_t hosr,
+  uint8_t posr,
+  uint8_t mode,
+  uint8_t st,
+  uint8_t filter,
+  bool spiEnable, 
+  uint8_t bme_280_addr
+):BME280(tosr, hosr, posr, mode, st, filter, spiEnable), 
+  bme_280_addr(bme_280_addr)
 {
-    Wire.beginTransmission(bme_280_addr);
-    Wire.write(addr);
-    Wire.write(data);
-    Wire.endTransmission();
 }
 
-bool BME280I2C::ReadTrim()
+
+/****************************************************************/
+bool BME280I2C::WriteRegister
+(
+  uint8_t addr,
+  uint8_t data
+)
+{
+  Wire.beginTransmission(bme_280_addr);
+  Wire.write(addr);
+  Wire.write(data);
+  Wire.endTransmission();
+
+  return true; // TODO: Chech return values from wire calls.
+}
+
+
+/****************************************************************/
+bool BME280I2C::ReadRegister
+(
+  uint8_t addr,
+  uint8_t data[],
+  uint8_t length
+)
 {
   uint8_t ord(0);
 
-  // Temp. Dig
   Wire.beginTransmission(bme_280_addr);
-  Wire.write(TEMP_DIG_ADDR);
+  Wire.write(addr);
   Wire.endTransmission();
 
-  Wire.requestFrom(bme_280_addr, (uint8_t)6);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
+  Wire.requestFrom(bme_280_addr, length);
 
-  // Pressure Dig
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(PRESS_DIG_ADDR);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)18);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-  // Humidity Dig 1
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(HUM_DIG_ADDR1);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)1);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-  // Humidity Dig 2
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(HUM_DIG_ADDR2);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)7);
-  while(Wire.available()){
-    dig[ord++] = Wire.read();
-  }
-
-#ifdef DEBUG_ON
-  Serial.print("Dig: ");
-  for(int i = 0; i < 32; ++i)
+  while(Wire.available())
   {
-    Serial.print(dig[i], HEX);
-    Serial.print(" ");
-  }
-  Serial.println();
-#endif
-
-  return ord == 32;
-}
-
-bool BME280I2C::ReadData(int32_t data[8]){
-  uint8_t ord = 0;
-
-  // for forced mode we need to write the mode to BME280 register before reading
-  if ( (mode == 0x01) || (mode == 0x10) )
-    setMode(mode);
-
-  // Registers are in order. So we can start at the pressure register and read 8 bytes.
-  Wire.beginTransmission(bme_280_addr);
-  Wire.write(PRESS_ADDR);
-  Wire.endTransmission();
-
-  Wire.requestFrom(bme_280_addr, (uint8_t)8);
-  while(Wire.available()){
-      data[ord++] = Wire.read();
+    data[ord++] = Wire.read();
   }
 
-#ifdef DEBUG_ON
-  Serial.print("Data: ");
-  for(int i = 0; i < 8; ++i)
-  {
-    Serial.print(data[i], HEX);
-    Serial.print(" ");
-  }
-  Serial.println();
-#endif
-
-  return ord == 8;
+  return ord == length;
 }
 
 
-BME280I2C::BME280I2C(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter,
-  bool spiEnable, uint8_t bme_280_addr):
-    BME280(tosr, hosr, posr, mode, st, filter, spiEnable), bme_280_addr(bme_280_addr)
-{
-  // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
-  controlHumidity = humidityOversamplingRate;
-  // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
-  controlMeasure = (tempOversamplingRate << 5) | (pressureOversamplingRate << 2) | mode;
-  // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-  config = (standbyTime << 5) | (filter << 2) | spiEnable;
-}
-
+/****************************************************************/
 #if defined(ARDUINO_ARCH_ESP8266)
-bool BME280I2C::begin(int SDA, int SCL) {
+bool BME280I2C::begin
+(
+  int SDA,
+  int SCL
+)
+{
   // allow config of pins
   Wire.begin(SDA,SCL);
+
+  return BME280::Initialize();
+}
+
+
+/****************************************************************/
+bool BME280I2C::begin()
+{
   return Initialize();
 }
 #endif
 
-bool BME280I2C::begin(){
-  Wire.begin();
-  return Initialize();
-}
 
-/* ==== END Methods ==== */
+/****************************************************************/
+bool BME280I2C::Initialize()
+{
+  Wire.begin();
+
+  return BME280::Initialize();
+}

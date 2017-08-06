@@ -28,15 +28,159 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-
-/* ==== Includes ==== */
 #include <Wire.h>
+
 #include "BME280.h"
-/* ====  END Includes ==== */
 
-/* ==== Methods ==== */
+/****************************************************************/
+BME280::BME280
+(
+  uint8_t tosr,
+  uint8_t hosr,
+  uint8_t posr,
+  uint8_t mode,
+  uint8_t st,
+  uint8_t filter,
+  bool spiEnable
+):tempOversamplingRate(tosr),
+  humidityOversamplingRate(hosr),
+  pressureOversamplingRate(posr),
+  mode(mode),
+  standbyTime(st),
+  filter(filter),
+  spiEnable(spiEnable),
+  initialized(false)
+{
+  // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
+  controlHumidity = humidityOversamplingRate;
+  // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
+  controlMeasure = (tempOversamplingRate << 5) | (pressureOversamplingRate << 2) | mode;
+  // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
+  config = (standbyTime << 5) | (filter << 2) | spiEnable;
+}
 
-float BME280::CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius)
+
+/****************************************************************/
+bool BME280::Initialize() 
+{
+  uint8_t id[1];
+  ReadRegister(ID_ADDR, &id[0], 1);
+
+  if (id[0] != BME_ID && id[0] != BMP_ID)
+  {
+      return false;
+  }
+
+  WriteRegister(CTRL_HUM_ADDR, controlHumidity);
+  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
+  WriteRegister(CONFIG_ADDR, config);
+
+  initialized = true;  
+  return ReadTrim();
+}
+
+
+/****************************************************************/
+void BME280::setMode
+(
+  uint8_t mode
+)
+{
+  controlMeasure = controlMeasure | mode;
+  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
+}
+
+
+/****************************************************************/
+bool BME280::begin
+(
+)
+{
+  bool success = Initialize();
+  success &= initialized;
+
+  return success;
+}
+
+
+/****************************************************************/
+bool BME280::ReadTrim()
+{
+   uint8_t ord(0);
+   bool success = true;
+
+  // Temp. Dig
+  success &= ReadRegister(TEMP_DIG_ADDR, &dig[ord], TEMP_DIG_LENGTH);
+  ord += TEMP_DIG_LENGTH;
+
+  // Pressure Dig
+  success &= ReadRegister(PRESS_DIG_ADDR, &dig[ord], PRESS_DIG_LENGTH);
+  ord += PRESS_DIG_LENGTH;
+
+  // Humidity Dig 1
+  success &= ReadRegister(HUM_DIG_ADDR1, &dig[ord], HUM_DIG_ADDR1_LENGTH);
+  ord += HUM_DIG_ADDR1_LENGTH;
+
+  // Humidity Dig 2
+  success &= ReadRegister(HUM_DIG_ADDR2, &dig[ord], HUM_DIG_ADDR2_LENGTH);
+  ord += HUM_DIG_ADDR2_LENGTH;
+
+#ifdef DEBUG_ON
+  Serial.print("Dig: ");
+  for(int i = 0; i < 32; ++i)
+  {
+    Serial.print(dig[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+#endif
+
+  return success && ord == DIG_LENGTH;
+}
+
+
+/****************************************************************/
+bool BME280::ReadData
+(
+  int32_t data[SENSOR_DATA_LENGTH]
+)
+{
+  bool success;
+  uint8_t buffer[SENSOR_DATA_LENGTH];
+
+  // for forced mode we need to write the mode to BME280 register before reading
+  if ( (mode == 0x01) || (mode == 0x10) )
+    setMode(mode);
+
+  // Registers are in order. So we can start at the pressure register and read 8 bytes.
+  success = ReadRegister(PRESS_ADDR, buffer, SENSOR_DATA_LENGTH);
+
+  for(int i = 0; i < SENSOR_DATA_LENGTH; ++i)
+  {
+    data[i] = static_cast<int32_t>(buffer[i]);
+  }
+
+#ifdef DEBUG_ON
+  Serial.print("Data: ");
+  for(int i = 0; i < 8; ++i)
+  {
+    Serial.print(data[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println();
+#endif
+
+  return success;
+}
+
+
+/****************************************************************/
+float BME280::CalculateTemperature
+(
+  int32_t raw,
+  int32_t& t_fine,
+  bool celsius
+)
 {
   // Code based on calibration algorthim provided by Bosch.
   int32_t var1, var2, final;
@@ -50,7 +194,14 @@ float BME280::CalculateTemperature(int32_t raw, int32_t& t_fine, bool celsius)
   return celsius ? final/100.0 : final/100.0*9.0/5.0 + 32.0;
 }
 
-float BME280::CalculateHumidity(int32_t raw, int32_t t_fine){
+
+/****************************************************************/
+float BME280::CalculateHumidity
+(
+  int32_t raw,
+  int32_t t_fine
+)
+{
   // Code based on calibration algorthim provided by Bosch.
   int32_t var1;
   int8_t  dig_H1 =  dig[24];
@@ -71,7 +222,15 @@ float BME280::CalculateHumidity(int32_t raw, int32_t t_fine){
   return ((uint32_t)(var1 >> 12))/1024.0;
 }
 
-float BME280::CalculatePressure(int32_t raw, int32_t t_fine, uint8_t unit){
+
+/****************************************************************/
+float BME280::CalculatePressure
+(
+  int32_t raw,
+  int32_t t_fine,
+  uint8_t unit
+)
+{
   // Code based on calibration algorthim provided by Bosch.
   int64_t var1, var2, pressure;
   float final;
@@ -129,26 +288,13 @@ float BME280::CalculatePressure(int32_t raw, int32_t t_fine, uint8_t unit){
   return final;
 }
 
-BME280::BME280(uint8_t tosr, uint8_t hosr, uint8_t posr, uint8_t mode, uint8_t st, uint8_t filter,
-  bool spiEnable):
-    tempOversamplingRate(tosr), humidityOversamplingRate(hosr),
-    pressureOversamplingRate(posr), mode(mode), standbyTime(st), filter(filter),
-    spiEnable(spiEnable)
+
+/****************************************************************/
+float BME280::temp
+(
+  bool celsius
+)
 {
-  // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
-  controlHumidity = humidityOversamplingRate;
-  // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
-  controlMeasure = (tempOversamplingRate << 5) | (pressureOversamplingRate << 2) | mode;
-  // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-  config = (standbyTime << 5) | (filter << 2) | spiEnable;
-}
-
-void BME280::setMode(uint8_t mode){
-  controlMeasure = controlMeasure | mode;
-  WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
-}
-
-float BME280::temp(bool celsius){
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -156,7 +302,13 @@ float BME280::temp(bool celsius){
   return CalculateTemperature(rawTemp, t_fine, celsius);
 }
 
-float BME280::pres(uint8_t unit){
+
+/****************************************************************/
+float BME280::pres
+(
+  uint8_t unit
+)
+{
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -166,7 +318,10 @@ float BME280::pres(uint8_t unit){
   return CalculatePressure(rawPressure, t_fine, unit);
 }
 
-float BME280::hum(){
+
+/****************************************************************/
+float BME280::hum()
+{
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){ return NAN; }
@@ -176,7 +331,17 @@ float BME280::hum(){
   return CalculateHumidity(rawHumidity, t_fine);
 }
 
-void BME280::read(float& pressure, float& temp, float& humidity, bool metric, uint8_t p_unit){
+
+/****************************************************************/
+void BME280::read
+(
+  float& pressure,
+  float& temp,
+  float& humidity,
+  bool metric,
+  uint8_t p_unit
+)
+{
   int32_t data[8];
   int32_t t_fine;
   if(!ReadData(data)){
@@ -191,13 +356,28 @@ void BME280::read(float& pressure, float& temp, float& humidity, bool metric, ui
   humidity = CalculateHumidity(rawHumidity, t_fine);
 }
 
-float BME280::alt(bool metric, float seaLevelPressure){
+
+/****************************************************************/
+float BME280::alt
+(
+  bool metric,
+  float seaLevelPressure
+)
+{
   float temp, hum, pres;
   read(pres, temp, hum, metric);
   return alt(pres, metric, seaLevelPressure);
 }
 
-float BME280::alt(float pressure, bool metric, float seaLevelPressure){
+
+/****************************************************************/
+float BME280::alt
+(
+  float pressure,
+  bool metric,
+  float seaLevelPressure
+)
+{
   // Equations courtesy of NOAA;
   float altitude = NAN;
   if (!isnan(pressure) && !isnan(seaLevelPressure)){
@@ -206,7 +386,12 @@ float BME280::alt(float pressure, bool metric, float seaLevelPressure){
   return metric ? altitude * 0.3048 : altitude;
 }
 
-float BME280::sealevel(float A) // Altitude A (in meters), temperature T in Celsius, pressure P in mb, return the equivalent pressure (in mb) at sea level.
+
+/****************************************************************/
+float BME280::sealevel
+(
+  float A // Altitude A (in meters), temperature T in Celsius, pressure P in mb, return the equivalent pressure (in mb) at sea level.
+)
 {
 	float T(NAN), P(NAN);
 	T = temp(true);
@@ -215,13 +400,27 @@ float BME280::sealevel(float A) // Altitude A (in meters), temperature T in Cels
 	return(P / pow(1-((0.0065 *A) / (T + (0.0065 *A) + 273.15)),5.257));
 }
 
-float BME280::dew(bool metric){
+
+/****************************************************************/
+float BME280::dew
+(
+  bool metric
+)
+{
   float temp, hum, pres;
   read(pres, temp, hum, metric);
   return dew(temp, hum, metric);
 }
 
-float BME280::dew(float temp, float hum, bool metric){
+
+/****************************************************************/
+float BME280::dew
+(
+  float temp,
+  float hum,
+  bool metric
+)
+{
   // Equations courtesy of Brian McNoldy from http://andrew.rsmas.miami.edu;
   float dewPoint = NAN;
   if (metric && !isnan(temp) && !isnan(hum)){
@@ -236,4 +435,3 @@ float BME280::dew(float temp, float hum, bool metric){
   return dewPoint;
 }
 
-/* ==== END Methods ==== */

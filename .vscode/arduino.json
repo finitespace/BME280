@@ -1,0 +1,4 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "examples/BME_280_I2C_Test/BME_280_I2C_Test.ino"
+}
