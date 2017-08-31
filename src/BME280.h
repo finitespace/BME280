@@ -146,6 +146,10 @@ public:
   /// Method used to initialize the class.
   bool begin();
 
+  ////////////////////////////////////////////////////////////////
+  /// Method used to return CHIP_ID.
+  uint8_t chipID();
+  
 protected:
 
 /*****************************************************************/
@@ -249,6 +253,7 @@ private:
   uint8_t controlMeasure;                     // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
   uint8_t config;                             // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
   uint8_t dig[32];
+  uint8_t chip_id;
 
   bool spiEnable;
 

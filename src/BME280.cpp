@@ -70,6 +70,7 @@ bool BME280::Initialize()
   {
       return false;
   }
+  chip_id = id[0];
 
   WriteRegister(CTRL_HUM_ADDR, controlHumidity);
   WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
@@ -435,3 +436,10 @@ float BME280::dew
   return dewPoint;
 }
 
+/****************************************************************/
+uint8_t BME280::chipID
+(
+)
+{
+  return chip_id;
+}
