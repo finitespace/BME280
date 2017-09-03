@@ -57,7 +57,7 @@ bool BME280Spi::Initialize()
   pinMode(csPin, OUTPUT);
   SPI.begin();
 
-  return Initialize();
+  return BME280::Initialize();
 }
 
 
