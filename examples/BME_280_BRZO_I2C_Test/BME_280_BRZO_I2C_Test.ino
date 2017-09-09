@@ -1,9 +1,13 @@
 /*
-BME280 I2C Test.ino
+BME280 BRZO I2C Test.ino
 This code shows how to record data from the BME280 environmental sensor
-using I2C interface. This file is an example file, part of the Arduino
-BME280 library.
+using I2C interface and https://github.com/pasko-zh/brzo_i2c library
+on ESP8266.
+This file is an example file, part of the Arduino BME280 library.
+
 Copyright (C) 2016  Tyler Glenn
+Forked by Alex Shavlovsky
+to support https://github.com/pasko-zh/brzo_i2c library on ESP8266.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,14 +30,13 @@ Sensor              ->  Board
 -----------------------------
 Vin (Voltage In)    ->  3.3V
 Gnd (Ground)        ->  Gnd
-SDA (Serial Data)   ->  A4 on Uno/Pro-Mini, 20 on Mega2560/Due, 2 Leonardo/Pro-Micro
-SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-Micro
+SDA (Serial Data)   ->  D2 on ESP8266
+SCK (Serial Clock)  ->  D1 on ESP8266
 
  */
 
 /* ==== Includes ==== */
-#include <BME280I2C.h>
-#include <Wire.h>             // Needed for legacy versions of Arduino.
+#include <BME280BRZO_I2C.h>
 /* ====  END Includes ==== */
 
 /* ==== Defines ==== */
@@ -41,9 +44,9 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 /* ==== END Defines ==== */
 
 /* ==== Global Variables ==== */
-BME280I2C bme;                   // Default : forced mode, standby time = 1000 ms
+BME280BRZO_I2C bme;           // Default : forced mode, standby time = 1000 ms
                               // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
-bool metric = false;
+bool metric = true;
 /* ==== END Global Variables ==== */
 
 

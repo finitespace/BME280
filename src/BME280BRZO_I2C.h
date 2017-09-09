@@ -1,8 +1,11 @@
 /*
-BME280I2C.h
+BME280BRZO_I2C.h
 This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
+
 Copyright (C) 2016  Tyler Glenn
+Forked by Alex Shavlovsky
+to support https://github.com/pasko-zh/brzo_i2c library on ESP8266.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,14 +29,22 @@ This header must be included in any derived code or copies of the code.
 Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
  */
 
-#ifndef TG_BME_280_I2C_H
-#define TG_BME_280_I2C_H
+#ifndef BME280BRZO_I2C_H
+#define BME280BRZO_I2C_H
+
+#ifndef I2C_CLOCK_RATE
+#define I2C_CLOCK_RATE 400
+#endif
+
+#ifndef I2C_ACK_TIMEOUT
+#define I2C_ACK_TIMEOUT 2000
+#endif
 
 #include "BME280.h"
 
 //////////////////////////////////////////////////////////////////
-/// BME280I2C - I2C Implementation of BME280.
-class BME280I2C: public BME280
+/// BME280BRZO_I2C - I2C Implementation of BME280.
+class BME280BRZO_I2C: public BME280
 {
 
 public:
@@ -41,7 +52,7 @@ public:
   ///////////////////////////////////////////////////////////////
   /// Constructor used to create the class. All parameters have 
   /// default values.
-  BME280I2C(
+  BME280BRZO_I2C(
     uint8_t tosr = 0x1,
     uint8_t hosr = 0x1,
     uint8_t posr = 0x1,
@@ -87,4 +98,4 @@ private:
     uint8_t length);
 
 };
-#endif // TG_BME_280_I2C_H
+#endif // BME280BRZO_I2C_H
