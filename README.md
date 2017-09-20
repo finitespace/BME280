@@ -26,6 +26,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
  * [float alt(float pressure, bool metric = true, float seaLevelPressure = 101325)](#methods)
  * [float dew(bool metric = true)](#methods)
  * [float dew(float temp, float hum, bool metric = true)](#methods)
+ * [uint8_t chipID()](#methods)
 * [Contributing](#contributing)
 * [History](#history)
 * [Credits](#credits)
@@ -159,7 +160,7 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
 #### bool  begin()
 
-  Method used at start up to initialize the class. Starts the I2C or SPI interface.
+  Method used at start up to initialize the class. Starts the I2C or SPI interface. Can be called again to re-initialize the mode settings.
   Return: bool, true = success, false = failure (no device found)
 
 #### void setMode(uint8_t mode)
@@ -259,6 +260,12 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
     * Metric: bool, default = true
       values: true = return degrees Celsius, false = return degrees Fahrenheit
+      
+      
+#### uint8_t chipID()
+   Returns the chip identification number.
+   Return: uint8_t 0x60 = BME ID
+                   0x58 = BMP ID
 
 ## Contributing
 
