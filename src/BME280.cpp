@@ -61,7 +61,7 @@ BME280::BME280
 
 
 /****************************************************************/
-bool BME280::Initialize() 
+bool BME280::Initialize()
 {
   uint8_t id[1];
   ReadRegister(ID_ADDR, &id[0], 1);
@@ -76,7 +76,7 @@ bool BME280::Initialize()
   WriteRegister(CTRL_MEAS_ADDR, controlMeasure);
   WriteRegister(CONFIG_ADDR, config);
 
-  initialized = true;  
+  initialized = true;
   return ReadTrim();
 }
 
@@ -205,9 +205,9 @@ float BME280::CalculateHumidity
 {
   // Code based on calibration algorthim provided by Bosch.
   int32_t var1;
-  int8_t  dig_H1 =  dig[24];
+  uint8_t  dig_H1 =  dig[24];
   int16_t dig_H2 = (dig[26] << 8) | dig[25];
-  int8_t  dig_H3 =  dig[27];
+  uint8_t  dig_H3 =  dig[27];
   int16_t dig_H4 = (dig[28] << 4) | (0x0F & dig[29]);
   int16_t dig_H5 = (dig[30] << 4) | ((dig[29] >> 4) & 0x0F);
   int8_t  dig_H6 =  dig[31];
@@ -397,7 +397,7 @@ float BME280::sealevel
 	float T(NAN), P(NAN);
 	T = temp(true);
 	P = pres(1);
-	
+
 	return(P / pow(1-((0.0065 *A) / (T + (0.0065 *A) + 273.15)),5.257));
 }
 
