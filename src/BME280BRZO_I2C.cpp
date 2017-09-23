@@ -31,7 +31,9 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
+#ifdef _BRZO_I2C_h
 #include "brzo_i2c.h"
+
 #include "BME280BRZO_I2C.h"
 
 /****************************************************************/
@@ -110,3 +112,5 @@ bool BME280BRZO_I2C::Initialize()
   brzo_i2c_setup(D2,D1,I2C_ACK_TIMEOUT);
   return BME280::Initialize();
 }
+
+#endif
