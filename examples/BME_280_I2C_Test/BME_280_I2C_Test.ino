@@ -1,9 +1,9 @@
 /*
 BME280 I2C Test.ino
+
 This code shows how to record data from the BME280 environmental sensor
 using I2C interface. This file is an example file, part of the Arduino
 BME280 library.
-
 
 GNU General Public License
 
@@ -21,12 +21,13 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
  */
 
 #include <BME280I2C.h>
-#include <Wire.h>             // Needed for legacy versions of Arduino.
+#include <Wire.h> // Needed for legacy versions of Arduino.
 
 #define SERIAL_BAUD 115200
 
-BME280I2C bme;                   // Default : forced mode, standby time = 1000 ms
-                              // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
+BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
+                  // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
+
 bool metric = false;
 
 //////////////////////////////////////////////////////////////////
@@ -61,9 +62,9 @@ void printBME280Data
 {
   float temp(NAN), hum(NAN), pres(NAN);
 
-   uint8_t pressureUnit(3);                                           // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
+   uint8_t pressureUnit(3);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
    
-   bme.read(pres, temp, hum, metric, pressureUnit);                   // Parameters: (float& pressure, float& temp, float& humidity, bool celsius = false, uint8_t pressureUnit = 0x0)
+   bme.read(pres, temp, hum, metric, pressureUnit);   // Parameters: (float& pressure, float& temp, float& humidity, bool celsius = false, uint8_t pressureUnit = 0x0)
 
   client->print("Temp: ");
   client->print(temp);
@@ -77,10 +78,14 @@ void printBME280Data
 }
 
 //////////////////////////////////////////////////////////////////
-void printBME280CalculatedData(Stream* client)
+void printBME280CalculatedData
+(
+   Stream* client
+)
 {
   float altitude = bme.alt(metric);
   float dewPoint = bme.dew(metric);
+
   client->print("\t\tAltitude: ");
   client->print(altitude);
   client->print((metric ? "m" : "ft"));

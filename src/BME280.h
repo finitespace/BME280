@@ -39,11 +39,6 @@ This header must be included in any derived code or copies of the code.
 /// Based on the data sheet provided by Bosch for 
 /// the Bme280 environmental sensor.
 /// 
-///
-/// 
-/// 
-
-
 class BME280
 {
 public:
