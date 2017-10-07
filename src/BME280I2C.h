@@ -58,11 +58,6 @@ public:
 
 protected:
 
-  ///////////////////////////////////////////////////////////////
-  /// Method used at start up to initialize the class. Starts the 
-  /// I2C interface.
-  virtual bool Initialize();
-
 private:
 
   uint8_t bme_280_addr;
