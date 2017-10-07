@@ -2,7 +2,7 @@
 BME280Spi.cpp
 This code records data from the BME280Spi sensor and provides an API.
 This file is part of the Arduino BME280Spi library.
-Copyright (C) 2016  Tyler Glenn
+Copyright (C) 2016   Tyler Glenn
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.   If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 18 2016. - Happy Holidays!
 Last Updated: Dec 18 2016. - Happy Holidays!
@@ -36,15 +36,15 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 /****************************************************************/
 BME280Spi::BME280Spi
 (
-  uint8_t spiCsPin,
-  uint8_t tosr,
-  uint8_t hosr,
-  uint8_t posr,
-  uint8_t mode,
-  uint8_t st,
-  uint8_t filter
+   uint8_t spiCsPin,
+   uint8_t tosr,
+   uint8_t hosr,
+   uint8_t posr,
+   uint8_t mode,
+   uint8_t st,
+   uint8_t filter
 ):BME280(tosr, hosr, posr, mode, st, filter, false),
-  csPin(spiCsPin)
+   csPin(spiCsPin)
 {
 }
 
@@ -52,74 +52,72 @@ BME280Spi::BME280Spi
 /****************************************************************/
 bool BME280Spi::Initialize()
 {
+   pinMode(csPin, OUTPUT);
+   digitalWrite(csPin, HIGH);
 
-  digitalWrite(csPin, HIGH);
-  pinMode(csPin, OUTPUT);
-  SPI.begin();
-
-  return BME280::Initialize();
+   return BME280::Initialize();
 }
 
 
 /****************************************************************/
 bool BME280Spi::ReadRegister
 (
-  uint8_t addr,
-  uint8_t data[],
-  uint8_t len
+   uint8_t addr,
+   uint8_t data[],
+   uint8_t len
 )
 {
-  SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
+   SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
 
-  // bme280 uses the msb to select read and write
-  // combine the addr with the read/write bit
-  uint8_t readAddr = addr |  BME280_SPI_READ;
+   // bme280 uses the msb to select read and write
+   // combine the addr with the read/write bit
+   uint8_t readAddr = addr |   BME280_SPI_READ;
 
-  //select the device
-  digitalWrite(csPin, LOW);
-  // transfer the addr
-  SPI.transfer(readAddr);
+   //select the device
+   digitalWrite(csPin, LOW);
+   // transfer the addr
+   SPI.transfer(readAddr);
 
-  // read the data
-  for(int i = 0; i < len; ++i)
-  {
-    // transfer 0x00 to get the data
-    data[i] = SPI.transfer(0);
-  }
+   // read the data
+   for(int i = 0; i < len; ++i)
+   {
+      // transfer 0x00 to get the data
+      data[i] = SPI.transfer(0);
+   }
 
-  // de-select the device
-  digitalWrite(csPin, HIGH);
+   // de-select the device
+   digitalWrite(csPin, HIGH);
 
-  SPI.endTransaction();
+   SPI.endTransaction();
 
-  return true;
+   return true;
 }
 
 
 /****************************************************************/
 bool BME280Spi::WriteRegister
 (
-  uint8_t addr,
-  uint8_t data
+   uint8_t addr,
+   uint8_t data
 )
 {
-  SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
+   SPI.beginTransaction(SPISettings(500000,MSBFIRST,SPI_MODE0));
 
-  // bme280 uses the msb to select read and write
-  // combine the addr with the read/write bit
-  uint8_t writeAddr = addr & ~0x80;
+   // bme280 uses the msb to select read and write
+   // combine the addr with the read/write bit
+   uint8_t writeAddr = addr & ~0x80;
 
-  // select the device
-  digitalWrite(csPin, LOW);
+   // select the device
+   digitalWrite(csPin, LOW);
 
-  // transfer the addr and then the data to spi device
-  SPI.transfer(writeAddr);
-  SPI.transfer(data);
+   // transfer the addr and then the data to spi device
+   SPI.transfer(writeAddr);
+   SPI.transfer(data);
 
-  // de-select the device
-  digitalWrite(csPin, HIGH);
+   // de-select the device
+   digitalWrite(csPin, HIGH);
 
-  SPI.endTransaction();
+   SPI.endTransaction();
 
-  return true;
+   return true;
 }

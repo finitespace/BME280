@@ -2,7 +2,7 @@
 BME280SpiSw.cpp
 This code records data from the BME280SpiSw sensor and provides an API.
 This file is part of the Arduino BME280SpiSw library.
-Copyright (C) 2016  Tyler Glenn
+Copyright (C) 2016   Tyler Glenn
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.   If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 18 2016. - Happy Holidays!
 Last Updated: Dec 18 2016. - Happy Holidays!
@@ -34,73 +34,73 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 /****************************************************************/
 uint8_t BME280SpiSw::SpiTransferSw
 (
-  uint8_t data
+   uint8_t data
 )
 {
-  uint8_t resp = 0;
-  for (int bit = 7; bit >= 0; --bit) {
-    resp <<= 1;
-    digitalWrite(sckPin, LOW);
-    digitalWrite(mosiPin, data & (1 << bit));
-    digitalWrite(sckPin, HIGH);
-    resp |= digitalRead(misoPin);
-  }
-  return resp;
+   uint8_t resp = 0;
+   for (int bit = 7; bit >= 0; --bit) {
+      resp <<= 1;
+      digitalWrite(sckPin, LOW);
+      digitalWrite(mosiPin, data & (1 << bit));
+      digitalWrite(sckPin, HIGH);
+      resp |= digitalRead(misoPin);
+   }
+   return resp;
 }
 
 
 /****************************************************************/
 bool BME280SpiSw::ReadRegister
 (
-  uint8_t addr,
-  uint8_t data[],
-  uint8_t length
+   uint8_t addr,
+   uint8_t data[],
+   uint8_t length
 )
 {
 
-  // bme280 uses the msb to select read and write
-  // combine the addr with the read/write bit
-  uint8_t readAddr = addr |  BME280_SPI_READ;
+   // bme280 uses the msb to select read and write
+   // combine the addr with the read/write bit
+   uint8_t readAddr = addr |   BME280_SPI_READ;
 
-  //select the device
-  digitalWrite(csPin, LOW);
-  // transfer the addr
-  SpiTransferSw(readAddr);
+   //select the device
+   digitalWrite(csPin, LOW);
+   // transfer the addr
+   SpiTransferSw(readAddr);
 
-  // read the data
-  for(int i = 0; i < length; ++i)
-  {
-    // transfer 0x00 to get the data
-    data[i] = SpiTransferSw(0);
-  }
+   // read the data
+   for(int i = 0; i < length; ++i)
+   {
+      // transfer 0x00 to get the data
+      data[i] = SpiTransferSw(0);
+   }
 
-  // de-select the device
-  digitalWrite(csPin, HIGH);
+   // de-select the device
+   digitalWrite(csPin, HIGH);
 
-  return true;
+   return true;
 }
 
 
 /****************************************************************/
 bool BME280SpiSw::WriteRegister
 (
-  uint8_t addr,
-  uint8_t data
+   uint8_t addr,
+   uint8_t data
 )
 {
-  // bme280 uses the msb to select read and write
-  // combine the addr with the read/write bit
-  uint8_t writeAddr = addr & ~0x80;
+   // bme280 uses the msb to select read and write
+   // combine the addr with the read/write bit
+   uint8_t writeAddr = addr & ~0x80;
 
-  // select the device
-  digitalWrite(csPin, LOW);
+   // select the device
+   digitalWrite(csPin, LOW);
 
-  // transfer the addr and then the data to spi device
-  SpiTransferSw(writeAddr);
-  SpiTransferSw(data);
+   // transfer the addr and then the data to spi device
+   SpiTransferSw(writeAddr);
+   SpiTransferSw(data);
 
-  // de-select the device
-  digitalWrite(csPin, HIGH);
+   // de-select the device
+   digitalWrite(csPin, HIGH);
 
 return true;
 }
@@ -109,33 +109,33 @@ return true;
 /****************************************************************/
 BME280SpiSw::BME280SpiSw
 (
-  uint8_t spiCsPin,
-  uint8_t spiMosiPin,
-  uint8_t spiMisoPin,
-  uint8_t spiSckPin,
-  uint8_t tosr,
-  uint8_t hosr,
-  uint8_t posr,
-  uint8_t mode,
-  uint8_t st,
-  uint8_t filter
+   uint8_t spiCsPin,
+   uint8_t spiMosiPin,
+   uint8_t spiMisoPin,
+   uint8_t spiSckPin,
+   uint8_t tosr,
+   uint8_t hosr,
+   uint8_t posr,
+   uint8_t mode,
+   uint8_t st,
+   uint8_t filter
 ):BME280(tosr, hosr, posr, mode, st, filter, false),
-  csPin(spiCsPin),
-  mosiPin(spiMosiPin),
-  misoPin(spiMisoPin),
-  sckPin(spiSckPin)
+   csPin(spiCsPin),
+   mosiPin(spiMosiPin),
+   misoPin(spiMisoPin),
+   sckPin(spiSckPin)
 {
 }
 
 /****************************************************************/
 bool BME280SpiSw::Initialize(){
 
-  digitalWrite(csPin, HIGH);
-  pinMode(csPin, OUTPUT);
+   digitalWrite(csPin, HIGH);
+   pinMode(csPin, OUTPUT);
 
-  pinMode(sckPin, OUTPUT);
-  pinMode(mosiPin, OUTPUT);
-  pinMode(misoPin, INPUT);
+   pinMode(sckPin, OUTPUT);
+   pinMode(mosiPin, OUTPUT);
+   pinMode(misoPin, INPUT);
 
-  return BME280::Initialize();
+   return BME280::Initialize();
 }

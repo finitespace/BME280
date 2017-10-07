@@ -26,11 +26,17 @@ SCK (Serial Clock)  ->  D1 on ESP8266
 
  */
 
-#include <BME280BRZO_I2C.h>
+#include "brzo_i2c.h"
+#include <BME280I2C_BRZO.h>
 
 #define SERIAL_BAUD 115200
 
-BME280BRZO_I2C bme;   // Default : forced mode, standby time = 1000 ms
+#define SDA D2
+#define SCL D1
+
+const uint32_t I2C_ACK_TIMEOUT = 2000;
+
+BME280I2C_BRZO bme;   // Default : forced mode, standby time = 1000 ms
                       // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
 
 bool metric = true;
@@ -41,6 +47,8 @@ void setup()
    Serial.begin(SERIAL_BAUD);
 
    while(!Serial) {} // Wait
+
+   brzo_i2c_setup(SDA,SCL,I2C_ACK_TIMEOUT);
 
    while(!bme.begin())
    {

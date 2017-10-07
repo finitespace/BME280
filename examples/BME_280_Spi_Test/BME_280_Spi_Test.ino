@@ -39,6 +39,8 @@ void setup()
 
    while(!Serial) {} // Wait
 
+   SPI.begin();
+   
    while(!bme.begin())
    {
       Serial.println("Could not find BME280 sensor!");

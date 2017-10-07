@@ -2,7 +2,7 @@
 BME280SpiSw.h
 This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
-Copyright (C) 2016  Tyler Glenn
+Copyright (C) 2016   Tyler Glenn
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.   If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 18 2016. - Happy Holidays!
 Last Updated: Dec 18 2016. - Happy Holidays!
@@ -34,55 +34,56 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 
 class BME280SpiSw: public BME280{
 
-  public:
+   public:
 
-  ////////////////////////////////////////////////////////////////
-  /// Constructor for software spi
-  BME280SpiSw(
-    uint8_t spiCsPin,
-    uint8_t spiMosiPin,
-    uint8_t spiMisoPin,
-    uint8_t spiSckPin,
-    uint8_t tosr = 0x1,
-    uint8_t hosr = 0x1,
-    uint8_t posr = 0x1,
-    uint8_t mode = 0x1,
-    uint8_t st = 0x5,
-    uint8_t filter = 0x0);  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
+   ////////////////////////////////////////////////////////////////
+   /// Constructor for software spi
+   BME280SpiSw(
+      uint8_t spiCsPin,
+      uint8_t spiMosiPin,
+      uint8_t spiMisoPin,
+      uint8_t spiSckPin,
+      uint8_t tosr = 0x1,
+      uint8_t hosr = 0x1,
+      uint8_t posr = 0x1,
+      uint8_t mode = 0x1,
+      uint8_t st = 0x5,
+      uint8_t filter = 0x0);   // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
 protected:
 
-  ////////////////////////////////////////////////////////////////
-  /// Method used at start up to initialize the class. Starts the I2C interface.
-  virtual bool Initialize();
+   ////////////////////////////////////////////////////////////////
+   /// Method used at start up to initialize the class. Starts the I2C interface.
+   virtual bool Initialize();
 
 private:
 
-#define BME280_SPI_WRITE 0x7F
-#define BME280_SPI_READ  0x80
+   static const uint8_t BME280_SPI_WRITE = 0x7F;
+   static const uint8_t BME280_SPI_READ = 0x80;
 
-  uint8_t csPin;
-  int8_t mosiPin;
-  int8_t misoPin;
-  int8_t sckPin;
+   uint8_t csPin;
+   int8_t mosiPin;
+   int8_t misoPin;
+   int8_t sckPin;
 
-  ////////////////////////////////////////////////////////////////
-  /// Does a sw spi transfer.
-  uint8_t SpiTransferSw(uint8_t data);
+   ////////////////////////////////////////////////////////////////
+   /// Does a sw spi transfer.
+   uint8_t SpiTransferSw(
+      uint8_t data);
 
-  ////////////////////////////////////////////////////////////////
-  /// Read the data from the BME280 addr into an array and return
-  /// true if successful.
-  virtual bool ReadRegister(
-    uint8_t addr,
-    uint8_t data[],
-    uint8_t length);
+   ////////////////////////////////////////////////////////////////
+   /// Read the data from the BME280 addr into an array and return
+   /// true if successful.
+   virtual bool ReadRegister(
+      uint8_t addr,
+      uint8_t data[],
+      uint8_t length);
 
-  ////////////////////////////////////////////////////////////////
-  /// Write values to BME280 registers.
-  virtual bool WriteRegister(
-    uint8_t addr,
-    uint8_t data);
+   ////////////////////////////////////////////////////////////////
+   /// Write values to BME280 registers.
+   virtual bool WriteRegister(
+      uint8_t addr,
+      uint8_t data);
 
 };
 #endif // TG_BME_280_SPI_H
