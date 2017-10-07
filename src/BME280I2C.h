@@ -52,15 +52,9 @@ public:
     uint8_t bme_280_addr = 0x76
     );  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
-#if defined(ARDUINO_ARCH_ESP8266)
-  ///////////////////////////////////////////////////////////////
-  /// On esp8266 it is possible to define I2C pins
-  virtual bool begin(
-    int SDA, 
-    int SCL);
 
   virtual bool begin();
-#endif
+
 
 protected:
 
