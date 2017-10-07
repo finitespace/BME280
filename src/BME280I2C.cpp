@@ -91,32 +91,8 @@ bool BME280I2C::ReadRegister
 
 
 /****************************************************************/
-#if defined(ARDUINO_ARCH_ESP8266)
-bool BME280I2C::begin
-(
-  int SDA,
-  int SCL
-)
-{
-  // allow config of pins
-  Wire.begin(SDA,SCL);
-
-  return BME280::Initialize();
-}
-
-
-/****************************************************************/
 bool BME280I2C::begin()
 {
   return Initialize();
 }
-#endif
 
-
-/****************************************************************/
-bool BME280I2C::Initialize()
-{
-  Wire.begin();
-
-  return BME280::Initialize();
-}
