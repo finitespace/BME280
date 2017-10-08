@@ -14,7 +14,7 @@ to support https://github.com/pasko-zh/brzo_i2c library on ESP8266.
 GNU General Public License
 
 Written: Dec 30 2015.
-Last Updated: Sep 23 2017.
+Last Updated: Oct 07 2017.
 
 Connecting the BME280 Sensor:
 Sensor              ->  Board

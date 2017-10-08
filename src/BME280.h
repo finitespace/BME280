@@ -20,7 +20,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 30 2015.
-Last Updated: Jan 1 2016. - Happy New year!
+Last Updated: Oct 07 2017.
+
 This code is licensed under the GNU LGPL and is open for ditrbution
 and copying in accordance with the license.
 This header must be included in any derived code or copies of the code.

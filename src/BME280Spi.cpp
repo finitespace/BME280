@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.   If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 18 2016. - Happy Holidays!
-Last Updated: Dec 18 2016. - Happy Holidays!
+Last Updated: Oct 07 2017.
 
 This header must be included in any derived code or copies of the code.
 

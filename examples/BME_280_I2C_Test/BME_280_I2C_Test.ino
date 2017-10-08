@@ -8,7 +8,7 @@ BME280 library.
 GNU General Public License
 
 Written: Dec 30 2015.
-Last Updated: Sep 19 2017.
+Last Updated: Oct 07 2017.
 
 Connecting the BME280 Sensor:
 Sensor              ->  Board
