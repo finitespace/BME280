@@ -8,7 +8,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 * [Summary](#summary)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Enumerations] (#Enumerations)
+* [Enumerations](#enumerations)
 * [Methods](#methods)
 
  * [BME280I2C(const Settings& settings)](#methods)
@@ -22,10 +22,10 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
  * [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
  * [uint8_t chipID()](#methods)
 
-* [Environment Calculations] (#Environment Calculations)
- * [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)] (#Environment Calculations)
- * [float SealevelAlitude(float alitude, float temp, float pres)](#Environment Calculations)
- * [float DewPoint(float temp, float hum, bool metric = true)](#Environment Calculations)
+* [Environment Calculations](#environment_calculations)
+ * [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment_calculations)
+ * [float SealevelAlitude(float alitude, float temp, float pres)](#environment_calculations)
+ * [float DewPoint(float temp, float hum, bool metric = true)](#environment_calculations)
 * [Contributing](#contributing)
 * [History](#history)
 * [Credits](#credits)
