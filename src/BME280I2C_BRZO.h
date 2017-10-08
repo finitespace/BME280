@@ -51,19 +51,18 @@ public:
       StandbyTime _st = StandbyTime_1000ms,
       Filter _filter  = Filter_Off,
       SpiEnable _se   = SpiEnable_False,
-      uint8_t i2cClockRate   = 400
-     ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
-        bme280Addr(_addr) {}
-        
-      uint8_t i2cClockRate;
+      uint16_t _cr    = 400
+     ): BME280I2C::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
+        i2cClockRate(_cr) {}
+
+      uint16_t i2cClockRate;
    };
 
    ///////////////////////////////////////////////////////////////
    /// Constructor used to create the class. All parameters have
    /// default values.
    BME280I2C_BRZO(
-      const Settings& settings
-      );   // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
+      const Settings& settings = Settings());
 
 
    virtual bool begin();

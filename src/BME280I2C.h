@@ -55,14 +55,11 @@ public:
       uint8_t bme280Addr;
    };
 
-   static const Settings Settings_Default;
-
   ///////////////////////////////////////////////////////////////
   /// Constructor used to create the class. All parameters have 
   /// default values.
   BME280I2C(
-    const Settings& settings
-    );  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
+    const Settings& settings = Settings());
 
 
 protected:

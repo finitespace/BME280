@@ -24,41 +24,56 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 
 #define SERIAL_BAUD 115200
 
-BME280I2C bme;                  // Default : forced mode, standby time = 1000 ms
-                                // pressure ×1, temperature ×1, humidity ×1, filter off
+/* Recommended Modes -
+   Based on Bosch BME280I2C environmental sensor data sheet.
 
-/* Based on Bosch BME280I2C environmental sensor data sheet. */
+Weather Monitoring :
+   forced mode, 1 sample/minute
+   pressure ×1, temperature ×1, humidity ×1, filter off
+   Current Consumption =  0.16 μA
+   RMS Noise = 3.3 Pa/30 cm, 0.07 %RH
+   Data Output Rate 1/60 Hz
 
-//BME280I2C bme;                // Weather Monitoring : forced mode, 1 sample/minute
-                                // pressure ×1, temperature ×1, humidity ×1, filter off
-                                // Current Consumption =  0.16 μA
-                                // RMS Noise = 3.3 Pa/30 cm, 0.07 %RH
-                                // Data Output Rate 1/60 Hz
+Humidity Sensing :
+   forced mode, 1 sample/second
+   pressure ×0, temperature ×1, humidity ×1, filter off
+   Current Consumption = 2.9 μA
+   RMS Noise = 0.07 %RH
+   Data Output Rate =  1 Hz
 
-//BME280I2C bme(1, 1, 0);       // Humidity Sensing : forced mode, 1 sample/second
-                                // pressure ×0, temperature ×1, humidity ×1, filter off
-                                // Current Consumption = 2.9 μA
-                                // RMS Noise = 0.07 %RH
-                                // Data Output Rate =  1 Hz
-
-//BME280I2C bme(2, 1, 5, 3, 0, 4); // Indoor Navigation : normal mode, standby time = 0.5ms
-                                // pressure ×16, temperature ×2, humidity ×1, filter = x16
-                                // Current Consumption = 633 μA
-                                // RMS Noise = 0.2 Pa/1.7 cm
-                                // Data Output Rate = 25Hz
-                                // Filter Bandwidth = 0.53 Hz
-                                // Response Time (75%) = 0.9 s
+Indoor Navigation :
+   normal mode, standby time = 0.5ms
+   pressure ×16, temperature ×2, humidity ×1, filter = x16
+   Current Consumption = 633 μA
+   RMS Noise = 0.2 Pa/1.7 cm
+   Data Output Rate = 25Hz
+   Filter Bandwidth = 0.53 Hz
+   Response Time (75%) = 0.9 s
 
 
-//BME280I2C bme(1, 0, 4, 3, 0, 4); // Gaming : normal mode, standby time = 0.5ms
-                                // pressure ×4, temperature ×1, humidity ×0, filter = x16
-                                // Current Consumption = 581 μA
-                                // RMS Noise = 0.3 Pa/2.5 cm
-                                // Data Output Rate = 83 Hz
-                                // Filter Bandwidth = 1.75 Hz
-                                // Response Time (75%) = 0.3 s
+Gaming :
+   normal mode, standby time = 0.5ms
+   pressure ×4, temperature ×1, humidity ×0, filter = x16
+   Current Consumption = 581 μA
+   RMS Noise = 0.3 Pa/2.5 cm
+   Data Output Rate = 83 Hz
+   Filter Bandwidth = 1.75 Hz
+   Response Time (75%) = 0.3 s
 
-bool metric = false;
+*/
+
+BME280I2C::Settings settings(
+   BME280::OSR_X1,
+   BME280::OSR_X1,
+   BME280::OSR_X1,
+   BME280::Mode_Forced,
+   BME280::StandbyTime_1000ms,
+   BME280::Filter_Off,
+   BME280::SpiEnable_False,
+   0x76 // I2C address. I2C specific.
+);
+
+BME280I2C bme(settings);
 
 //////////////////////////////////////////////////////////////////
 void setup()
@@ -66,19 +81,23 @@ void setup()
   Serial.begin(SERIAL_BAUD);
 
   while(!Serial) {} // Wait
-  
+
   while(!bme.begin())
   {
     Serial.println("Could not find BME280I2C sensor!");
     delay(1000);
   }
+
+   // Change some settings before using.
+   settings.tempOSR = BME280::OSR_X4;
+
+   bme.setSettings(settings);
 }
 
 //////////////////////////////////////////////////////////////////
 void loop()
 {
    printBME280Data(&Serial);
-   printBME280CalculatedData(&Serial);
    delay(500);
 }
 
@@ -89,31 +108,19 @@ void printBME280Data
 )
 {
    float temp(NAN), hum(NAN), pres(NAN);
-   uint8_t pressureUnit(3);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
 
-   bme.read(pres, temp, hum, pressureUnit, metric);   // Parameters: (float& pressure, float& temp, float& humidity, bool hPa = true, bool celsius = false)
+   BME280::TempUnit tempUnit(BME280::TempUnit_Celcius);
+   BME280::PresUnit presUnit(BME280::PresUnit_Pa);
+
+   bme.read(pres, temp, hum, tempUnit, presUnit);
 
    client->print("Temp: ");
    client->print(temp);
-   client->print("°"+ String(metric ? 'C' :'F'));
+   client->print("°"+ String(tempUnit == BME280::TempUnit_Celcius ? 'C' :'F'));
    client->print("\t\tHumidity: ");
    client->print(hum);
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
    client->print(" atm");
-}
-
-//////////////////////////////////////////////////////////////////
-void printBME280CalculatedData
-(
-   Stream* client
-)
-{
-   float altitude = bme.alt(metric);
-
-   client->print("\t\tAltitude: ");
-   client->print(altitude);
-   client->print((metric ? "m" : "ft"));
-   client->println();
 }

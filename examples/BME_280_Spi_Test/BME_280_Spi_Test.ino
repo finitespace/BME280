@@ -27,9 +27,10 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 
 #define DEVICE_PIN 10
 
-BME280Spi bme(DEVICE_PIN);               // Default : forced mode, standby time = 1000 ms
-                                         // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
-bool metric = false;
+BME280Spi::Settings settings(DEVICE_PIN); // Default : forced mode, standby time = 1000 ms
+                                          //           Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
+
+BME280Spi bme(settings);
 
 
 //////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ void setup()
    while(!Serial) {} // Wait
 
    SPI.begin();
-   
+
    while(!bme.begin())
    {
       Serial.println("Could not find BME280 sensor!");
@@ -52,7 +53,6 @@ void setup()
 void loop()
 {
    printBME280Data(&Serial);
-   printBME280CalculatedData(&Serial);
    delay(500);
 }
 
@@ -63,34 +63,19 @@ void printBME280Data
 )
 {
    float temp(NAN), hum(NAN), pres(NAN);
-   uint8_t pressureUnit(3);   // unit: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar, B101 = torr, B110 = N/m^2, B111 = psi
 
-   bme.read(pres, temp, hum, metric, pressureUnit);   // Parameters: (float& pressure, float& temp, float& humidity, bool celsius = false, uint8_t pressureUnit = 0x0)
+   BME280::TempUnit tempUnit(BME280::TempUnit_Celcius);
+   BME280::PresUnit presUnit(BME280::PresUnit_Pa);
+
+   bme.read(pres, temp, hum, tempUnit, presUnit);
 
    client->print("Temp: ");
    client->print(temp);
-   client->print("°"+ String(metric ? 'C' :'F'));
+   client->print("°"+ String(tempUnit == BME280::TempUnit_Celcius ? 'C' :'F'));
    client->print("\t\tHumidity: ");
    client->print(hum);
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
    client->print(" atm");
-}
-
-//////////////////////////////////////////////////////////////////
-void printBME280CalculatedData
-(
-   Stream* client
-)
-{
-  float altitude = bme.alt(metric);
-  float dewPoint = bme.dew(metric);
-  client->print("\t\tAltitude: ");
-  client->print(altitude);
-  client->print((metric ? "m" : "ft"));
-  client->print("\t\tDew point: ");
-  client->print(dewPoint);
-  client->println("°"+ String(metric ? 'C' :'F'));
-
 }

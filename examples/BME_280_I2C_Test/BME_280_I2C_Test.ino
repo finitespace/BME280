@@ -21,25 +21,12 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
  */
 
 #include <BME280I2C.h>
-#include <Wire.h> // Needed for legacy versions of Arduino.
+#include <Wire.h>
 
 #define SERIAL_BAUD 115200
 
-BME280I2C::Settings settings;
-
-
-// settings.tempOSR = BME280::OSR_X1;
-// settings.humOSR = BME280::OSR_X1;
-// settings.presOSR = BME280::OSR_X1;
-// settings.mode = BME280::Mode_Forced;
-// settings.standbyTime = BME280::StandbyTime_1000ms;
-// settings.filter = BME280::Filter_Off;
-// settings.spiEnable = SpiEnable_False;
-
-BME280I2C bme(settings);    // Default : forced mode, standby time = 1000 ms
+BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
                   // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
-
-bool metric = false;
 
 //////////////////////////////////////////////////////////////////
 void setup()
@@ -79,7 +66,7 @@ void printBME280Data
 
    client->print("Temp: ");
    client->print(temp);
-   client->print("°"+ String(metric ? 'C' :'F'));
+   client->print("°"+ String(tempUnit == BME280::TempUnit_Celcius ? 'C' :'F'));
    client->print("\t\tHumidity: ");
    client->print(hum);
    client->print("% RH");
