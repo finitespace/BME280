@@ -1,8 +1,11 @@
 /*
-BME280I2CI2C.cpp
-This code records data from the BME280I2C sensor and provides an API.
-This file is part of the Arduino BME280I2C library.
+BME280I2C_BRZO.cpp
+This code records data from the BME280 sensor and provides an API.
+This file is part of the Arduino BME280 library.
+
 Copyright (C) 2016  Tyler Glenn
+Forked by Alex Shavlovsky
+to support https://github.com/pasko-zh/brzo_i2c library on ESP8266.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,63 +25,64 @@ Last Updated: Jan 1 2016. - Happy New year!
 
 This header must be included in any derived code or copies of the code.
 
-Based on the data sheet provided by Bosch for the BME280I2C environmental sensor,
+Based on the data sheet provided by Bosch for the BME280I2C_BRZO environmental sensor,
 calibration code based on algorithms providedBosch, some unit conversations courtesy
 of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include <Wire.h>
-
-#include "BME280I2C.h"
+#include "BME280I2C_BRZO.h"
+ 
+#ifdef _BRZO_I2C_h
+#include "brzo_i2c.h"
 
 
 /****************************************************************/
-BME280I2C::BME280I2C
+BME280I2C_BRZO::BME280I2C_BRZO
 (
   const Settings& settings
-):BME280(settings),
-  m_bme_280_addr(settings.bme280Addr)
+):BME280(tosr, hosr, posr, mode, st, filter, spiEnable), 
+  m_bme_280_addr(settings.bme280Addr),
+  m_i2c_clock_rate(settings.i2cClockRate)
 {
 }
 
 
 /****************************************************************/
-bool BME280I2C::WriteRegister
+bool BME280I2C_BRZO::WriteRegister
 (
   uint8_t addr,
   uint8_t data
 )
 {
-  Wire.beginTransmission(m_bme_280_addr);
-  Wire.write(addr);
-  Wire.write(data);
-  Wire.endTransmission();
-
-  return true; // TODO: Chech return values from wire calls.
+    uint8_t bf[2];
+    bf[0] = addr;
+    bf[1] = data;
+    brzo_i2c_start_transaction(m_bme_280_addr, m_i2c_clock_rate);
+    brzo_i2c_write(bf, 2, false);
+    return (brzo_i2c_end_transaction()==0);
 }
 
-
 /****************************************************************/
-bool BME280I2C::ReadRegister
+bool BME280I2C_BRZO::ReadRegister
 (
   uint8_t addr,
   uint8_t data[],
   uint8_t length
 )
 {
-  uint8_t ord(0);
-
-  Wire.beginTransmission(m_bme_280_addr);
-  Wire.write(addr);
-  Wire.endTransmission();
-
-  Wire.requestFrom(m_bme_280_addr, length);
-
-  while(Wire.available())
-  {
-    data[ord++] = Wire.read();
-  }
-
-  return ord == length;
+    brzo_i2c_start_transaction(m_bme_280_addr, m_i2c_clock_rate);
+    brzo_i2c_write(&addr, 1, true);
+    brzo_i2c_read(data, length, false);
+    brzo_i2c_end_transaction();
+    return (brzo_i2c_end_transaction()==0);
 }
+
+
+/****************************************************************/
+bool BME280I2C_BRZO::begin()
+{
+  return Initialize();
+}
+
+#endif

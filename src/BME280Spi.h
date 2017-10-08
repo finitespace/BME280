@@ -37,17 +37,28 @@ class BME280Spi: public BME280
 {
 public:
 
+   struct Settings : public BME280::Settings
+   {
+      Settings(
+         OSR _tosr       = OSR_X1,
+         OSR _hosr       = OSR_X1,
+         OSR _posr       = OSR_X1,
+         Mode _mode      = Mode_Forced,
+         StandbyTime _st = StandbyTime_1000ms,
+         Filter _filter  = Filter_Off,
+         SpiEnable _se   = SpiEnable_False,
+         uint8_t _cspin
+        ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
+           spiCsPin(_cspin) {}
+
+      uint8_t spiCsPin;
+   };
+
    ////////////////////////////////////////////////////////////////
    /// Constructor used to create the class. All parameters have
    /// default values.
    BME280Spi(
-      uint8_t spiCsPin, 
-      uint8_t tosr = 0x1, 
-      uint8_t hosr = 0x1, 
-      uint8_t posr = 0x1, 
-      uint8_t mode = 0x1,
-      uint8_t st = 0x5, 
-      uint8_t filter = 0x0);   // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
+      const Settings& settings);   // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
 
 protected:
 

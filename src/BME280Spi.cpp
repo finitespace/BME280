@@ -36,15 +36,10 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 /****************************************************************/
 BME280Spi::BME280Spi
 (
-   uint8_t spiCsPin,
-   uint8_t tosr,
-   uint8_t hosr,
-   uint8_t posr,
-   uint8_t mode,
-   uint8_t st,
-   uint8_t filter
-):BME280(tosr, hosr, posr, mode, st, filter, false),
-   csPin(spiCsPin)
+   const Settings& settings
+)
+:BME280(settings),
+ csPin(settings.spiCsPin)
 {
 }
 

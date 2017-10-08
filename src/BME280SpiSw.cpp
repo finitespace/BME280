@@ -31,6 +31,36 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 #include "Arduino.h"
 #include "BME280SpiSw.h"
 
+
+
+/****************************************************************/
+BME280SpiSw::BME280SpiSw
+(
+   const Settings& settings
+)
+:BME280(settings),
+ csPin(settings.spiCsPin),
+ mosiPin(settings.spiMosiPin),
+ misoPin(settings.spiMisoPin),
+ sckPin(settings.spiSckPin)
+{
+}
+
+
+/****************************************************************/
+bool BME280SpiSw::Initialize(){
+
+   digitalWrite(csPin, HIGH);
+   pinMode(csPin, OUTPUT);
+
+   pinMode(sckPin, OUTPUT);
+   pinMode(mosiPin, OUTPUT);
+   pinMode(misoPin, INPUT);
+
+   return BME280::Initialize();
+}
+
+
 /****************************************************************/
 uint8_t BME280SpiSw::SpiTransferSw
 (
@@ -105,37 +135,3 @@ bool BME280SpiSw::WriteRegister
 return true;
 }
 
-
-/****************************************************************/
-BME280SpiSw::BME280SpiSw
-(
-   uint8_t spiCsPin,
-   uint8_t spiMosiPin,
-   uint8_t spiMisoPin,
-   uint8_t spiSckPin,
-   uint8_t tosr,
-   uint8_t hosr,
-   uint8_t posr,
-   uint8_t mode,
-   uint8_t st,
-   uint8_t filter
-):BME280(tosr, hosr, posr, mode, st, filter, false),
-   csPin(spiCsPin),
-   mosiPin(spiMosiPin),
-   misoPin(spiMisoPin),
-   sckPin(spiSckPin)
-{
-}
-
-/****************************************************************/
-bool BME280SpiSw::Initialize(){
-
-   digitalWrite(csPin, HIGH);
-   pinMode(csPin, OUTPUT);
-
-   pinMode(sckPin, OUTPUT);
-   pinMode(mosiPin, OUTPUT);
-   pinMode(misoPin, INPUT);
-
-   return BME280::Initialize();
-}

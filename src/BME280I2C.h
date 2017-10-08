@@ -38,34 +38,43 @@ class BME280I2C: public BME280
 
 public:
 
+   struct Settings : public BME280::Settings
+   {
+      Settings(
+         OSR _tosr       = OSR_X1,
+         OSR _hosr       = OSR_X1,
+         OSR _posr       = OSR_X1,
+         Mode _mode      = Mode_Forced,
+         StandbyTime _st = StandbyTime_1000ms,
+         Filter _filter  = Filter_Off,
+         SpiEnable _se   = SpiEnable_False,
+         uint8_t _addr   = 0x76
+        ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
+           bme280Addr(_addr) {}
+
+      uint8_t bme280Addr;
+   };
+
+   static const Settings Settings_Default;
+
   ///////////////////////////////////////////////////////////////
   /// Constructor used to create the class. All parameters have 
   /// default values.
   BME280I2C(
-    uint8_t tosr = 0x1,
-    uint8_t hosr = 0x1,
-    uint8_t posr = 0x1,
-    uint8_t mode = 0x1,
-    uint8_t st = 0x5,
-    uint8_t filter = 0x0,
-    bool spiEnable = false,
-    uint8_t bme_280_addr = 0x76
+    const Settings& settings
     );  // Oversampling = 1, mode = forced, standby time = 1000ms, filter = none.
-
-
-  virtual bool begin();
 
 
 protected:
 
 private:
 
-  uint8_t bme_280_addr;
+  uint8_t m_bme_280_addr;
 
   //////////////////////////////////////////////////////////////////
   /// Write values to BME280 registers.
   virtual bool WriteRegister(
-    uint8_t addr, 
+    uint8_t addr,
     uint8_t data);
 
   /////////////////////////////////////////////////////////////////
