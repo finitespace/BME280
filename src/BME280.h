@@ -138,11 +138,8 @@ struct Settings {
       const Settings& settings);
 
    /////////////////////////////////////////////////////////////////
-   void setSettings(
-      const Settings& settings);
-
-   /////////////////////////////////////////////////////////////////
-   const Settings& getSettings() const;
+   /// Method used to initialize the class.
+   bool begin();
 
 /*****************************************************************/
 /* ENVIRONMENTAL FUNCTIONS                                       */
@@ -175,12 +172,15 @@ struct Settings {
 
 
 /*****************************************************************/
-/* INITIATION FUNCTIONS                                          */
+/* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
 
    /////////////////////////////////////////////////////////////////
-   /// Method used to initialize the class.
-   bool begin();
+   void setSettings(
+      const Settings& settings);
+
+   /////////////////////////////////////////////////////////////////
+   const Settings& getSettings() const;
 
    ////////////////////////////////////////////////////////////////
    /// Method used to return CHIP_ID.
