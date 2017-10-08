@@ -1,6 +1,3 @@
-
-
-
 # BME280
 Provides an Arduino library for reading and interpreting Bosch BME280 data over I2C and SPI.
 
@@ -13,19 +10,15 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 * [Usage](#usage)
 * [Methods](#methods)
 
- * [BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)](#methods)
- * [BME280Spi(uint8_t spiCsPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)](#methods)
- * [BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)](#methods)
+ * [BME280I2C(const Settings& settings)](#methods)
+ * [BME280Spi(const Settings& settings)](#methods)
+ * [BME280SpiSw(const Settings& settings)](#methods)
  * [bool  begin()](#methods)
- * [void  setMode(uint8_t mode)](#methods)
- * [float temp(bool celsius = true)](#methods)
- * [float pres(uint8_t unit = 0x0)](#methods)
+ * [void  setSettings(const Settings& settings)](#methods)
+ * [float temp(TempUnit unit)](#methods)
+ * [float pres(PresUnit unit)](#methods)
  * [float hum()](#methods)
- * [void  read(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)](#methods)
- * [float alt(bool metric = true, float seaLevelPressure = 101325)](#methods)
- * [float alt(float pressure, bool metric = true, float seaLevelPressure = 101325)](#methods)
- * [float dew(bool metric = true)](#methods)
- * [float dew(float temp, float hum, bool metric = true)](#methods)
+ * [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
  * [uint8_t chipID()](#methods)
 * [Contributing](#contributing)
 * [History](#history)
@@ -64,99 +57,115 @@ or
 
 Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes ~8ms to measure all values (temp, humidity & pressure) when using x1 oversampling (see datasheet 11.1). Thus a delay of >8ms should be used after triggering a measurement and before reading data to ensure that read values are the latest ones.
 
+## Enumerations
+#### TempUnit Enum
+   * TempUnit_Celcius
+   * TempUnit_Fahrenheit
+
+#### PresUnit Enum
+   * PresUnit_Pa
+   * PresUnit_hPa
+   * PresUnit_inHg
+   * PresUnit_atm
+   * PresUnit_bar
+   * PresUnit_torr
+   * PresUnit_psi
+
+#### OSR Enum
+   * OSR_X1
+   * OSR_X2
+   * OSR_X4
+   * OSR_X8
+   * OSR_X16
+
+#### Mode Enum
+   * Mode_Sleep
+   * Mode_Forced
+   * Mode_Normal
+
+#### StandbyTime Enum
+   * StandbyTime_500us
+   * StandbyTime_62500us
+   * StandbyTime_125ms
+   * StandbyTime_250ms
+   * StandbyTime_50ms
+   * StandbyTime_1000ms
+   * StandbyTime_10ms
+   * StandbyTime_20ms
+
+#### Filter Enum
+   * Filter_Off
+   * Filter_1
+   * Filter_2
+   * Filter_4
+   * Filter_8
+   * Filter_16
+
+## Settings
+
+#### BME280 Settings Struct
+    * Temperature Oversampling Rate (tempOSR): OSR Enum, default = OSR_X1
+
+    * Humidity Oversampling Rate (humOSR): OSR Enum, default = OSR_X1
+
+    * Pressure Oversampling Rate (presOSR): OSR Enum, default = OSR_X1
+
+    * Mode (mode): Mode Enum, default = Mode_Forced
+
+    * Standby Time (standbyTime): StandbyTime Enum, default = StandbyTime_1000ms
+
+    * Filter (filter): Filter Enum, default = None
+
+    * SPI Enable: SpiEnable Enum, default = false
+      values: true = enable, false = disable
+
+
+#### BME280I2C Settings Struct
+   * Includes all fields in BME280 settings.
+
+   * BME 280 Address (bme280Addr): uint8_t, default = 0x76
+
+#### BME280Spi Settings Struct
+   * Includes all fields in BME280 settings.
+
+   * SPI Chip Select Pin (spiCsPin): uint8_t
+      values: Any pin 0-31
+
+#### BME280Spi Settings Struct
+   * Includes all fields in BME280 settings.
+
+   * SPI Chip Select Pin (spiCsPin): uint8_t
+     values: Any pin 0-31
+
+   * SPI Master Out Slave In Pin (spiMosiPin): uint8_t
+     values: Any pin 0-31
+
+   * SPI Master In Slave Out Pin (spiMisoPin): uint8_t
+     values: Any pin 0-31
+
+   * SPI Serial Clock Pin (spiSckPin): uint8_t
+     values: Any pin 0-31
+
 ## Methods
 
 
-#### BME280I2C(uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0, bool spiEnable = false, uint8_t bme_280_addr = 0x76)
+#### BME280I2C(const Settings& settings)
 
   Constructor used to create the I2C Bme class. All parameters have default values.
   Return: None
 
-    * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
-    * Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
 
-    * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+#### BME280Spi(const Settings& settings)
 
-    * Mode: uint8_t, default = Normal
-      values: Sleep = B00, Forced = B01 and B10, Normal = B11
-
-    * Standby Time (st): uint8_t, default = 1000ms
-      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
-
-    * Filter: uint8_t, default = None
-      values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
-
-    * SPI Enable: bool, default = false
-      values: true = enable, false = disable
-
-    * BME280 Address: uint8_t, default = 0x76
-      values: any uint8_t
-
-#### BME280Spi(uint8_t spiCsPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)
-
-  Constructor used to create the Spi Bme class. All parameters have default values.
+  Constructor used to create the Spi Bme class. All parameters have default values except chip select.
   Return: None
 
-    * SPI Chip Select Pin (spiCsPin): uint8_t
-      values: Any pin 0-31
 
-    * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
+#### BME280SpiSw(const Settings& settings)
 
-    * Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
-
-    * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
-
-    * Mode: uint8_t, default = Normal
-      values: Sleep = B00, Forced = B01 and B10, Normal = B11
-
-    * Standby Time (st): uint8_t, default = 1000ms
-      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
-
-    * Filter: uint8_t, default = None
-      values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
-
-#### BME280SpiSw(uint8_t spiCsPin, uint8_t spiMosiPin, uint8_t spiMisoPin, uint8_t spiSckPin, uint8_t tosr = 0x1, uint8_t hosr = 0x1, uint8_t posr = 0x1, uint8_t mode = 0x3, uint8_t st = 0x5, uint8_t filter = 0x0)
-
-  Constructor used to create the software Spi Bme class. All parameters have default values.
+  Constructor used to create the software Spi Bme class. All parameters have default values except chip select, mosi, miso and sck.
   Return: None
-
-    * SPI Chip Select Pin (spiCsPin): uint8_t
-      values: Any pin 0-31
-
-    * SPI Master Out Slave In Pin (spiMosiPin): uint8_t
-      values: Any pin 0-31
-
-    * SPI Master In Slave Out Pin (spiMisoPin): uint8_t
-      values: Any pin 0-31
-
-    * SPI Serial Clock Pin (spiSckPin): uint8_t
-      values: Any pin 0-31
-
-    * Temperature Oversampling Rate (tosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
-
-    * Humidity Oversampling Rate (hosr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
-
-    * Pressure Oversampling Rate (posr): uint8_t, default = 0x1
-      values: B000 = Skipped, B001 = x1, B010 = x2, B011 = x4, B100 = x8, B101/other = x16
-
-    * Mode: uint8_t, default = Normal
-      values: Sleep = B00, Forced = B01 and B10, Normal = B11
-
-    * Standby Time (st): uint8_t, default = 1000ms
-      values: B000 = 0.5ms, B001 = 62.5ms, B010 = 125ms, B011 = 250ms, B100 = 250ms, B101 = 1000ms, B110 = 10ms, B111 = 20ms
-
-    * Filter: uint8_t, default = None
-      values: B000 = off, B001 = 2, B010 = 4, B011 = 8, B100/other = 16
-
 
 #### bool  begin()
 
@@ -167,31 +176,26 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
   Method to set the sensor mode. Sleep = B00, Forced = B01 and B10, Normal = B11. Set to B01 to trigger a new measurement when using forced mode.
 
-#### float temp(bool celsius = true)
+#### float temp(TempUnit unit)
 
   Read the temperature from the BME280 and return a float.
   Return: float = temperature
 
-    * Celsius: bool, default = true
-      values: true = return temperature in degrees Celsius, false = return
-      temperature in degrees Fahrenheit
+    * unit: tempUnit, default = TempUnit_Celcius
 
-
-#### float pres(uint8_t unit = 0x0)
+#### float pres(PresUnit unit)
 
   Read the pressure from the BME280 and return a float with the specified unit.
   Return: float = pressure
 
-    * Unit: uint8_t, default = 0x0
-      values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
-      B101 = torr, B110 = N/m^2, B111 = psi
+    * unit: uint8_t, default = PresUnit_Pa
 
 #### float hum()
 
   Read the humidity from the BME280 and return a percentage as a float.
   Return: float = percent relative humidity
 
-#### void  read(float& pressure, float& temp, float& humidity, bool metric = true, uint8_t p_unit = 0x0)
+#### void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)
 
   Read the data from the BME280 with the specified units.
   Return: None, however, pressure, temp and humidity are changed.
@@ -205,26 +209,19 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
     * Humidity: float, reference
       values: reference to storage float for humidity
 
-    * Metric: bool, default = true
-      values: true = meters, false = feet
+    * tempUnit: tempUnit, default = TempUnit_Celcius
 
-    * Pressure Unit: uint8_t, default = 0x0
-        values: B000 = Pa, B001 = hPa, B010 = Hg, B011 = atm, B100 = bar,
-        B101 = torr, B110 = N/m^2, B111 = psi
+    * presUnit: uint8_t, default = PresUnit_Pa
 
-#### float alt(bool metric = true, float seaLevelPressure = 101325)
-
-  Read the data from the BME280 with the specified units and then calculate the altitude.
-  Return: float = altitude
-
-    * Metric: bool, default = true
-      values: true = meters, false = feet
-
-    * Sea Level Pressure: float, unit = Pa, default = 101325
-      values:  any float
+#### uint8_t chipID()
+   Returns the chip identification number.
+   Return: uint8_t 0x60 = BME ID
+                   0x58 = BMP ID
 
 
-#### float alt(float pressure, bool metric = true, float seaLevelPressure = 101325)
+## Environment Calculations
+
+#### float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
 
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
@@ -238,16 +235,22 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
     * Sea Level Pressure: float, unit = Pa, default = 101325
       values:  any float
 
-#### float dew(bool metric = true)
+#### float SealevelAlitude(float alitude, float temp, float pres)
 
-  Read BME280 data and calculate the dew point with the specified units.
-  Return: float = dew point
+  Convert current pressure to sea-level pressure, returns
+  Altitude (in meters), temperature in Celsius
 
-    * Metric: bool, default = true
-      values: true = return temperature in degrees Celsius, false = return
-      temperature in degrees Fahrenheit
+  Return: The equivalent pressure at sea level.
 
-#### float dew(float temp, float hum, bool metric = true)
+    * alitude: float
+      values: meters
+
+    * temp: float
+      values: celcius
+
+    * hum: float
+
+#### float DewPoint(float temp, float hum, bool metric = true)
 
   Calculate the dew point based on the temperature and humidity with the specified units.
   Return: float = dew point
@@ -260,12 +263,8 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
     * Metric: bool, default = true
       values: true = return degrees Celsius, false = return degrees Fahrenheit
-      
-      
-#### uint8_t chipID()
-   Returns the chip identification number.
-   Return: uint8_t 0x60 = BME ID
-                   0x58 = BMP ID
+
+
 
 ## Contributing
 

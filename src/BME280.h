@@ -60,8 +60,7 @@ enum PresUnit {
    PresUnit_atm,
    PresUnit_bar,
    PresUnit_torr,
-   PresUnit_psi,
-
+   PresUnit_psi
 };
 
 enum OSR {
