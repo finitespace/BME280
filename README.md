@@ -16,6 +16,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
  * [BME280SpiSw(const Settings& settings)](#methods)
  * [bool  begin()](#methods)
  * [void  setSettings(const Settings& settings)](#methods)
+ * [const Settings& getSettings()](#methods)
  * [float temp(TempUnit unit)](#methods)
  * [float pres(PresUnit unit)](#methods)
  * [float hum()](#methods)
@@ -178,9 +179,14 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
   Method used at start up to initialize the class. Starts the I2C or SPI interface. Can be called again to re-initialize the mode settings.
   Return: bool, true = success, false = failure (no device found)
 
-#### void setMode(uint8_t mode)
+#### void setSettings(const Settings& settings)
 
-  Method to set the sensor mode. Sleep = B00, Forced = B01 and B10, Normal = B11. Set to B01 to trigger a new measurement when using forced mode.
+  Method to set the sensor settings.
+  
+  
+#### const Settings& getSettings()
+
+  Method to get the sensor settings.
 
 #### float temp(TempUnit unit)
 
