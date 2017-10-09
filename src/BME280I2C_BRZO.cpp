@@ -32,8 +32,7 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
 #include "BME280I2C_BRZO.h"
- 
-#ifdef _BRZO_I2C_h
+
 #include "brzo_i2c.h"
 
 
@@ -41,7 +40,7 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 BME280I2C_BRZO::BME280I2C_BRZO
 (
   const Settings& settings
-):BME280(tosr, hosr, posr, mode, st, filter, spiEnable), 
+):BME280I2C(settings),
   m_bme_280_addr(settings.bme280Addr),
   m_i2c_clock_rate(settings.i2cClockRate)
 {
@@ -77,12 +76,3 @@ bool BME280I2C_BRZO::ReadRegister
     brzo_i2c_end_transaction();
     return (brzo_i2c_end_transaction()==0);
 }
-
-
-/****************************************************************/
-bool BME280I2C_BRZO::begin()
-{
-  return Initialize();
-}
-
-#endif
