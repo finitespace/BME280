@@ -33,8 +33,8 @@ SCK (Serial Clock)  ->  D1 on ESP8266
 
 #define SERIAL_BAUD 115200
 
-#define SDA_PIN = D2;
-#define SCL_PIN = D1;
+#define SDA_PIN = D2
+#define SCL_PIN = D1
 
 const uint32_t I2C_ACK_TIMEOUT = 2000;
 
