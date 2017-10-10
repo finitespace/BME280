@@ -66,8 +66,6 @@ public:
       const Settings& settings = Settings());
 
 
-   virtual bool begin();
-
 protected:
 
 private:
