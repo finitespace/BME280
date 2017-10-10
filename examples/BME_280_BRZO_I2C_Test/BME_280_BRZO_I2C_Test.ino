@@ -25,14 +25,16 @@ SDA (Serial Data)   ->  D2 on ESP8266
 SCK (Serial Clock)  ->  D1 on ESP8266
 
  */
+#include "Arduino.h"
 
+#define USING_BRZO 1
 #include "brzo_i2c.h"
-#include <BME280I2C_BRZO.h>
+#include "BME280I2C_BRZO.h"
 
 #define SERIAL_BAUD 115200
 
-#define SDA D2
-#define SCL D1
+#define SDA_PIN = D2;
+#define SCL_PIN = D1;
 
 const uint32_t I2C_ACK_TIMEOUT = 2000;
 
@@ -48,7 +50,7 @@ void setup()
 
    while(!Serial) {} // Wait
 
-   brzo_i2c_setup(SDA,SCL,I2C_ACK_TIMEOUT);
+   brzo_i2c_setup(SDA_PIN,SCL_PIN,I2C_ACK_TIMEOUT);
 
    while(!bme.begin())
    {
