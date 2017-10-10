@@ -33,9 +33,10 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 
 #include "BME280I2C_BRZO.h"
 
+#ifdef USING_BRZO
+
 #include "brzo_i2c.h"
 
-#ifdef USING_BRZO
 /****************************************************************/
 BME280I2C_BRZO::BME280I2C_BRZO
 (
