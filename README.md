@@ -121,7 +121,7 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
     * Standby Time (standbyTime): StandbyTime Enum, default = StandbyTime_1000ms
 
-    * Filter (filter): Filter Enum, default = None
+    * Filter (filter): Filter Enum, default = Filter_Off
 
     * SPI Enable: SpiEnable Enum, default = false
       values: true = enable, false = disable
