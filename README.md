@@ -3,13 +3,13 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 
 ## Table of Contents
 
-* [BME280](#bme280)
-* [Table of Contents](#table_of_contents)
-* [Summary](#summary)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Enumerations](#enumerations)
-* [Methods](#methods)
+[BME280](#bme280)
+[Table of Contents](#table_of_contents)
+[Summary](#summary)
+[Installation](#installation)
+[Usage](#usage)
+[Enumerations](#enumerations)
+[Methods](#methods)
 
  * [BME280I2C(const Settings& settings)](#methods)
  * [BME280Spi(const Settings& settings)](#methods)
@@ -23,14 +23,14 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
  * [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
  * [uint8_t chipID()](#methods)
 
-* [Environment Calculations](#environment_calculations)
+[Environment Calculations](#environment_calculations)
  * [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment_calculations)
  * [float SealevelAlitude(float alitude, float temp, float pres)](#environment_calculations)
  * [float DewPoint(float temp, float hum, bool metric = true)](#environment_calculations)
-* [Contributing](#contributing)
-* [History](#history)
-* [Credits](#credits)
-* [License](#license)
+[Contributing](#contributing)
+[History](#history)
+[Credits](#credits)
+[License](#license)
 <snippet>
 <content>
 
@@ -284,10 +284,14 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 
 ## History
 
-- Jan 1, 2016 - Version 1.0.0 released.
-- Sep 19, 2016 - Version 2.0.0 released (restructure for I2C and SPI).
-- Dec 19, 2016 - Version 2.1.0 released (support for SPI)
-- Dec 21, 2016 - Version 2.1.1 released (Fixing compilation errors)
+- Jan  1, 2016   - Version 1.0.0 released
+- Sep  19, 2016  - Version 2.0.0 released (Restructure for I2C and SPI)
+- Dec  19, 2016  - Version 2.1.0 released (Support for SPI)
+- Dec  21, 2016  - Version 2.1.1 released (Fixing compilation errors)
+- Sept  9, 2017  - Version 2.1.3 released (Formatting, reorg)
+- Sept 13, 2017  - Version 2.1.4 released (Examples update, bug fixes)
+- Oct   7, 2017  - Version 2.2   released (Enums, begin restructure, bug fixes)
+- Oct  10, 2017  - Version 2.2.1 released (Bug fixes)
 
 ## Credits
 
