@@ -291,7 +291,7 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 - Feb  17, 2017  - Version 2.1.2 released (Docs)
 - Sept  9, 2017  - Version 2.1.3 released (Formatting, reorg)
 - Sept 13, 2017  - Version 2.1.4 released (Examples update, bug fixes)
-- Oct   7, 2017  - Version 2.2.0 released (Enums, begin restructure, bug fixes)
+- Oct   7, 2017  - Version 2.2.0 released (Enums, begin restructure)
 - Oct  10, 2017  - Version 2.2.1 released (Bug fixes)
 
 ## Credits
