@@ -1,5 +1,5 @@
 # BME280
-Provides an Arduino library for reading and interpreting Bosch BME280 data over I2C and SPI.
+Provides an Arduino library for reading and interpreting Bosch BME280 data over I2C, SPI and Sw SPI. Additional environalment calculation functions are provided. Esp and BRZO are now supported.
 
 ## Table of Contents
 
