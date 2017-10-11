@@ -288,7 +288,7 @@ Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes 
 - Nov 21,  2016  - Version 2.0.1 released (Set mode support)
 - Dec  19, 2016  - Version 2.1.0 released (Support for SPI)
 - Dec  21, 2016  - Version 2.1.1 released (Fixing compilation errors)
-- Feb  17, 2017  - Version 2.1.2 released (All of the Bugs)
+- Feb  17, 2017  - Version 2.1.2 released (Docs)
 - Sept  9, 2017  - Version 2.1.3 released (Formatting, reorg)
 - Sept 13, 2017  - Version 2.1.4 released (Examples update, bug fixes)
 - Oct   7, 2017  - Version 2.2   released (Enums, begin restructure, bug fixes)
