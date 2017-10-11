@@ -58,10 +58,6 @@ or
 `hum = bme.hum()`
 `pres = bme.pres()`
 
-`float altitude, dewPoint`
-`altitude = bme.alt()`
-`dewPoint = bme.dew()`
-
 Use `setMode(0x01)` to trigger a new measurement in forced mode. NOTE: It takes ~8ms to measure all values (temp, humidity & pressure) when using x1 oversampling (see datasheet 11.1). Thus a delay of >8ms should be used after triggering a measurement and before reading data to ensure that read values are the latest ones.
 
 ## Enumerations
