@@ -121,19 +121,22 @@ or
 
 
 #### BME280I2C Settings Struct
-   * Includes all fields in BME280 settings.
 
+   * Includes all fields in BME280 settings.
+```
    * BME 280 Address (bme280Addr): uint8_t, default = 0x76
-
+````
 #### BME280Spi Settings Struct
-   * Includes all fields in BME280 settings.
 
+   * Includes all fields in BME280 settings.
+```
    * SPI Chip Select Pin (spiCsPin): uint8_t
       values: Any pin 0-31
+```
 
 #### BME280Spi Settings Struct
    * Includes all fields in BME280 settings.
-
+```
    * SPI Chip Select Pin (spiCsPin): uint8_t
      values: Any pin 0-31
 
@@ -145,7 +148,7 @@ or
 
    * SPI Serial Clock Pin (spiSckPin): uint8_t
      values: Any pin 0-31
-
+```
 ## Methods
 
 
