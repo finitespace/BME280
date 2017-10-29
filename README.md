@@ -59,7 +59,7 @@ or
 
 ## Enumerations
 #### TempUnit Enum
-   * TempUnit_Celcius
+   * TempUnit_Celsius
    * TempUnit_Fahrenheit
 
 #### PresUnit Enum
@@ -186,7 +186,7 @@ or
   Read the temperature from the BME280 and return a float.
   Return: float = temperature
 
-    * unit: tempUnit, default = TempUnit_Celcius
+    * unit: tempUnit, default = TempUnit_Celsius
 
 #### float pres(PresUnit unit)
 
@@ -214,7 +214,7 @@ or
     * Humidity: float, reference
       values: reference to storage float for humidity
 
-    * tempUnit: tempUnit, default = TempUnit_Celcius
+    * tempUnit: tempUnit, default = TempUnit_Celsius
 
     * presUnit: uint8_t, default = PresUnit_Pa
 
@@ -251,7 +251,7 @@ or
       values: meters
 
     * temp: float
-      values: celcius
+      values: celsius
 
     * hum: float
 

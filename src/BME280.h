@@ -49,7 +49,7 @@ public:
 /*****************************************************************/
 
 enum TempUnit {
-   TempUnit_Celcius,
+   TempUnit_Celsius,
    TempUnit_Fahrenheit
 };
 
@@ -148,7 +148,7 @@ struct Settings {
    //////////////////////////////////////////////////
    /// Read the temperature from the BME280 and return a float.
    float temp(
-      TempUnit unit = TempUnit_Celcius);
+      TempUnit unit = TempUnit_Celsius);
 
    /////////////////////////////////////////////////////////////////
    /// Read the pressure from the BME280 and return a float with the
@@ -167,7 +167,7 @@ struct Settings {
       float&    pressure,
       float&    temperature,
       float&    humidity,
-      TempUnit  tempUnit    = TempUnit_Celcius,
+      TempUnit  tempUnit    = TempUnit_Celsius,
       PresUnit  presUnit    = PresUnit_Pa);
 
 
@@ -303,7 +303,7 @@ private:
    float CalculateTemperature(
       int32_t raw,
       int32_t& t_fine,
-      TempUnit unit = TempUnit_Celcius);
+      TempUnit unit = TempUnit_Celsius);
 
    /////////////////////////////////////////////////////////////////
    /// Calculate the humidity from the BME280 raw data and BME280

@@ -227,7 +227,7 @@ float BME280::CalculateTemperature
    var2 = (((((raw >> 4) - ((int32_t)dig_T1)) * ((raw >> 4) - ((int32_t)dig_T1))) >> 12) * ((int32_t)dig_T3)) >> 14;
    t_fine = var1 + var2;
    final = (t_fine * 5 + 128) >> 8;
-   return unit == TempUnit_Celcius ? final/100.0 : final/100.0*9.0/5.0 + 32.0;
+   return unit == TempUnit_Celsius ? final/100.0 : final/100.0*9.0/5.0 + 32.0;
 }
 
 
