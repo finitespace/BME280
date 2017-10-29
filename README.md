@@ -155,20 +155,14 @@ or
 #### BME280I2C(const Settings& settings)
 
   Constructor used to create the I2C Bme class. All parameters have default values.
-  Return: None
-
-
 
 #### BME280Spi(const Settings& settings)
 
   Constructor used to create the Spi Bme class. All parameters have default values except chip select.
-  Return: None
-
 
 #### BME280SpiSw(const Settings& settings)
 
   Constructor used to create the software Spi Bme class. All parameters have default values except chip select, mosi, miso and sck.
-  Return: None
 
 #### bool  begin()
 
