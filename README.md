@@ -15,7 +15,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [BME280SpiSw(const Settings& settings)](#methods)
       - [bool  begin()](#methods)
       - [void  setSettings(const Settings& settings)](#methods)
-      - [const Settings& getSettings()](#methods)
+      - [const Settings& getSettings() const](#methods)
       - [float temp(TempUnit unit)](#methods)
       - [float pres(PresUnit unit)](#methods)
       - [float hum()](#methods)
@@ -174,7 +174,7 @@ or
   Method to set the sensor settings.
   
   
-#### const Settings& getSettings()
+#### const Settings& getSettings() const
 
   Method to get the sensor settings.
 
