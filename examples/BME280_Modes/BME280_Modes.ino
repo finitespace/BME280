@@ -122,5 +122,5 @@ void printBME280Data
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
-   client->print(" atm");
+   client->print(" Pa");
 }
