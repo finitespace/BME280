@@ -100,6 +100,8 @@ void printBME280Data
    client->println("°"+ String(metric ? 'C' :'F'));
    client->print("\t\tSealevel Altitude: ");
    client->print(seaLevel);
-   client->print((metric ? "m" : "ft"));
+   client->println((metric ? "m" : "ft"));
+
+   delay(1000);
 }
 

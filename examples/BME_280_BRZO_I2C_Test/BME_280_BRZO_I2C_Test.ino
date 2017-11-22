@@ -82,7 +82,7 @@ void printBME280Data
 )
 {
    float temp(NAN), hum(NAN), pres(NAN);
-   
+
    BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
    BME280::PresUnit presUnit(BME280::PresUnit_Pa);
 
@@ -96,5 +96,7 @@ void printBME280Data
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
-   client->print(" Pa");
+   client->println(" Pa");
+
+   delay(1000);
 }
