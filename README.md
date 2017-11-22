@@ -24,7 +24,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [float pres(PresUnit unit)](#methods)
       - [float hum()](#methods)
       - [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
-      - [uint8_t chipID()](#methods)
+      - [ChipModel chipModel()](#methods)
 
 9. [Environment Calculations](#environment-calculations)
       - [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)

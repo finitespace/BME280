@@ -239,6 +239,7 @@ private:
    static const uint8_t DIG_LENGTH              = 32;
    static const uint8_t SENSOR_DATA_LENGTH      = 8;
 
+
 /*****************************************************************/
 /* VARIABLES                                                     */
 /*****************************************************************/
@@ -248,6 +249,7 @@ private:
    ChipModel m_chip_model;
 
    bool m_initialized;
+
 
 /*****************************************************************/
 /* ABSTRACT FUNCTIONS                                            */
@@ -265,7 +267,6 @@ private:
       uint8_t addr,
       uint8_t data[],
       uint8_t length)=0;
-
 
 
 /*****************************************************************/
@@ -300,6 +301,7 @@ private:
    bool ReadData(
       int32_t data[8]);
 
+
    /////////////////////////////////////////////////////////////////
    /// Calculate the temperature from the BME280 raw data and
    /// BME280 trim, return a float.
@@ -322,8 +324,6 @@ private:
       int32_t raw,
       int32_t t_fine,
       PresUnit unit = PresUnit_Pa);
-
-
 
 };
 
