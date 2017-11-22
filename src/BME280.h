@@ -101,6 +101,12 @@ enum SpiEnable{
    SpiEnable_True = 1
 };
 
+enum ChipModel {
+    ChipModel_UNKNOWN = 0,
+    ChipModel_BME280 = 1,
+    ChipModel_BMP280 = 2
+};
+
 struct Settings {
    Settings(
       OSR _tosr       = OSR_X1,
@@ -186,6 +192,10 @@ struct Settings {
    /// Method used to return CHIP_ID.
    uint8_t chipID();
 
+   ////////////////////////////////////////////////////////////////
+   /// Method used to return ChipModel.
+   ChipModel chipModel();
+
 protected:
 
 /*****************************************************************/
@@ -242,6 +252,7 @@ private:
 
    uint8_t m_dig[32];
    uint8_t m_chip_id;
+   ChipModel m_chip_model;
 
 
    bool m_initialized;

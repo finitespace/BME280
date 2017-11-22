@@ -105,6 +105,11 @@ or
    * Filter_8
    * Filter_16
 
+#### ChipModel Enum
+   * ChipModel_Unknown
+   * ChipModel_BME280
+   * ChipModel_BMP280
+
 ## Settings
 
 #### BME280::Settings Struct
@@ -226,6 +231,9 @@ or
    ```
     * return: uint8_t 0x60 = BME ID, 0x58 = BMP ID
    ```
+
+#### ChipModel chipModel()
+   Return: [ChipModel](#chipmodel-enum) enum
 
 
 ## Environment Calculations
