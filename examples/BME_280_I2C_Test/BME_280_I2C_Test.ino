@@ -42,6 +42,18 @@ void setup()
     Serial.println("Could not find BME280 sensor!");
     delay(1000);
   }
+
+  switch(bme.chipModel())
+  {
+     case BME280::ChipModel_BME280:
+       Serial.println("Found BME280 sensor! Success.");
+       break;
+     case BME280::ChipModel_BMP280:
+       Serial.println("Found BMP280 sensor! No Humidity available.");
+       break;
+     default:
+       Serial.println("Found UNKNOWN sensor! Error!");
+  }
 }
 
 //////////////////////////////////////////////////////////////////
