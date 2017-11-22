@@ -37,19 +37,21 @@ namespace EnvironmentCalculations
   /////////////////////////////////////////////////////////////////
   /// Calculate the altitude based on the pressure with the
   /// specified units.
+  /// @param seaLevelPressure given in Pa.
   float Altitude(
     float pressure,
     bool metric = true,
-    float seaLevelPressure = 101325); // Pressure given in Pa.
+    float seaLevelPressure = 101325);
 
   /////////////////////////////////////////////////////////////////
-  /// Convert current pressure to sea-level pressure, returns
-  /// Altitude (in meters), temperature in Celsius
-  /// return the equivalent pressure at sea level.
-  float SealevelAlitude(
-   float alitude,
-   float temp,
-   float pres);  // A: current altitude (meters).
+  /// Convert current pressure to equivalent sea-level pressure.
+  /// @param altitude in meters.
+  /// @param temp in Celsius.
+  /// @return the equivalent pressure at sea level.
+  float EquivalentSeaLevelPressure(
+    float altitude,
+    float temp,
+    float pres);
 
 
   /////////////////////////////////////////////////////////////////

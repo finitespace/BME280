@@ -49,14 +49,14 @@ float EnvironmentCalculations::Altitude
 
 
 /****************************************************************/
-float EnvironmentCalculations::SealevelAlitude
+float EnvironmentCalculations::EquivalentSeaLevelPressure
 (
-  float A,
-  float T,
-  float P
+  float alitude,
+  float temp,
+  float pres
 )
 {
-   return(P / pow(1-((0.0065 *A) / (T + (0.0065 *A) + 273.15)),5.257));
+   return(pres / pow(1-((0.0065 *alitude) / (temp + (0.0065 *alitude) + 273.15)),5.257));
 }
 
 

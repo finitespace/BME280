@@ -27,8 +27,8 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [ChipModel chipModel()](#methods)
 
 9. [Environment Calculations](#environment-calculations)
-      - [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
-      - [float SealevelAlitude(float alitude, float temp, float pres)](#environment-calculations)
+      - [float Altitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
+      - [float EquivalentSeaLevelPressure(float altitude, float temp, float pres)](#environment-calculations)
       - [float DewPoint(float temp, float hum, bool metric = true)](#environment-calculations)
 10. [Contributing](#contributing)
 11. [History](#history)
@@ -241,7 +241,7 @@ or
 
 ## Environment Calculations
 
-#### float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
+#### float Altitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
 
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
@@ -256,20 +256,21 @@ or
       values:  any float
 ```
 
-#### float SealevelAlitude(float alitude, float temp, float pres)
+#### float EquivalentSeaLevelPressure(float altitude, float temp, float pres)
 
-  Convert current pressure to sea-level pressure, returns
-  Altitude (in meters), temperature in Celsius
+  Convert current pressure to equivalent sea-level pressure.
+
 ```
     return: The equivalent pressure at sea level.
 
-    * alitude: float
+    * altitude: float
       values: meters
 
     * temp: float
       values: celsius
 
-    * hum: float
+    * pres: float
+      values: unit independent
 ```
 
 #### float DewPoint(float temp, float hum, bool metric = true)
