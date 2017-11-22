@@ -6,5 +6,5 @@ pres  KEYWORD2
 hum KEYWORD2
 read  KEYWORD2
 Altitude KEYWORD2
-SealevelAlitude KEYWORD2
+EquivalentSeaLevelPressure KEYWORD2
 DewPoint KEYWORD2
