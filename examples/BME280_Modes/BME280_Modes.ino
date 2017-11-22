@@ -82,6 +82,7 @@ void setup()
 
   while(!Serial) {} // Wait
 
+  Wire.begin();
   while(!bme.begin())
   {
     Serial.println("Could not find BME280I2C sensor!");
