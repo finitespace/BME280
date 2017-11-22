@@ -10,9 +10,9 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 5. [Usage](#usage)
 6. [Enumerations](#enumerations)
 7. [Methods](#methods)
-      - [BME280I2C(const Settings& settings)](#methods)
-      - [BME280Spi(const Settings& settings)](#methods)
-      - [BME280SpiSw(const Settings& settings)](#methods)
+      - [BME280I2C(const BME280I2C::Settings& settings)](#methods)
+      - [BME280Spi(const BME280Spi::Settings& settings)](#methods)
+      - [BME280SpiSw(const BME280SpiSw::Settings& settings)](#methods)
       - [bool  begin()](#methods)
       - [void  setSettings(const Settings& settings)](#methods)
       - [const Settings& getSettings() const](#methods)
@@ -103,7 +103,7 @@ or
 
 ## Settings
 
-#### BME280 Settings Struct
+#### BME280::Settings Struct
     * Temperature Oversampling Rate (tempOSR): OSR Enum, default = OSR_X1
 
     * Humidity Oversampling Rate (humOSR): OSR Enum, default = OSR_X1
@@ -120,7 +120,7 @@ or
       values: true = enable, false = disable
 
 
-#### BME280I2C Settings Struct
+#### BME280I2C::Settings Struct
 
    * Includes all fields in BME280 settings.
 ```
@@ -134,7 +134,7 @@ or
       values: Any pin 0-31
 ```
 
-#### BME280Spi Settings Struct
+#### BME280Spi::Settings Struct
    * Includes all fields in BME280 settings.
 ```
    * SPI Chip Select Pin (spiCsPin): uint8_t
@@ -152,15 +152,15 @@ or
 ## Methods
 
 
-#### BME280I2C(const Settings& settings)
+#### BME280I2C(const BME280I2C::Settings& settings)
 
   Constructor used to create the I2C Bme class. All parameters have default values.
 
-#### BME280Spi(const Settings& settings)
+#### BME280Spi(const BME280Spi::Settings& settings)
 
   Constructor used to create the Spi Bme class. All parameters have default values except chip select.
 
-#### BME280SpiSw(const Settings& settings)
+#### BME280SpiSw(const BME280SpiSw::Settings& settings)
 
   Constructor used to create the software Spi Bme class. All parameters have default values except chip select, mosi, miso and sck.
 
