@@ -90,7 +90,7 @@ void printBME280Data
 
    float altitude = EnvironmentCalculations::Altitude(pres, metric);
    float dewPoint = EnvironmentCalculations::DewPoint(temp, hum, metric);
-   float seaLevel = EnvironmentCalculations::SealevelAlitude(altitude, temp, pres);
+   float seaLevel = EnvironmentCalculations::EquivalentSeaLevelPressure(altitude, temp, pres);
 
    client->print("\t\tAltitude: ");
    client->print(altitude);
