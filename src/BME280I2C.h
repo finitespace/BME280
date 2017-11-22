@@ -57,7 +57,7 @@ public:
    };
 
   ///////////////////////////////////////////////////////////////
-  /// Constructor used to create the class. All parameters have 
+  /// Constructor used to create the class. All parameters have
   /// default values.
   BME280I2C(
     const Settings& settings = Settings());
