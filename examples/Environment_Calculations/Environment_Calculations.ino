@@ -99,7 +99,7 @@ void printBME280Data
    client->print("\t\tDew point: ");
    client->print(dewPoint);
    client->print("°"+ String(envTempUnit == EnvironmentCalculations::TempUnit_Celsius ? "C" :"F"));
-   client->print("\t\tEqualivant Sea Level Pressure: ");
+   client->print("\t\tEquivalent Sea Level Pressure: ");
    client->print(seaLevel);
    client->println(" Pa");
 
