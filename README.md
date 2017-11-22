@@ -304,7 +304,7 @@ or
 - Sep  19, 2016  - Version 2.0.0 released (Restructure for I2C and SPI)
 - Nov 21,  2016  - Version 2.0.1 released (Set mode support)
 - Dec  19, 2016  - Version 2.1.0 released (Support for SPI)
-- Dec  21, 2016  - Version 2.1.1 released (Fixing compilation errors)
+- Dec  21, 2016  - Version 2.1.1 released (Bugs)
 - Feb  17, 2017  - Version 2.1.2 released (Docs)
 - Sept  9, 2017  - Version 2.1.3 released (Formatting, reorg)
 - Sept 13, 2017  - Version 2.1.4 released (Examples update, bug fixes)
