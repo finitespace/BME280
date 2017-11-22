@@ -78,7 +78,7 @@ void printBME280Data
 
    client->print("Temp: ");
    client->print(temp);
-   client->print("°"+ String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
+   client->print("°"+ String(tempUnit == BME280::TempUnit_Celsius ? "C" :"F"));
    client->print("\t\tHumidity: ");
    client->print(hum);
    client->print("% RH");
@@ -86,21 +86,22 @@ void printBME280Data
    client->print(pres);
    client->print(" Pa");
 
-   bool metric = true;
+   EnvironmentCalculations::AltitudeUnit envAltUnit  =  EnvironmentCalculations::AltitudeUnit_Meters;
+   EnvironmentCalculations::TempUnit     envTempUnit =  EnvironmentCalculations::TempUnit_Celsius;
 
-   float altitude = EnvironmentCalculations::Altitude(pres, metric);
-   float dewPoint = EnvironmentCalculations::DewPoint(temp, hum, metric);
+   float altitude = EnvironmentCalculations::Altitude(pres, envAltUnit);
+   float dewPoint = EnvironmentCalculations::DewPoint(temp, hum, envTempUnit);
    float seaLevel = EnvironmentCalculations::EquivalentSeaLevelPressure(altitude, temp, pres);
 
    client->print("\t\tAltitude: ");
    client->print(altitude);
-   client->print((metric ? "m" : "ft"));
+   client->print((envAltUnit == EnvironmentCalculations::AltitudeUnit_Meters ? "m" : "ft"));
    client->print("\t\tDew point: ");
    client->print(dewPoint);
-   client->println("°"+ String(metric ? 'C' :'F'));
-   client->print("\t\tSealevel Altitude: ");
+   client->print("°"+ String(envTempUnit == EnvironmentCalculations::TempUnit_Celsius ? "C" :"F"));
+   client->print("\t\tEqualivant Sea Level Pressure: ");
    client->print(seaLevel);
-   client->println((metric ? "m" : "ft"));
+   client->println(" Pa");
 
    delay(1000);
 }

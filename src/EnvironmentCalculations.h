@@ -32,7 +32,17 @@ This header must be included in any derived code or copies of the code.
 
 namespace EnvironmentCalculations
 {
+   enum TempUnit
+   {
+      TempUnit_Celsius,
+      TempUnit_Fahrenheit
+   };
 
+   enum AltitudeUnit
+   {
+      AltitudeUnit_Meters,
+      AltitudeUnit_Feet
+   };
 
   /////////////////////////////////////////////////////////////////
   /// Calculate the altitude based on the pressure with the
@@ -40,7 +50,7 @@ namespace EnvironmentCalculations
   /// @param seaLevelPressure given in Pa.
   float Altitude(
     float pressure,
-    bool metric = true,
+    AltitudeUnit altUnit = AltitudeUnit_Meters,
     float seaLevelPressure = 101325);
 
   /////////////////////////////////////////////////////////////////
@@ -60,7 +70,7 @@ namespace EnvironmentCalculations
   float DewPoint(
     float temp,
     float hum,
-    bool metric = true);
+    TempUnit tempUnit);
 
 }
 
