@@ -89,5 +89,7 @@ void printBME280Data
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
-   client->print(" Pa");
+   client->println(" Pa");
+
+   delay(1000);
 }
