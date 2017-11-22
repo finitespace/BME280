@@ -68,11 +68,12 @@ bool BME280::ReadChipID()
 
    ReadRegister(ID_ADDR, &id[0], 1);
 
-   switch(id[0]) {
-      case BME_ID:
+   switch(id[0])
+   {
+      case ChipModel_BME280:
          m_chip_model = ChipModel_BME280;
          break;
-      case BMP_ID:
+      case ChipModel_BMP280:
          m_chip_model = ChipModel_BMP280;
          break;
       default:
@@ -80,7 +81,6 @@ bool BME280::ReadChipID()
          return false;
    }
 
-   m_chip_id = id[0];
    return true;
 }
 
@@ -396,14 +396,6 @@ void BME280::read
    humidity = CalculateHumidity(rawHumidity, t_fine);
 }
 
-
-/****************************************************************/
-uint8_t BME280::chipID
-(
-)
-{
-   return m_chip_id;
-}
 
 /****************************************************************/
 BME280::ChipModel BME280::chipModel
