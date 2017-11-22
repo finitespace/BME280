@@ -4,12 +4,16 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 ## Table of Contents
 
 1. [BME280](#bme280)
-2. [Table of Contents](#Table_of_Contents)
+2. [Table of Contents](#table-of-contents)
 3. [Summary](#summary)
 4. [Installation](#installation)
 5. [Usage](#usage)
 6. [Enumerations](#enumerations)
-7. [Methods](#methods)
+7. [Settings](#settings)
+      - [BME280I2C::Settings](#settings)
+      - [BME280Spi::Settings](#settings)
+      - [BME280SpiSw::Settings](#settings)
+8. [Methods](#methods)
       - [BME280I2C(const BME280I2C::Settings& settings)](#methods)
       - [BME280Spi(const BME280Spi::Settings& settings)](#methods)
       - [BME280SpiSw(const BME280SpiSw::Settings& settings)](#methods)
@@ -22,14 +26,14 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
       - [uint8_t chipID()](#methods)
 
-8. [Environment Calculations](#environment_calculations)
-      - [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment_calculations)
-      - [float SealevelAlitude(float alitude, float temp, float pres)](#environment_calculations)
-      - [float DewPoint(float temp, float hum, bool metric = true)](#environment_calculations)
-9. [Contributing](#contributing)
-10. [History](#history)
-11. [Credits](#credits)
-12. [License](#license)
+9. [Environment Calculations](#environment-calculations)
+      - [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
+      - [float SealevelAlitude(float alitude, float temp, float pres)](#environment-calculations)
+      - [float DewPoint(float temp, float hum, bool metric = true)](#environment-calculations)
+10. [Contributing](#contributing)
+11. [History](#history)
+12. [Credits](#credits)
+13. [License](#license)
 <snippet>
 <content>
 
@@ -126,7 +130,7 @@ or
 ```
    * BME 280 Address (bme280Addr): uint8_t, default = 0x76
 ````
-#### BME280Spi Settings Struct
+#### BME280Spi::Settings Struct
 
    * Includes all fields in BME280 settings.
 ```
@@ -167,7 +171,9 @@ or
 #### bool  begin()
 
   Method used at start up to initialize the class. Starts the I2C or SPI interface. Can be called again to re-initialize the mode settings.
-  Return: bool, true = success, false = failure (no device found)
+ ```
+ * return: bool, true = success, false = failure (no device found)
+ ```
 
 #### void setSettings(const Settings& settings)
 
@@ -195,7 +201,7 @@ or
 #### float hum()
 
   Read the humidity from the BME280 and return a percentage as a float.
-  Return: float = percent relative humidity
+    * return: float = percent relative humidity
 
 #### void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)
 
@@ -217,8 +223,9 @@ or
 
 #### uint8_t chipID()
    Returns the chip identification number.
-   Return: uint8_t 0x60 = BME ID
-                   0x58 = BMP ID
+   ```
+    * return: uint8_t 0x60 = BME ID, 0x58 = BMP ID
+   ```
 
 
 ## Environment Calculations
