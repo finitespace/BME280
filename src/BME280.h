@@ -103,8 +103,8 @@ enum SpiEnable{
 
 enum ChipModel {
     ChipModel_UNKNOWN = 0,
-    ChipModel_BME280 = 1,
-    ChipModel_BMP280 = 2
+    ChipModel_BMP280 = 0x58,
+    ChipModel_BME280 = 0x60
 };
 
 struct Settings {
@@ -235,8 +235,6 @@ private:
    static const uint8_t HUM_DIG_ADDR1   = 0xA1;
    static const uint8_t HUM_DIG_ADDR2   = 0xE1;
    static const uint8_t ID_ADDR         = 0xD0;
-   static const uint8_t BME_ID          = 0x60;
-   static const uint8_t BMP_ID          = 0x58;
 
    static const uint8_t TEMP_DIG_LENGTH         = 6;
    static const uint8_t PRESS_DIG_LENGTH        = 18;
@@ -291,7 +289,7 @@ private:
    /// Write the settings to the chip.
    bool WriteSettings();
 
-   
+
    /////////////////////////////////////////////////////////////////
    /// Read the the chip id data from the BME280, return true if
    /// successful and the id matches a known value.

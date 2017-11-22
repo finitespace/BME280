@@ -32,7 +32,17 @@ This header must be included in any derived code or copies of the code.
 
 namespace EnvironmentCalculations
 {
+   enum TempUnit
+   {
+      TempUnit_Celsius,
+      TempUnit_Fahrenheit
+   };
 
+   enum AltitudeUnit
+   {
+      AltitudeUnit_Meters,
+      AltitudeUnit_Feet
+   };
 
   /////////////////////////////////////////////////////////////////
   /// Calculate the altitude based on the pressure with the
@@ -50,6 +60,16 @@ namespace EnvironmentCalculations
    float alitude,
    float temp,
    float pres);  // A: current altitude (meters).
+
+  /////////////////////////////////////////////////////////////////
+  /// Convert current pressure to equivalent sea-level pressure.
+  /// @param altitude in meters.
+  /// @param temp in Celsius.
+  /// @return the equivalent pressure at sea level.
+  float EquivalentSeaLevelPressure(
+   float altitude,
+   float temp,
+   float pres);
 
 
   /////////////////////////////////////////////////////////////////

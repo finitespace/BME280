@@ -61,6 +61,18 @@ float EnvironmentCalculations::SealevelAlitude
 
 
 /****************************************************************/
+float EnvironmentCalculations::EquivalentSeaLevelPressure
+(
+  float altitude,
+  float temp,
+  float pres
+)
+{
+   return(pres / pow(1-((0.0065 *altitude) / (temp + (0.0065 *altitude) + 273.15)),5.257));
+}
+
+
+/****************************************************************/
 float EnvironmentCalculations::DewPoint
 (
   float temp,

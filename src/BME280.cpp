@@ -69,10 +69,10 @@ bool BME280::ReadChipID()
    ReadRegister(ID_ADDR, &id[0], 1);
 
    switch(id[0]) {
-      case BME_ID:
+      case ChipModel_BME280:
          m_chip_model = ChipModel_BME280;
          break;
-      case BMP_ID:
+      case ChipModel_BMP280:
          m_chip_model = ChipModel_BMP280;
          break;
       default:
