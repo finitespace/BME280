@@ -56,6 +56,7 @@ namespace EnvironmentCalculations
   /// Convert current pressure to sea-level pressure, returns
   /// Altitude (in meters), temperature in Celsius
   /// return the equivalent pressure at sea level.
+  /// @deprecated
   float SealevelAlitude(
    float alitude,
    float temp,
