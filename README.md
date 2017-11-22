@@ -310,6 +310,7 @@ or
 - Sept 13, 2017  - Version 2.1.4 released (Examples update, bug fixes)
 - Oct   7, 2017  - Version 2.2.0 released (Enums, begin restructure)
 - Oct  10, 2017  - Version 2.2.1 released (Bug fixes)
+- Nov  21, 2017  - Version 2.3.0 released (Examples updates, env calc fixes, bugs)
 
 ## Credits
 
