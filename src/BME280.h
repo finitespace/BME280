@@ -101,6 +101,12 @@ enum SpiEnable{
    SpiEnable_True = 1
 };
 
+enum ChipModel {
+    ChipModel_UNKNOWN = 0,
+    ChipModel_BMP280 = 0x58,
+    ChipModel_BME280 = 0x60
+};
+
 struct Settings {
    Settings(
       OSR _tosr       = OSR_X1,
@@ -183,8 +189,8 @@ struct Settings {
    const Settings& getSettings() const;
 
    ////////////////////////////////////////////////////////////////
-   /// Method used to return CHIP_ID.
-   uint8_t chipID();
+   /// Method used to return ChipModel.
+   ChipModel chipModel();
 
 protected:
 
@@ -225,8 +231,6 @@ private:
    static const uint8_t HUM_DIG_ADDR1   = 0xA1;
    static const uint8_t HUM_DIG_ADDR2   = 0xE1;
    static const uint8_t ID_ADDR         = 0xD0;
-   static const uint8_t BME_ID          = 0x60;
-   static const uint8_t BMP_ID          = 0x58;
 
    static const uint8_t TEMP_DIG_LENGTH         = 6;
    static const uint8_t PRESS_DIG_LENGTH        = 18;
@@ -235,16 +239,17 @@ private:
    static const uint8_t DIG_LENGTH              = 32;
    static const uint8_t SENSOR_DATA_LENGTH      = 8;
 
+
 /*****************************************************************/
 /* VARIABLES                                                     */
 /*****************************************************************/
    Settings m_settings;
 
    uint8_t m_dig[32];
-   uint8_t m_chip_id;
-
+   ChipModel m_chip_model;
 
    bool m_initialized;
+
 
 /*****************************************************************/
 /* ABSTRACT FUNCTIONS                                            */
@@ -264,7 +269,6 @@ private:
       uint8_t length)=0;
 
 
-
 /*****************************************************************/
 /* WORKER FUNCTIONS                                              */
 /*****************************************************************/
@@ -280,7 +284,7 @@ private:
    /// Write the settings to the chip.
    bool WriteSettings();
 
-   
+
    /////////////////////////////////////////////////////////////////
    /// Read the the chip id data from the BME280, return true if
    /// successful and the id matches a known value.
@@ -296,6 +300,7 @@ private:
    /// true if successful.
    bool ReadData(
       int32_t data[8]);
+
 
    /////////////////////////////////////////////////////////////////
    /// Calculate the temperature from the BME280 raw data and
@@ -319,8 +324,6 @@ private:
       int32_t raw,
       int32_t t_fine,
       PresUnit unit = PresUnit_Pa);
-
-
 
 };
 

@@ -24,7 +24,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [float pres(PresUnit unit)](#methods)
       - [float hum()](#methods)
       - [void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)](#methods)
-      - [uint8_t chipID()](#methods)
+      - [ChipModel chipModel()](#methods)
 
 9. [Environment Calculations](#environment-calculations)
       - [float Alitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
@@ -105,9 +105,15 @@ or
    * Filter_8
    * Filter_16
 
+#### ChipModel Enum
+   * ChipModel_Unknown
+   * ChipModel_BME280
+   * ChipModel_BMP280
+
 ## Settings
 
 #### BME280::Settings Struct
+```
     * Temperature Oversampling Rate (tempOSR): OSR Enum, default = OSR_X1
 
     * Humidity Oversampling Rate (humOSR): OSR Enum, default = OSR_X1
@@ -122,14 +128,14 @@ or
 
     * SPI Enable: SpiEnable Enum, default = false
       values: true = enable, false = disable
-
+```
 
 #### BME280I2C::Settings Struct
 
    * Includes all fields in BME280 settings.
 ```
    * BME 280 Address (bme280Addr): uint8_t, default = 0x76
-````
+```
 #### BME280Spi::Settings Struct
 
    * Includes all fields in BME280 settings.
@@ -172,14 +178,14 @@ or
 
   Method used at start up to initialize the class. Starts the I2C or SPI interface. Can be called again to re-initialize the mode settings.
  ```
- * return: bool, true = success, false = failure (no device found)
+   * return: bool, true = success, false = failure (no device found)
  ```
 
 #### void setSettings(const Settings& settings)
 
   Method to set the sensor settings.
-  
-  
+
+
 #### const Settings& getSettings() const
 
   Method to get the sensor settings.
@@ -187,26 +193,32 @@ or
 #### float temp(TempUnit unit)
 
   Read the temperature from the BME280 and return a float.
-  Return: float = temperature
+```
+    return: float = temperature
 
     * unit: tempUnit, default = TempUnit_Celsius
+```
 
 #### float pres(PresUnit unit)
 
   Read the pressure from the BME280 and return a float with the specified unit.
-  Return: float = pressure
+```
+    return: float = pressure
 
     * unit: uint8_t, default = PresUnit_Pa
+```
 
 #### float hum()
 
   Read the humidity from the BME280 and return a percentage as a float.
+```
     * return: float = percent relative humidity
-
+```
 #### void  read(float& pressure, float& temp, float& humidity, TempUnit tempUnit, PresUnit presUnit)
 
   Read the data from the BME280 with the specified units.
-  Return: None, however, pressure, temp and humidity are changed.
+```
+    return: None, however, pressure, temp and humidity are changed.
 
     * Pressure: float, reference
       values: reference to storage float for pressure
@@ -220,13 +232,12 @@ or
     * tempUnit: tempUnit, default = TempUnit_Celsius
 
     * presUnit: uint8_t, default = PresUnit_Pa
+```
 
-#### uint8_t chipID()
-   Returns the chip identification number.
-   ```
-    * return: uint8_t 0x60 = BME ID, 0x58 = BMP ID
-   ```
-
+#### ChipModel chipModel()
+```
+    * return: [ChipModel](#chipmodel-enum) enum
+```
 
 ## Environment Calculations
 
@@ -234,7 +245,7 @@ or
 
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
-
+```
     * Pressure: float, unit = Pa
       values: any float
 
@@ -243,13 +254,14 @@ or
 
     * Sea Level Pressure: float, unit = Pa, default = 101325
       values:  any float
+```
 
 #### float SealevelAlitude(float alitude, float temp, float pres)
 
   Convert current pressure to sea-level pressure, returns
   Altitude (in meters), temperature in Celsius
-
-  Return: The equivalent pressure at sea level.
+```
+    return: The equivalent pressure at sea level.
 
     * alitude: float
       values: meters
@@ -258,11 +270,13 @@ or
       values: celsius
 
     * hum: float
+```
 
 #### float DewPoint(float temp, float hum, bool metric = true)
 
   Calculate the dew point based on the temperature and humidity with the specified units.
-  Return: float = dew point
+```
+    return: float = dew point
 
     * Temperature: float, unit = Celsius if metric is true, Fahrenheit if metric is false
       values: any float
@@ -272,7 +286,7 @@ or
 
     * Metric: bool, default = true
       values: true = return degrees Celsius, false = return degrees Fahrenheit
-
+```
 
 
 ## Contributing

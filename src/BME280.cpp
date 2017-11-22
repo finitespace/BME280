@@ -68,12 +68,18 @@ bool BME280::ReadChipID()
 
    ReadRegister(ID_ADDR, &id[0], 1);
 
-   if (id[0] != BME_ID && id[0] != BMP_ID)
+   switch(id[0])
    {
+      case ChipModel_BME280:
+         m_chip_model = ChipModel_BME280;
+         break;
+      case ChipModel_BMP280:
+         m_chip_model = ChipModel_BMP280;
+         break;
+      default:
+         m_chip_model = ChipModel_UNKNOWN;
          return false;
    }
-
-   m_chip_id = id[0];
 
    return true;
 }
@@ -392,9 +398,9 @@ void BME280::read
 
 
 /****************************************************************/
-uint8_t BME280::chipID
+BME280::ChipModel BME280::chipModel
 (
 )
 {
-   return m_chip_id;
+   return m_chip_model;
 }
