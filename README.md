@@ -39,7 +39,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 
 ## Summary
 
-Reads temperature, humidity, and pressure. Calculates altitude and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
+Reads temperature, humidity, and pressure. Calculates altitude, equivalent sea level pressure and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
 
 ## Installation
 
@@ -241,22 +241,38 @@ or
 
 ## Environment Calculations
 
-#### float Altitude(float pressure, bool metric = true, float seaLevelPressure = 101325)
+#### float Altitude(float pressure, AltitudeUnit = AltitudeUnit_Meters, float seaLevelPressure = 1013.25, outsideTemp = 15.0, TempUnit = TempUnit_Celsius)
 
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
 ```
-    * Pressure: float, unit = Pa
-      values: any float
+    * Pressure: float
+      values: unit independent
 
-    * Metric: bool, default = true
-      values: true = meters, false = feet
+    * AltitudeUnit: default = AltitudeUnit_Meters
+      values:  AltitudeUnit_Meters, AltitudeUnit_Feet
 
-    * Sea Level Pressure: float, unit = Pa, default = 101325
-      values:  any float
+    * Sea Level Pressure: float, default = 1013.25
+      values:  unit independent
+      
+    * outsideTemp: float, default = 15.0
+      values:  any float related to TempUnit
+      
+    * TempUnit: default = TempUnit_Celsius
+      values: TempUnit_Celsius, TempUnit_Fahrenheit
+      
+      Note: The formula evaluates the height difference based on difference of pressure. 
+     - May be used to evaluate altitude over MSL. (default set)
+                (default referencePressure, default outsideTemp parameters ~ ISA standard) 
+                The altitude is derived from QNH, used in aviation.
+     - May be used to evaluate height over MSL
+                (referencePressure should be equal to QFF read in meteorologic synoptic maps, 
+                outsideTemp should be equal to local temperature) 
+     - May be used to evaluate the height difference between two points
+                (referencePressure should be set to the pressure on the lower point.)
 ```
 
-#### float EquivalentSeaLevelPressure(float altitude, float temp, float pres)
+#### float EquivalentSeaLevelPressure(float altitude, float temp, float pres, AltitudeUnit altUnit, TempUnit tempUnit )
 
   Convert current pressure to equivalent sea-level pressure.
 
@@ -271,22 +287,32 @@ or
 
     * pres: float
       values: unit independent
+      
+    * AltitudeUnit: default = AltitudeUnit_Meters
+      values:  AltitudeUnit_Meters, AltitudeUnit_Feet
+      
+    * TempUnit: default = TempUnit_Celsius
+      values: TempUnit_Celsius, TempUnit_Fahrenheit
+      
+      Note: To get correct EquivalentSeaLevel pressure (QNH or QFF) the altitude value should be independent
+      on measured pressure. It is necessary to use fixed altitude point e.g. the altitude of barometer 
+      read in map.
 ```
 
-#### float DewPoint(float temp, float hum, bool metric = true)
+#### float DewPoint(float temp, float hum, TempUnit = TempUnit_Celsius)
 
   Calculate the dew point based on the temperature and humidity with the specified units.
 ```
     return: float = dew point
 
-    * Temperature: float, unit = Celsius if metric is true, Fahrenheit if metric is false
-      values: any float
+    * Temperature: float
+      values: any float related to TempUnit
 
     * Humidity: float, unit = % relative humidity
       values: any float
 
-    * Metric: bool, default = true
-      values: true = return degrees Celsius, false = return degrees Fahrenheit
+    * TempUnit: TempUnit, default = TempUnit_Celsius
+      values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
 ```
 
 
