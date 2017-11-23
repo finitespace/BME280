@@ -39,7 +39,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 
 ## Summary
 
-Reads temperature, humidity, and pressure. Calculates altitude,  and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
+Reads temperature, humidity, and pressure. Calculates altitude, equivalent sea level pressure and dew point. Provides functions for english and metric. Also reads pressure in Pa, hPa, inHg, atm, bar, torr, N/m^2 and psi.
 
 ## Installation
 
