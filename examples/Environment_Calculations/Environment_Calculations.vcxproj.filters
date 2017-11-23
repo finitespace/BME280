@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{f1f1b336-699e-4cdc-9e59-860bcb87eaac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly">
+      <UniqueIdentifier>{b45d90fc-573e-4fc7-9bf7-5cd98f38e19e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\core">
+      <UniqueIdentifier>{ba995716-a646-421f-9c39-fdc08190cff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries">
+      <UniqueIdentifier>{569a6bd3-4823-4465-9e9c-94ffd9ae0214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries\BME280">
+      <UniqueIdentifier>{bc2ee882-fe99-4cab-8cd7-5d9d9dfb1e83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries\SPI">
+      <UniqueIdentifier>{38ed894d-10e7-42d0-8410-ffee039cb17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries\Wire">
+      <UniqueIdentifier>{5c8780b2-4bab-421b-b4df-4f0f45883172}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Environment_Calculations.ino" />
+    <None Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\wiring_pulse.S">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </None>
+    <None Include="..\..\..\..\libraries\BME280\library.properties">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\SPI\library.properties">
+      <Filter>src\_micro-api-readonly\libraries\SPI</Filter>
+    </None>
+    <None Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\library.properties">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\abi.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\CDC.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial0.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial1.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial2.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial3.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\IPAddress.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\main.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\new.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\PluggableUSB.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Print.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Stream.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Tone.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\USBCore.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\WMath.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\WString.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\BME280.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\BME280I2C.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\BME280I2C_BRZO.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\BME280Spi.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\BME280SpiSw.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libraries\BME280\src\EnvironmentCalculations.cpp">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\SPI\src\SPI.cpp">
+      <Filter>src\_micro-api-readonly\libraries\SPI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\src\Wire.cpp">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\src\utility\twi.c">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Arduino.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\binary.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Client.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\HardwareSerial_private.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\IPAddress.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\new.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\PluggableUSB.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Print.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Printable.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Server.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Stream.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\Udp.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\USBAPI.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\USBCore.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\USBDesc.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\WCharacter.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\wiring_private.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\cores\arduino\WString.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\variants\standard\pins_arduino.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\BME280.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\BME280I2C.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\BME280I2C_BRZO.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\BME280Spi.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\BME280SpiSw.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libraries\BME280\src\EnvironmentCalculations.h">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\SPI\src\SPI.h">
+      <Filter>src\_micro-api-readonly\libraries\SPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\src\Wire.h">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\src\utility\twi.h">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.Environment_Calculations.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\libraries\BME280\keywords.txt">
+      <Filter>src\_micro-api-readonly\libraries\BME280</Filter>
+    </Text>
+    <Text Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\SPI\keywords.txt">
+      <Filter>src\_micro-api-readonly\libraries\SPI</Filter>
+    </Text>
+    <Text Include="..\..\..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.20\libraries\Wire\keywords.txt">
+      <Filter>src\_micro-api-readonly\libraries\Wire</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
