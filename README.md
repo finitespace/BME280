@@ -272,7 +272,7 @@ or
                 (referencePressure should be set to the pressure on the lower point.)
 ```
 
-#### float EquivalentSeaLevelPressure(float altitude, float temp, float pres)
+#### float EquivalentSeaLevelPressure(float altitude, float temp, float pres, AltitudeUnit altUnit, TempUnit tempUnit )
 
   Convert current pressure to equivalent sea-level pressure.
 
@@ -287,6 +287,12 @@ or
 
     * pres: float
       values: unit independent
+      
+    * AltitudeUnit: default = AltitudeUnit_Meters
+      values:  AltitudeUnit_Meters, AltitudeUnit_Feet
+      
+    * TempUnit: default = TempUnit_Celsius
+      values: TempUnit_Celsius, TempUnit_Fahrenheit
       
       Note: To get correct EquivalentSeaLevel pressure (QNH or QFF) the altitude value should be independent
       on measured pressure. It is necessary to use fixed altitude point e.g. the altitude of barometer 
