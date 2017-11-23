@@ -51,7 +51,9 @@ namespace EnvironmentCalculations
   float Altitude(
     float pressure,
     AltitudeUnit altUnit = AltitudeUnit_Meters,
-    float seaLevelPressure = 101325);
+    float referencePressure = 1013.25,   // [hPa] ....ISA value
+    float outdoorTemp = 15,              // [°C] .... ISA value
+    TempUnit tempUnit = TempUnit_Celsius);
 
   /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
@@ -61,7 +63,9 @@ namespace EnvironmentCalculations
   float EquivalentSeaLevelPressure(
     float altitude,
     float temp,
-    float pres);
+    float pres,
+    AltitudeUnit altUnit = AltitudeUnit_Meters,
+    TempUnit tempUnit = TempUnit_Celsius);
 
 
   /////////////////////////////////////////////////////////////////
