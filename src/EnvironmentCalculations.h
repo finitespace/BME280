@@ -45,32 +45,48 @@ namespace EnvironmentCalculations
    };
 
   /////////////////////////////////////////////////////////////////
-  /// Calculate the altitude based on the pressure with the
-  /// specified units.
-  /// @param seaLevelPressure given in Pa.
+  /// Calculate the altitude based on the pressure and temperature
+  /// in temptUnit.
+  /// @param pressure at the station in any units.
+  /// @param altUnit meters or feets. default=AltitudeUnit_Meters
+  /// @param referencePressure (usually pressure on MSL) 
+  ///          in the same units as pressure. default=1013.25hPa (ISA) 
+  /// @param outdoorTemp temperature at the station in tempUnit
+  ///          default=15°C (ISA)
+  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
   float Altitude(
     float pressure,
     AltitudeUnit altUnit = AltitudeUnit_Meters,
-    float seaLevelPressure = 101325);
+    float referencePressure = 1013.25,   // [hPa] ....ISA value
+    float outdoorTemp = 15,              // [°C] .... ISA value
+    TempUnit tempUnit = TempUnit_Celsius);
 
   /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
-  /// @param altitude in meters.
-  /// @param temp in Celsius.
-  /// @return the equivalent pressure at sea level.
+  /// @param altitude in altUnit.
+  /// @param temp in tempUnit.
+  /// @param pressure at the station in any units.
+  /// @param altUnit meters or feets. default=AltitudeUnit_Meters
+  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
+  /// @return the equivalent pressure at sea level
+  ///          in the same units as entered local pressure.
   float EquivalentSeaLevelPressure(
     float altitude,
     float temp,
-    float pres);
-
+    float pres,
+    AltitudeUnit altUnit = AltitudeUnit_Meters,
+    TempUnit tempUnit = TempUnit_Celsius);
 
   /////////////////////////////////////////////////////////////////
-  /// Calculate the dew point based on the temperature and
-  /// humidity with the specified units.
+  /// Calculate the dew point based on the temperature in tempUnit
+  /// and humidity.
+  /// @param temp in tempUnit.
+  /// @param hum in %.
+  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
   float DewPoint(
     float temp,
     float hum,
-    TempUnit tempUnit);
+    TempUnit tempUnit = TempUnit_Celsius);
 
 }
 
