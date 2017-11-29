@@ -246,6 +246,8 @@ or
   Calculate the altitude based on the pressure with the specified units.
   Return: float = altitude
 ```
+    Return: float altitude
+    
     * Pressure: float
       values: unit independent
 
@@ -277,7 +279,7 @@ or
   Convert current pressure to equivalent sea-level pressure.
 
 ```
-    return: The equivalent pressure at sea level.
+    Return: float equivalent pressure at sea level.
 
     * altitude: float
       values: meters
@@ -303,7 +305,7 @@ or
 
   Calculate the dew point based on the temperature and humidity with the specified units.
 ```
-    return: float = dew point
+    return: float dew point
 
     * Temperature: float
       values: any float related to TempUnit
