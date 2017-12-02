@@ -205,7 +205,7 @@ or
 ```
     return: float = pressure
 
-    * unit: uint8_t, default = PresUnit_Pa
+    * presUnit: uint8_t, default = PresUnit_hPa
 ```
 
 #### float hum()
@@ -231,7 +231,7 @@ or
 
     * tempUnit: tempUnit, default = TempUnit_Celsius
 
-    * presUnit: uint8_t, default = PresUnit_Pa
+    * presUnit: uint8_t, default = PresUnit_hPa
 ```
 
 #### ChipModel chipModel()
@@ -244,7 +244,6 @@ or
 #### float Altitude(float pressure, AltitudeUnit = AltitudeUnit_Meters, float seaLevelPressure = 1013.25, outsideTemp = 15.0, TempUnit = TempUnit_Celsius)
 
   Calculate the altitude based on the pressure with the specified units.
-  Return: float = altitude
 ```
     Return: float altitude
     
