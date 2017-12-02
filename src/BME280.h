@@ -173,7 +173,7 @@ public:
    /// Read the pressure from the BME280 and return a float with the
    /// specified unit.
    float pres(
-      PresUnit unit = PresUnit_Pa);
+      PresUnit unit = PresUnit_hPa);
 
    /////////////////////////////////////////////////////////////////
    /// Read the humidity from the BME280 and return a percentage
@@ -187,7 +187,7 @@ public:
       float&    temperature,
       float&    humidity,
       TempUnit  tempUnit    = TempUnit_Celsius,
-      PresUnit  presUnit    = PresUnit_Pa);
+      PresUnit  presUnit    = PresUnit_hPa);
 
 
 /*****************************************************************/
@@ -336,7 +336,7 @@ private:
    float CalculatePressure(
       int32_t raw,
       int32_t t_fine,
-      PresUnit unit = PresUnit_Pa);
+      PresUnit unit = PresUnit_hPa);
 
 };
 
