@@ -39,11 +39,10 @@ BME280I2C::Settings settings(
    BME280::StandbyTime_1000ms,
    BME280::Filter_16,
    BME280::SpiEnable_False,
-   0x76 // I2C address. I2C specific.
+   BME280I2C::I2CAddr_0x76
 );
 
-BME280I2C bme(settings);    // Default : forced mode, standby time = 1000 ms
-                  // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
+BME280I2C bme(settings);
 
 //////////////////////////////////////////////////////////////////
 void setup()

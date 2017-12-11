@@ -108,6 +108,7 @@ void BME280::setSettings
    WriteSettings();
 }
 
+
 /****************************************************************/
 const BME280::Settings& BME280::getSettings() const
 {

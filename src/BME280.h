@@ -194,13 +194,6 @@ public:
 /* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
 
-   /////////////////////////////////////////////////////////////////
-   void setSettings(
-      const Settings& settings);
-
-   /////////////////////////////////////////////////////////////////
-   const Settings& getSettings() const;
-
    ////////////////////////////////////////////////////////////////
    /// Method used to return ChipModel.
    ChipModel chipModel();
@@ -217,14 +210,15 @@ protected:
 
 
 /*****************************************************************/
-/* ACCESS FUNCTIONS                                              */
+/* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
 
-//uint8_t&  getMode();
-//uint8_t*  getDig();
-//uint8_t&  getControlHumidity();
-//uint8_t&  getControlMeasure();
-//uint8_t&  getConfig();
+   /////////////////////////////////////////////////////////////////
+   virtual void setSettings(
+      const Settings& settings);
+
+   /////////////////////////////////////////////////////////////////
+   virtual const Settings& getSettings() const;
 
 
 private:
