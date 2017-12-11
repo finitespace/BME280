@@ -44,6 +44,7 @@ namespace EnvironmentCalculations
       AltitudeUnit_Feet
    };
 
+
   /////////////////////////////////////////////////////////////////
   /// Calculate the altitude based on the pressure and temperature
   /// in temptUnit.
@@ -61,6 +62,19 @@ namespace EnvironmentCalculations
     float referencePressure = 1013.25,   // [hPa] ....ISA value
     float outdoorTemp = 15,              // [°C] .... ISA value
     TempUnit tempUnit = TempUnit_Celsius);
+
+  /////////////////////////////////////////////////////////////////
+  /// Calculate the heatindex based on the humidty and temperature
+  /// in tempUnit.
+  /// the heatindex does work for values above 26.7°C/80°F and 40% humidity.
+  /// @param temperature in tempUnit
+  /// @param humidty in percentage
+  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
+  /// @return Calculated Heatindex as Integer
+  int Heatindex(
+    float temperature,		//
+    float humidity,              //
+    TempUnit tempUnit = TempUnit_Celsius); //
 
   /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
