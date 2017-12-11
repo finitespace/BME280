@@ -20,8 +20,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Written: Oct 7 2017.
-Last Updated: Oct 7 2017.
-This code is licensed under the GNU LGPL and is open for ditrbution
+Last Updated: Dec 11 2017.
+This code is licensed under the GNU LGPL and is open for distrbution
 and copying in accordance with the license.
 This header must be included in any derived code or copies of the code.
 
@@ -48,12 +48,13 @@ namespace EnvironmentCalculations
   /// Calculate the altitude based on the pressure and temperature
   /// in temptUnit.
   /// @param pressure at the station in any units.
-  /// @param altUnit meters or feets. default=AltitudeUnit_Meters
-  /// @param referencePressure (usually pressure on MSL) 
-  ///          in the same units as pressure. default=1013.25hPa (ISA) 
+  /// @param altUnit meters or feet. default=AltitudeUnit_Meters
+  /// @param referencePressure (usually pressure on MSL)
+  ///          in the same units as pressure. default=1013.25hPa (ISA)
   /// @param outdoorTemp temperature at the station in tempUnit
   ///          default=15°C (ISA)
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
+  /// @return Calculated Altitude in altUnit.
   float Altitude(
     float pressure,
     AltitudeUnit altUnit = AltitudeUnit_Meters,
@@ -66,10 +67,11 @@ namespace EnvironmentCalculations
   /// @param altitude in altUnit.
   /// @param temp in tempUnit.
   /// @param pressure at the station in any units.
-  /// @param altUnit meters or feets. default=AltitudeUnit_Meters
+  /// @param altUnit meters or feet. default=AltitudeUnit_Meters
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
-  /// @return the equivalent pressure at sea level
-  ///          in the same units as entered local pressure.
+  /// @return Equivalent pressure at sea level. The input pressure
+  ///          unit will determine the output
+  ///          pressure unit.
   float EquivalentSeaLevelPressure(
     float altitude,
     float temp,

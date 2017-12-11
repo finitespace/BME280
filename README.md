@@ -43,7 +43,7 @@ Reads temperature, humidity, and pressure. Calculates altitude, equivalent sea l
 
 ## Installation
 
-To use this library download the zip file, uncompress it to a folder named BME280. Move the folder to {Arduino Path}/libraries.
+To use this library download the zip file, decompress it to a folder named BME280. Move the folder to {Arduino Path}/libraries.
 
 ## Usage
 

@@ -47,7 +47,7 @@ public:
          OSR _posr       = OSR_X1,
          Mode _mode      = Mode_Forced,
          StandbyTime _st = StandbyTime_1000ms,
-         Filter _filter  = Filter_Off,
+         Filter _filter  = Filter_16,
          SpiEnable _se   = SpiEnable_False,
          uint8_t _addr   = 0x76
         ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),

@@ -25,12 +25,24 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 
 #define SERIAL_BAUD 115200
 
-// Assumed envitronmental values: 
-float referencePressure = 1018.6;  // hPa local QFF (official meteo-station reading)
+// Assumed environmental values:
+float referencePressure = 1018.6;  // hPa local QFF (official meteor-station reading)
 float outdoorTemp = 4.7;           // °C  measured local outdoor temp.
-float barometerAltitude = 185.45;  // meters ... map readings + barometer position
+float barometerAltitude = 1650.3;  // meters ... map readings + barometer position
 
-BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
+
+BME280I2C::Settings settings(
+   BME280::OSR_X1,
+   BME280::OSR_X1,
+   BME280::OSR_X1,
+   BME280::Mode_Forced,
+   BME280::StandbyTime_1000ms,
+   BME280::Filter_16,
+   BME280::SpiEnable_False,
+   0x76 // I2C address. I2C specific.
+);
+
+BME280I2C bme(settings);    // Default : forced mode, standby time = 1000 ms
                   // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
 
 //////////////////////////////////////////////////////////////////
@@ -94,18 +106,18 @@ void printBME280Data
    client->print("% RH");
    client->print("\t\tPressure: ");
    client->print(pres);
-   client->print(String(presUnit == BME280::PresUnit_hPa ? " hPa" : " Pa")); // expected hPa and Pa only 
+   client->print(String(presUnit == BME280::PresUnit_hPa ? "hPa" : "Pa")); // expected hPa and Pa only
 
    EnvironmentCalculations::AltitudeUnit envAltUnit  =  EnvironmentCalculations::AltitudeUnit_Meters;
    EnvironmentCalculations::TempUnit     envTempUnit =  EnvironmentCalculations::TempUnit_Celsius;
 
-   /// To get correct local altitude/height (QNE) the reference Pressure 
-   ///    should be taken from meteorologic messages (QNH or QFF) 
+   /// To get correct local altitude/height (QNE) the reference Pressure
+   ///    should be taken from meteorologic messages (QNH or QFF)
    float altitude = EnvironmentCalculations::Altitude(pres, envAltUnit, referencePressure, outdoorTemp, envTempUnit);
 
    float dewPoint = EnvironmentCalculations::DewPoint(temp, hum, envTempUnit);
-   
-   /// To get correct seaLevel pressure (QNH, QFF) 
+
+   /// To get correct seaLevel pressure (QNH, QFF)
    ///    the altitude value should be independent on measured pressure.
    /// It is necessary to use fixed altitude point e.g. the altitude of barometer read in a map
    float seaLevel = EnvironmentCalculations::EquivalentSeaLevelPressure(barometerAltitude, temp, pres, envAltUnit, envTempUnit);
@@ -118,7 +130,7 @@ void printBME280Data
    client->print("°"+ String(envTempUnit == EnvironmentCalculations::TempUnit_Celsius ? "C" :"F"));
    client->print("\t\tEquivalent Sea Level Pressure: ");
    client->print(seaLevel);
-   client->println(String( presUnit == BME280::PresUnit_hPa ? " hPa" :" Pa")); // expected hPa and Pa only 
+   client->println(String( presUnit == BME280::PresUnit_hPa ? "hPa" :"Pa")); // expected hPa and Pa only
 
    delay(1000);
 }

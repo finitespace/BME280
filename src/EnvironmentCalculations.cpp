@@ -46,7 +46,7 @@ float EnvironmentCalculations::Altitude
   if (!isnan(pressure) && !isnan(referencePressure) && !isnan(outdoorTemp))
   {
       if(tempUnit != TempUnit_Celsius)
-          outdoorTemp = (outdoorTemp - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+          outdoorTemp = (outdoorTemp - 32.0) * (5.0 / 9.0); /*conversion to [ï¿½C]*/
 
       altitude = pow(referencePressure / pressure, 0.190234) - 1;
       altitude *= ((outdoorTemp + 273.15) / 0.0065);
@@ -70,8 +70,8 @@ float EnvironmentCalculations::EquivalentSeaLevelPressure
     if(!isnan(altitude) && !isnan(temp) && !isnan(pres))
     {
         if(tempUnit != TempUnit_Celsius)
-            temp = (temp - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
-        
+            temp = (temp - 32.0) * (5.0 / 9.0); /*conversion to [ï¿½C]*/
+
         if(altUnit != AltitudeUnit_Meters)
             altitude *= 0.3048; /*conversion to meters*/
 
