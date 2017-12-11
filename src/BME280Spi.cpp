@@ -39,7 +39,7 @@ BME280Spi::BME280Spi
    const Settings& settings
 )
 :BME280(settings),
- csPin(settings.spiCsPin)
+ m_settings(settings)
 {
 }
 
@@ -47,12 +47,28 @@ BME280Spi::BME280Spi
 /****************************************************************/
 bool BME280Spi::Initialize()
 {
-   pinMode(csPin, OUTPUT);
-   digitalWrite(csPin, HIGH);
+   pinMode(m_settings.spiCsPin, OUTPUT);
+   digitalWrite(m_settings.spiCsPin, HIGH);
 
    return BME280::Initialize();
 }
 
+/****************************************************************/
+void BME280Spi::setSettings
+(
+   const Settings& settings
+)
+{
+   m_settings = settings;
+   BME280::setSettings(settings);
+}
+
+
+/****************************************************************/
+const BME280Spi::Settings& BME280Spi::getSettings() const
+{
+   return m_settings;
+}
 
 /****************************************************************/
 bool BME280Spi::ReadRegister
@@ -69,7 +85,7 @@ bool BME280Spi::ReadRegister
    uint8_t readAddr = addr |   BME280_SPI_READ;
 
    //select the device
-   digitalWrite(csPin, LOW);
+   digitalWrite(m_settings.spiCsPin, LOW);
    // transfer the addr
    SPI.transfer(readAddr);
 
@@ -81,7 +97,7 @@ bool BME280Spi::ReadRegister
    }
 
    // de-select the device
-   digitalWrite(csPin, HIGH);
+   digitalWrite(m_settings.spiCsPin, HIGH);
 
    SPI.endTransaction();
 
@@ -103,14 +119,14 @@ bool BME280Spi::WriteRegister
    uint8_t writeAddr = addr & ~0x80;
 
    // select the device
-   digitalWrite(csPin, LOW);
+   digitalWrite(m_settings.spiCsPin, LOW);
 
    // transfer the addr and then the data to spi device
    SPI.transfer(writeAddr);
    SPI.transfer(data);
 
    // de-select the device
-   digitalWrite(csPin, HIGH);
+   digitalWrite(m_settings.spiCsPin, HIGH);
 
    SPI.endTransaction();
 

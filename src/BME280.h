@@ -173,7 +173,7 @@ public:
    /// Read the pressure from the BME280 and return a float with the
    /// specified unit.
    float pres(
-      PresUnit unit = PresUnit_Pa);
+      PresUnit unit = PresUnit_hPa);
 
    /////////////////////////////////////////////////////////////////
    /// Read the humidity from the BME280 and return a percentage
@@ -187,19 +187,12 @@ public:
       float&    temperature,
       float&    humidity,
       TempUnit  tempUnit    = TempUnit_Celsius,
-      PresUnit  presUnit    = PresUnit_Pa);
+      PresUnit  presUnit    = PresUnit_hPa);
 
 
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
-
-   /////////////////////////////////////////////////////////////////
-   void setSettings(
-      const Settings& settings);
-
-   /////////////////////////////////////////////////////////////////
-   const Settings& getSettings() const;
 
    ////////////////////////////////////////////////////////////////
    /// Method used to return ChipModel.
@@ -217,14 +210,15 @@ protected:
 
 
 /*****************************************************************/
-/* ACCESS FUNCTIONS                                              */
+/* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
 
-//uint8_t&  getMode();
-//uint8_t*  getDig();
-//uint8_t&  getControlHumidity();
-//uint8_t&  getControlMeasure();
-//uint8_t&  getConfig();
+   /////////////////////////////////////////////////////////////////
+   virtual void setSettings(
+      const Settings& settings);
+
+   /////////////////////////////////////////////////////////////////
+   virtual const Settings& getSettings() const;
 
 
 private:
@@ -336,7 +330,7 @@ private:
    float CalculatePressure(
       int32_t raw,
       int32_t t_fine,
-      PresUnit unit = PresUnit_Pa);
+      PresUnit unit = PresUnit_hPa);
 
 };
 

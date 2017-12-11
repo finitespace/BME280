@@ -42,9 +42,25 @@ BME280I2C_BRZO::BME280I2C_BRZO
 (
   const Settings& settings
 ):BME280I2C(settings),
-  m_bme_280_addr(settings.bme280Addr),
-  m_i2c_clock_rate(settings.i2cClockRate)
+  m_settings(settings)
 {
+}
+
+/****************************************************************/
+void BME280I2C_BRZO::setSettings
+(
+   const Settings& settings
+)
+{
+   m_settings = settings;
+   BME280::setSettings(settings);
+}
+
+
+/****************************************************************/
+const BME280I2C_BRZO::Settings& BME280I2C_BRZO::getSettings() const
+{
+   return m_settings;
 }
 
 
@@ -58,7 +74,7 @@ bool BME280I2C_BRZO::WriteRegister
     uint8_t bf[2];
     bf[0] = addr;
     bf[1] = data;
-    brzo_i2c_start_transaction(m_bme_280_addr, m_i2c_clock_rate);
+    brzo_i2c_start_transaction(m_settings.bme280Addr, m_settings.i2cClockRate);
     brzo_i2c_write(bf, 2, false);
     return (brzo_i2c_end_transaction()==0);
 }
@@ -71,7 +87,7 @@ bool BME280I2C_BRZO::ReadRegister
   uint8_t length
 )
 {
-    brzo_i2c_start_transaction(m_bme_280_addr, m_i2c_clock_rate);
+    brzo_i2c_start_transaction(m_settings.bme280Addr, m_settings.i2cClockRate);
     brzo_i2c_write(&addr, 1, true);
     brzo_i2c_read(data, length, false);
     brzo_i2c_end_transaction();
