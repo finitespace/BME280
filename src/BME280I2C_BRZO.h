@@ -66,12 +66,23 @@ public:
       const Settings& settings = Settings());
 
 
+/*****************************************************************/
+/* ACCESSOR FUNCTIONS                                            */
+/*****************************************************************/
+
+   /////////////////////////////////////////////////////////////////
+   virtual void setSettings(
+      const Settings& settings);
+
+   /////////////////////////////////////////////////////////////////
+   const Settings& getSettings() const;
+
+
 protected:
 
 private:
 
-   uint8_t m_bme_280_addr;
-   uint16_t m_i2c_clock_rate;
+   Settings m_settings;
 
    //////////////////////////////////////////////////////////////////
    /// Write values to BME280 registers.

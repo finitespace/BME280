@@ -246,7 +246,7 @@ or
   Calculate the altitude based on the pressure with the specified units.
 ```
     Return: float altitude
-    
+
     * Pressure: float
       values: unit independent
 
@@ -255,20 +255,20 @@ or
 
     * Sea Level Pressure: float, default = 1013.25
       values:  unit independent
-      
+
     * outsideTemp: float, default = 15.0
       values:  any float related to TempUnit
-      
+
     * TempUnit: default = TempUnit_Celsius
       values: TempUnit_Celsius, TempUnit_Fahrenheit
-      
-      Note: The formula evaluates the height difference based on difference of pressure. 
+
+      Note: The formula evaluates the height difference based on difference of pressure.
      - May be used to evaluate altitude over MSL. (default set)
-                (default referencePressure, default outsideTemp parameters ~ ISA standard) 
+                (default referencePressure, default outsideTemp parameters ~ ISA standard)
                 The altitude is derived from QNH, used in aviation.
      - May be used to evaluate height over MSL
-                (referencePressure should be equal to QFF read in meteorologic synoptic maps, 
-                outsideTemp should be equal to local temperature) 
+                (referencePressure should be equal to QFF read in meteorologic synoptic maps,
+                outsideTemp should be equal to local temperature)
      - May be used to evaluate the height difference between two points
                 (referencePressure should be set to the pressure on the lower point.)
 ```
@@ -288,15 +288,15 @@ or
 
     * pres: float
       values: unit independent
-      
+
     * AltitudeUnit: default = AltitudeUnit_Meters
       values:  AltitudeUnit_Meters, AltitudeUnit_Feet
-      
+
     * TempUnit: default = TempUnit_Celsius
       values: TempUnit_Celsius, TempUnit_Fahrenheit
-      
+
       Note: To get correct EquivalentSeaLevel pressure (QNH or QFF) the altitude value should be independent
-      on measured pressure. It is necessary to use fixed altitude point e.g. the altitude of barometer 
+      on measured pressure. It is necessary to use fixed altitude point e.g. the altitude of barometer
       read in map.
 ```
 

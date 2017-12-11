@@ -62,8 +62,8 @@ float EnvironmentCalculations::EquivalentSeaLevelPressure
   float altitude,
   float temp,
   float pres,
-  AltitudeUnit altUnit = AltitudeUnit_Meters,
-  TempUnit tempUnit = TempUnit_Celsius
+  AltitudeUnit altUnit,
+  TempUnit tempUnit
 )
 {
     float seaPress = NAN;

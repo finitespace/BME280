@@ -66,6 +66,18 @@ class BME280SpiSw: public BME280{
    BME280SpiSw(
       const Settings& settings);
 
+
+/*****************************************************************/
+/* ACCESSOR FUNCTIONS                                            */
+/*****************************************************************/
+
+   /////////////////////////////////////////////////////////////////
+   virtual void setSettings(
+      const Settings& settings);
+
+   /////////////////////////////////////////////////////////////////
+   const Settings& getSettings() const;
+
 protected:
 
    ////////////////////////////////////////////////////////////////
@@ -77,11 +89,7 @@ private:
    static const uint8_t BME280_SPI_WRITE = 0x7F;
    static const uint8_t BME280_SPI_READ = 0x80;
 
-   // TODO: Move to settings object.
-   uint8_t csPin;
-   int8_t mosiPin;
-   int8_t misoPin;
-   int8_t sckPin;
+   Settings m_settings;
 
    ////////////////////////////////////////////////////////////////
    /// Does a sw spi transfer.
