@@ -70,7 +70,7 @@ namespace EnvironmentCalculations
   /// @param temperature in tempUnit
   /// @param humidty in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
-  /// @return Calculated Heatindex as Integer
+  /// @return Calculated heatindex as integer in TempUnit
   int Heatindex(
     float temperature,		//
     float humidity,              //

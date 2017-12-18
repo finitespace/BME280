@@ -64,10 +64,15 @@ int EnvironmentCalculations::Heatindex
 )
 {
   float heatindex = NAN;
+  bool metric = true
   float hi[2][9] = { {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000},
   {-42.379,2.04901523,10.1433127,-0.22475541,-6.83783/1000,-5.481717/100,1.22874/1000,8.5282/10000,-1.99/1000000} };
 
   //taken from https://de.wikipedia.org/wiki/Hitzeindex#Berechnung
+  if (tempUnit != TempUnit_Celsius)
+  {
+	  metric = false;
+  }
   if (!isnan(humidity) && !isnan(temperature) && humidity>40 && (metric ? temperature>26.7 : temperature>80)) {
     heatindex =  hi[metric ? 0: 1][0];
     heatindex =+ hi[metric ? 0: 1][1] * temperature;
