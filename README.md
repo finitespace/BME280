@@ -28,6 +28,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
 
 9. [Environment Calculations](#environment-calculations)
       - [float Altitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
+      - [float AbsoluteHumidty(float temperature, float humidity,TempUnit tempUnit = TempUnit_Celsius)](#environment-calculations)
       - [float EquivalentSeaLevelPressure(float altitude, float temp, float pres)](#environment-calculations)
       - [float DewPoint(float temp, float hum, bool metric = true)](#environment-calculations)
       - [int Heatindex(float temperature, float humidity, TempUnit tempunit = TempUnit_Celsius)](#environment-calculations)
@@ -317,6 +318,21 @@ or
       values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
 ```
 
+#### float AbsoluteHumidty(float temperature, float humidity, TempUnit = TempUnit_Celsius)
+
+  Calculate the absolute humidity based on the temperature and humidity with the specified units.
+```
+    return: float absolute humidity
+
+    * Temperature: float
+      values: any float related to TempUnit
+
+    * Humidity: float, unit = % relative humidity
+      values: any float
+
+    * TempUnit: TempUnit, default = TempUnit_Celsius
+      values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
+```
 
 #### int Heatindex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
 
