@@ -8,3 +8,4 @@ read  KEYWORD2
 Altitude KEYWORD2
 EquivalentSeaLevelPressure KEYWORD2
 DewPoint KEYWORD2
+Heatindex KEYWORD2
