@@ -352,7 +352,6 @@ or
       values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
 ```
 
-
 ## Contributing
 
 1. Fork the project.
