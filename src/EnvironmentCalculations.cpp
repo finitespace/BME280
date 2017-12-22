@@ -62,7 +62,7 @@ int EnvironmentCalculations::Heatindex
   TempUnit tempUnit
 )
 {
-  double heatindex(NAN);
+  float heatindex(NAN);
   const static float hi[9] PROGMEM = {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000};
 
   if ( !isnan(temperature) && !isnan(humidity) ) { 
