@@ -81,7 +81,6 @@ int EnvironmentCalculations::Heatindex
       heatindex += pgm_read_float(hi+6) * temperature * temperature * humidity;
       heatindex += pgm_read_float(hi+7) * temperature * humidity * humidity;
       heatindex += pgm_read_float(hi+8) * temperature * temperature * humidity * humidity;
-      Serial.print("++++  "+String(heatindex));
       if (tempUnit != TempUnit_Celsius) {
               return (int)round(heatindex * (9.0 / 5.0) + 32.0); /*conversion back to [°F]*/
       }
