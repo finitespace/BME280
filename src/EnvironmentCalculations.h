@@ -71,6 +71,7 @@ namespace EnvironmentCalculations
   /// Calculate the heatindex based on the humidity and temperature
   /// in tempUnit.
   /// the heatindex does work for values above 26.7°C/80°F and 40% humidity.
+  /// For values below  26.7°C/80°F use windchill.
   /// @param temperature in tempUnit
   /// @param humidity in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius

@@ -23,12 +23,19 @@ This header must be included in any derived code or copies of the code.
 
  */
 
+<<<<<<< HEAD
 #include "EnvironmentCalculations.h"
 
 #include <Arduino.h>
 #include <math.h>
 
 
+=======
+#include <Arduino.h>
+#include <Math.h>
+
+#include "EnvironmentCalculations.h"
+>>>>>>> fixed issue #63 from finitespace
 /****************************************************************/
 float EnvironmentCalculations::Altitude
 (
@@ -96,30 +103,46 @@ int EnvironmentCalculations::HeatIndex
   TempUnit tempUnit
 )
 {
-  float heatindex = NAN;
-  bool metric = true;
-  float hi[2][9] = { {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000},
-  {-42.379,2.04901523,10.1433127,-0.22475541,-6.83783/1000,-5.481717/100,1.22874/1000,8.5282/10000,-1.99/1000000} };
+  float heatindex(NAN);
+  const static float hi[9] PROGMEM = {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000};
 
-  //taken from https://de.wikipedia.org/wiki/Hitzeindex#Berechnung
-  if (tempUnit != TempUnit_Celsius)
-  {
-	  metric = false;
+  if ( !isnan(temperature) && !isnan(humidity) ) { 
+    if (tempUnit != TempUnit_Celsius) {
+            temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+    }
+
+    if ( humidity>40 && temperature>26.7 ) {
+      //taken from https://de.wikipedia.org/wiki/Hitzeindex#Berechnung
+      heatindex = pgm_read_float(hi);
+      heatindex += pgm_read_float(hi+1) * temperature;
+      heatindex += pgm_read_float(hi+2) * humidity;
+      heatindex += pgm_read_float(hi+3) * temperature * humidity;
+      heatindex += pgm_read_float(hi+4) * temperature * temperature;
+      heatindex += pgm_read_float(hi+5) * humidity * humidity;
+      heatindex += pgm_read_float(hi+6) * temperature * temperature * humidity;
+      heatindex += pgm_read_float(hi+7) * temperature * humidity * humidity;
+      heatindex += pgm_read_float(hi+8) * temperature * temperature * humidity * humidity;
+      Serial.print("++++  "+String(heatindex));
+      if (tempUnit != TempUnit_Celsius) {
+              return (int)round(heatindex * (9.0 / 5.0) + 32.0); /*conversion back to [°F]*/
+      }
+      else {
+	      return (int)round(heatindex);
+      }
+    }
+    // logical fallback if the formula does not apply to the given values
+    else {
+      if (tempUnit != TempUnit_Celsius) {
+              return (int)(temperature * (9.0 / 5.0) + 32.0); /*conversion back to [°F]*/
+      }
+      else {
+	      return (int)temperature;
+      }
+    }
   }
-  if (!isnan(humidity) && !isnan(temperature) && humidity>40 && (metric ? temperature>26.7 : temperature>80)) {
-    heatindex =  hi[metric ? 0: 1][0];
-    heatindex =+ hi[metric ? 0: 1][1] * temperature;
-    heatindex =+ hi[metric ? 0: 1][2] * humidity;
-    heatindex =+ hi[metric ? 0: 1][3] * temperature * humidity;
-    heatindex =+ hi[metric ? 0: 1][4] * temperature * temperature;
-    heatindex =+ hi[metric ? 0: 1][5] * humidity * humidity;
-    heatindex =+ hi[metric ? 0: 1][6] * temperature * temperature * humidity;
-    heatindex =+ hi[metric ? 0: 1][7] * temperature * humidity * humidity;
-    heatindex =+ hi[metric ? 0: 1][8] * temperature * temperature * humidity * humidity;
-    return int(heatindex);
-  }
+  // fallback if the parameter are not useful
   else {
-    return NAN;
+	  return -1;
   }
 }
 
