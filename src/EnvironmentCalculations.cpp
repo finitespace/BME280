@@ -23,19 +23,10 @@ This header must be included in any derived code or copies of the code.
 
  */
 
-<<<<<<< HEAD
-#include "EnvironmentCalculations.h"
-
-#include <Arduino.h>
-#include <math.h>
-
-
-=======
 #include <Arduino.h>
 #include <Math.h>
 
 #include "EnvironmentCalculations.h"
->>>>>>> fixed issue #63 from finitespace
 /****************************************************************/
 float EnvironmentCalculations::Altitude
 (
