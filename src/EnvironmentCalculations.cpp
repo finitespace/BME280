@@ -141,7 +141,7 @@ int EnvironmentCalculations::HeatIndex
   }
   // fallback if the parameter are not useful
   else {
-	  return -1;
+	  return NAN;
   }
 }
 
