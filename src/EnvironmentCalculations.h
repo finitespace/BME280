@@ -32,12 +32,16 @@ This header must be included in any derived code or copies of the code.
 
 namespace EnvironmentCalculations
 {
+  /////////////////////////////////////////////////////////////////
+  /// Temperature unit enumeration.
    enum TempUnit
    {
       TempUnit_Celsius,
       TempUnit_Fahrenheit
    };
 
+  /////////////////////////////////////////////////////////////////
+  /// Altitude unit enumeration.
    enum AltitudeUnit
    {
       AltitudeUnit_Meters,
@@ -71,10 +75,25 @@ namespace EnvironmentCalculations
   /// @param humidty in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
   /// @return Calculated heatindex as integer in TempUnit
-  int Heatindex(
-    float temperature,		//
-    float humidity,              //
-    TempUnit tempUnit = TempUnit_Celsius); //
+  int HeatIndex(
+    float temperature,		
+    float humidity,              
+    TempUnit tempUnit = TempUnit_Celsius); 
+
+  /////////////////////////////////////////////////////////////////
+  /// Calculate the absolute humidity based on the relative humidty and temperature
+  /// in tempUnit.
+  /// the formula does work for values between -30°C and 35°C with 0.1°C precision
+  /// @param temperature in tempUnit
+  /// @param humidty in percentage
+  /// @param tempUnit in °C. default=TempUnit_Celsius
+  /// @return Calculated absolute humidity in grams/m³
+  double AbsoluteHumidity
+  (
+    float temperature, 
+    float humidity,
+    TempUnit tempUnit
+  );
 
   /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
@@ -82,7 +101,7 @@ namespace EnvironmentCalculations
   /// @param temp in tempUnit.
   /// @param pressure at the station in any units.
   /// @param altUnit meters or feet. default=AltitudeUnit_Meters
-  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
+  /// @param tempUnit in °C or °F. default=TempUnit_Celsius
   /// @return Equivalent pressure at sea level. The input pressure
   ///          unit will determine the output
   ///          pressure unit.
