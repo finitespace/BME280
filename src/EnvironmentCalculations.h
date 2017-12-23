@@ -88,7 +88,7 @@ namespace EnvironmentCalculations
   /// @param humidity in percentage
   /// @param tempUnit in °C. default=TempUnit_Celsius
   /// @return Calculated absolute humidity in grams/m³
-  double AbsoluteHumidity
+  float AbsoluteHumidity
   (
     float temperature, 
     float humidity,
