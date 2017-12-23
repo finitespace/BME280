@@ -78,6 +78,7 @@ or
    * PresUnit_psi
 
 #### OSR Enum
+   * OSR_Off
    * OSR_X1
    * OSR_X2
    * OSR_X4
@@ -126,7 +127,7 @@ or
 
     * Standby Time (standbyTime): StandbyTime Enum, default = StandbyTime_1000ms
 
-    * Filter (filter): Filter Enum, default = Filter_Off
+    * Filter (filter): Filter Enum, default = Filter_16
 
     * SPI Enable: SpiEnable Enum, default = false
       values: true = enable, false = disable

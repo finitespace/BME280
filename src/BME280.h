@@ -67,11 +67,12 @@ public:
 
    enum OSR
    {
-      OSR_X1 =  1,
-      OSR_X2 =  2,
-      OSR_X4 =  3,
-      OSR_X8 =  4,
-      OSR_X16 = 5
+      OSR_Off =  0,
+      OSR_X1  =  1,
+      OSR_X2  =  2,
+      OSR_X4  =  3,
+      OSR_X8  =  4,
+      OSR_X16 =  5
    };
 
    enum Mode
