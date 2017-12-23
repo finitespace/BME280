@@ -121,7 +121,7 @@ void printBME280Data
    /// It is necessary to use fixed altitude point e.g. the altitude of barometer read in a map
    float seaLevel = EnvironmentCalculations::EquivalentSeaLevelPressure(barometerAltitude, temp, pres, envAltUnit, envTempUnit);
 
-   double absHum = EnvironmentCalculations::AbsoluteHumidity(temp, hum, envTempUnit);
+   float absHum = EnvironmentCalculations::AbsoluteHumidity(temp, hum, envTempUnit);
 
    client->print("\t\tAltitude: ");
    client->print(altitude);

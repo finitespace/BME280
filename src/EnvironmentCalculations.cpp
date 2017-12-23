@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 30 2015.
-Last Updated: Jan 1 2016. - Happy New year!
+Last Updated: Dec 23 2017. 
 
 This header must be included in any derived code or copies of the code.
 
@@ -55,7 +55,7 @@ float EnvironmentCalculations::Altitude
 
 
 /****************************************************************/
-double EnvironmentCalculations::AbsoluteHumidity
+float EnvironmentCalculations::AbsoluteHumidity
 (
   float temperature, 
   float humidity,
@@ -67,7 +67,7 @@ double EnvironmentCalculations::AbsoluteHumidity
   //August-Roche-Magnus 	6.1094 exp(17.625 x T)/(T + 243.04)
   //Buck (1981) 		6.1121 exp(17.502 x T)/(T + 240.97)
   //reference https://www.eas.ualberta.ca/jdwilson/EAS372_13/Vomel_CIRES_satvpformulae.html
-  double temp = NAN;
+  float temp = NAN;
   const float mw = 18.01534; 	// molar mass of water g/mol
   const float r = 8.31447215; 	// Universal gas constant J/mol/K
 
