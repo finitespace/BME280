@@ -77,12 +77,26 @@ namespace EnvironmentCalculations
     TempUnit tempUnit = TempUnit_Celsius); //
 
   /////////////////////////////////////////////////////////////////
+  /// Calculate the absolute humidity based on the relative humidty and temperature
+  /// in tempUnit.
+  /// the formula does work for values between -30°C and 35°C with 0.1°C precision
+  /// @param temperature in tempUnit
+  /// @param humidty in percentage
+  /// @param tempUnit in °C. default=TempUnit_Celsius
+  /// @return Calculated absolute humidity in grams/m³
+  double EnvironmentCalculations::AbsoluteHumidity
+  (
+    float temperature, 
+    float humidity,
+    TempUnit tempUnit
+  );
+  /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
   /// @param altitude in altUnit.
   /// @param temp in tempUnit.
   /// @param pressure at the station in any units.
   /// @param altUnit meters or feet. default=AltitudeUnit_Meters
-  /// @param temptUnit in °C or °F. default=TempUnit_Celsius
+  /// @param tempUnit in °C or °F. default=TempUnit_Celsius
   /// @return Equivalent pressure at sea level. The input pressure
   ///          unit will determine the output
   ///          pressure unit.

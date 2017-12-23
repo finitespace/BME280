@@ -30,6 +30,8 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 
 #include "EnvironmentCalculations.h"
 
+#include <math.h>
+
 
 /****************************************************************/
 float EnvironmentCalculations::Altitude
@@ -54,6 +56,37 @@ float EnvironmentCalculations::Altitude
   }
   return altitude;
 }
+/****************************************************************/
+double EnvironmentCalculations::AbsoluteHumidity
+(
+  float temperature, 
+  float humidity,
+  TempUnit tempUnit
+)
+{
+  //taken from https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+  //precision is about 0.1°C in range -30 to 35°C
+  //August-Roche-Magnus 	6.1094 exp(17.625 x T)/(T + 243.04)
+  //Buck (1981) 		6.1121 exp(17.502 x T)/(T + 240.97)
+  //reference https://www.eas.ualberta.ca/jdwilson/EAS372_13/Vomel_CIRES_satvpformulae.html
+  double temp = NAN;
+  const float mw = 18.01534; 	// molar mass of water g/mol
+  const float r = 8.31447215; 	// Universal gas constant J/mol/K
+  if (!isnan(temperature) && !isnan(humidty) )
+  {
+    if(tempUnit != TempUnit_Celsius)
+          temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+          
+    temp = pow(2.718281828, (17.67 * temperature) / (temperature + 243.5));
+    //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 		//simplified version
+    return (6.112 * temp * humidity * 2.1674 * mv) / ((273.15 + temperature) * r); 	//long version
+  }
+  else
+  {
+    return NAN;
+  }
+}
+
 
 /****************************************************************/
 int EnvironmentCalculations::Heatindex
