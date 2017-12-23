@@ -70,7 +70,7 @@ BME280I2C::Settings settings(
    BME280::StandbyTime_1000ms,
    BME280::Filter_Off,
    BME280::SpiEnable_False,
-   0x76 // I2C address. I2C specific.
+   BME280I2C::I2CAddr_0x76 // I2C address. I2C specific.
 );
 
 BME280I2C bme(settings);
