@@ -1,6 +1,6 @@
 /*
 
-BME280.h
+EnvironmentCalculations.h
 
 This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
