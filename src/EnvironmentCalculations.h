@@ -32,12 +32,16 @@ This header must be included in any derived code or copies of the code.
 
 namespace EnvironmentCalculations
 {
+  /////////////////////////////////////////////////////////////////
+  /// Temperature unit enumeration.
    enum TempUnit
    {
       TempUnit_Celsius,
       TempUnit_Fahrenheit
    };
 
+  /////////////////////////////////////////////////////////////////
+  /// Altitude unit enumeration.
    enum AltitudeUnit
    {
       AltitudeUnit_Meters,
@@ -71,10 +75,10 @@ namespace EnvironmentCalculations
   /// @param humidty in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
   /// @return Calculated heatindex as integer in TempUnit
-  int Heatindex(
-    float temperature,		//
-    float humidity,              //
-    TempUnit tempUnit = TempUnit_Celsius); //
+  int HeatIndex(
+    float temperature,		
+    float humidity,              
+    TempUnit tempUnit = TempUnit_Celsius); 
 
   /////////////////////////////////////////////////////////////////
   /// Calculate the absolute humidity based on the relative humidty and temperature
@@ -84,12 +88,13 @@ namespace EnvironmentCalculations
   /// @param humidty in percentage
   /// @param tempUnit in °C. default=TempUnit_Celsius
   /// @return Calculated absolute humidity in grams/m³
-  double EnvironmentCalculations::AbsoluteHumidity
+  double AbsoluteHumidity
   (
     float temperature, 
     float humidity,
     TempUnit tempUnit
   );
+
   /////////////////////////////////////////////////////////////////
   /// Convert current pressure to equivalent sea-level pressure.
   /// @param altitude in altUnit.
