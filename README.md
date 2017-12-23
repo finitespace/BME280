@@ -31,7 +31,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [float AbsoluteHumidty(float temperature, float humidity,TempUnit tempUnit = TempUnit_Celsius)](#environment-calculations)
       - [float EquivalentSeaLevelPressure(float altitude, float temp, float pres)](#environment-calculations)
       - [float DewPoint(float temp, float hum, bool metric = true)](#environment-calculations)
-      - [int Heatindex(float temperature, float humidity, TempUnit tempunit = TempUnit_Celsius)](#environment-calculations)
+      - [int HeatIndex(float temperature, float humidity, TempUnit tempunit = TempUnit_Celsius)](#environment-calculations)
 10. [Contributing](#contributing)
 11. [History](#history)
 12. [Credits](#credits)
@@ -334,13 +334,13 @@ or
       values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
 ```
 
-#### int Heatindex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
+#### int HeatIndex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
 
-  Calculate the heatindex based on the temperature and humidity with the specified units. 
-  The heatindex is only calculated if the temperature is above 26.7°C or 80°F and humidity above 40%.
+  Calculate the heat index based on the temperature and humidity with the specified units. 
+  The heat index is only calculated if the temperature is above 26.7°C or 80°F and humidity above 40%.
   The precision is +/- 0.7°C / 1.3°F. 
 ```
-    return: int heatindex
+    return: int heat index
 
     * Temperature: float
       values: any float related to TempUnit

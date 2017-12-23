@@ -21,15 +21,11 @@ Last Updated: Jan 1 2016. - Happy New year!
 
 This header must be included in any derived code or copies of the code.
 
-Some unit conversations courtesy
-of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
-courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
-
-#include <Arduino.h>
 
 #include "EnvironmentCalculations.h"
 
+#include <Arduino.h>
 #include <math.h>
 
 
@@ -43,7 +39,7 @@ float EnvironmentCalculations::Altitude
   TempUnit tempUnit
 )
 {
-  // Equation inverse to EquivalentSeaLevelPressure calculation
+  // Equation inverse to EquivalentSeaLevelPressure calculation.
   float altitude = NAN;
   if (!isnan(pressure) && !isnan(referencePressure) && !isnan(outdoorTemp))
   {
@@ -56,6 +52,8 @@ float EnvironmentCalculations::Altitude
   }
   return altitude;
 }
+
+
 /****************************************************************/
 double EnvironmentCalculations::AbsoluteHumidity
 (
@@ -72,24 +70,26 @@ double EnvironmentCalculations::AbsoluteHumidity
   double temp = NAN;
   const float mw = 18.01534; 	// molar mass of water g/mol
   const float r = 8.31447215; 	// Universal gas constant J/mol/K
-  if (!isnan(temperature) && !isnan(humidty) )
-  {
-    if(tempUnit != TempUnit_Celsius)
-          temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
-          
-    temp = pow(2.718281828, (17.67 * temperature) / (temperature + 243.5));
-    //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 		//simplified version
-    return (6.112 * temp * humidity * 2.1674 * mv) / ((273.15 + temperature) * r); 	//long version
-  }
-  else
+
+  if (isnan(temperature) || isnan(humidity) )
   {
     return NAN;
   }
+  
+  if(tempUnit != TempUnit_Celsius)
+  {
+        temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+  }
+          
+  temp = pow(2.718281828, (17.67 * temperature) / (temperature + 243.5));
+  
+  //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 		//simplified version
+  return (6.112 * temp * humidity * 2.1674 * mw) / ((273.15 + temperature) * r); 	//long version
 }
 
 
 /****************************************************************/
-int EnvironmentCalculations::Heatindex
+int EnvironmentCalculations::HeatIndex
 (
   float temperature,
   float humidity,
