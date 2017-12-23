@@ -68,11 +68,11 @@ namespace EnvironmentCalculations
     TempUnit tempUnit = TempUnit_Celsius);
 
   /////////////////////////////////////////////////////////////////
-  /// Calculate the heatindex based on the humidty and temperature
+  /// Calculate the heatindex based on the humidity and temperature
   /// in tempUnit.
   /// the heatindex does work for values above 26.7°C/80°F and 40% humidity.
   /// @param temperature in tempUnit
-  /// @param humidty in percentage
+  /// @param humidity in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
   /// @return Calculated heatindex as integer in TempUnit
   int HeatIndex(
@@ -81,11 +81,11 @@ namespace EnvironmentCalculations
     TempUnit tempUnit = TempUnit_Celsius); 
 
   /////////////////////////////////////////////////////////////////
-  /// Calculate the absolute humidity based on the relative humidty and temperature
+  /// Calculate the absolute humidity based on the relative humidity and temperature
   /// in tempUnit.
   /// the formula does work for values between -30°C and 35°C with 0.1°C precision
   /// @param temperature in tempUnit
-  /// @param humidty in percentage
+  /// @param humidity in percentage
   /// @param tempUnit in °C. default=TempUnit_Celsius
   /// @return Calculated absolute humidity in grams/m³
   double AbsoluteHumidity
