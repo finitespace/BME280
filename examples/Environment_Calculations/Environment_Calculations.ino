@@ -121,6 +121,8 @@ void printBME280Data
    /// It is necessary to use fixed altitude point e.g. the altitude of barometer read in a map
    float seaLevel = EnvironmentCalculations::EquivalentSeaLevelPressure(barometerAltitude, temp, pres, envAltUnit, envTempUnit);
 
+   float absHum = EnvironmentCalculations::AbsoluteHumidity(temp, hum, envTempUnit);
+
    client->print("\t\tAltitude: ");
    client->print(altitude);
    client->print((envAltUnit == EnvironmentCalculations::AltitudeUnit_Meters ? "m" : "ft"));
@@ -129,7 +131,21 @@ void printBME280Data
    client->print("°"+ String(envTempUnit == EnvironmentCalculations::TempUnit_Celsius ? "C" :"F"));
    client->print("\t\tEquivalent Sea Level Pressure: ");
    client->print(seaLevel);
-   client->println(String( presUnit == BME280::PresUnit_hPa ? "hPa" :"Pa")); // expected hPa and Pa only
+   client->print(String( presUnit == BME280::PresUnit_hPa ? "hPa" :"Pa")); // expected hPa and Pa only
+
+   client->print("\t\tHeat Index: ");
+   if (temp > (tempUnit == BME280::TempUnit_Celsius ? 26.7 : 80))
+   {
+     int heatIndex = EnvironmentCalculations::HeatIndex(temp, hum, envTempUnit);
+     client->print(heatIndex);
+   }
+   else
+   {
+      client->print("Temperature out of range");
+   }
+
+   client->print("\t\tAbsolute Humidity: ");
+   client->println(absHum);
 
    delay(1000);
 }

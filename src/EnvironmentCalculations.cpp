@@ -17,18 +17,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Written: Dec 30 2015.
-Last Updated: Jan 1 2016. - Happy New year!
+Last Updated: Dec 23 2017. 
 
 This header must be included in any derived code or copies of the code.
 
-Some unit conversations courtesy
-of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
-courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include <Arduino.h>
-
 #include "EnvironmentCalculations.h"
+
+#include <Arduino.h>
+#include <math.h>
 
 
 /****************************************************************/
@@ -41,7 +39,7 @@ float EnvironmentCalculations::Altitude
   TempUnit tempUnit
 )
 {
-  // Equation inverse to EquivalentSeaLevelPressure calculation
+  // Equation inverse to EquivalentSeaLevelPressure calculation.
   float altitude = NAN;
   if (!isnan(pressure) && !isnan(referencePressure) && !isnan(outdoorTemp))
   {
@@ -55,8 +53,43 @@ float EnvironmentCalculations::Altitude
   return altitude;
 }
 
+
 /****************************************************************/
-int EnvironmentCalculations::Heatindex
+float EnvironmentCalculations::AbsoluteHumidity
+(
+  float temperature, 
+  float humidity,
+  TempUnit tempUnit
+)
+{
+  //taken from https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+  //precision is about 0.1°C in range -30 to 35°C
+  //August-Roche-Magnus 	6.1094 exp(17.625 x T)/(T + 243.04)
+  //Buck (1981) 		6.1121 exp(17.502 x T)/(T + 240.97)
+  //reference https://www.eas.ualberta.ca/jdwilson/EAS372_13/Vomel_CIRES_satvpformulae.html
+  float temp = NAN;
+  const float mw = 18.01534; 	// molar mass of water g/mol
+  const float r = 8.31447215; 	// Universal gas constant J/mol/K
+
+  if (isnan(temperature) || isnan(humidity) )
+  {
+    return NAN;
+  }
+  
+  if(tempUnit != TempUnit_Celsius)
+  {
+        temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+  }
+          
+  temp = pow(2.718281828, (17.67 * temperature) / (temperature + 243.5));
+  
+  //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 		//simplified version
+  return (6.112 * temp * humidity * 2.1674 * mw) / ((273.15 + temperature) * r); 	//long version
+}
+
+
+/****************************************************************/
+int EnvironmentCalculations::HeatIndex
 (
   float temperature,
   float humidity,
