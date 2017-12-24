@@ -27,6 +27,16 @@ This header must be included in any derived code or copies of the code.
 #include <Math.h>
 
 #include "EnvironmentCalculations.h"
+
+#define hi_coeff1 -42.379
+#define hi_coeff2   2.04901523
+#define hi_coeff3  10.14333127
+#define hi_coeff4  -0.22475541
+#define hi_coeff5  -0.00683783
+#define hi_coeff6  -0.05481717
+#define hi_coeff7   0.00122874
+#define hi_coeff8   0.00085282
+#define hi_coeff9  -0.00000199
 /****************************************************************/
 float EnvironmentCalculations::Altitude
 (
@@ -85,54 +95,62 @@ float EnvironmentCalculations::AbsoluteHumidity
   return (6.112 * temp * humidity * 2.1674 * mw) / ((273.15 + temperature) * r); 	//long version
 }
 
-
 /****************************************************************/
-int EnvironmentCalculations::HeatIndex
+float EnvironmentCalculations::Heatindex
 (
   float temperature,
   float humidity,
   TempUnit tempUnit
 )
 {
-  float heatindex(NAN);
-  const static float hi[9] PROGMEM = {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000};
-
-  if ( !isnan(temperature) && !isnan(humidity) ) { 
-    if (tempUnit != TempUnit_Celsius) {
-            temperature = (temperature - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
+  if ( !isnan(temperature) && !isnan(humidity) ) {
+    if (tempUnit == TempUnit_Celsius) {
+      temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°C]*/
     }
-
-    if ( humidity>40 && temperature>26.7 ) {
-      //taken from https://de.wikipedia.org/wiki/Hitzeindex#Berechnung
-      heatindex = pgm_read_float(hi);
-      heatindex += pgm_read_float(hi+1) * temperature;
-      heatindex += pgm_read_float(hi+2) * humidity;
-      heatindex += pgm_read_float(hi+3) * temperature * humidity;
-      heatindex += pgm_read_float(hi+4) * temperature * temperature;
-      heatindex += pgm_read_float(hi+5) * humidity * humidity;
-      heatindex += pgm_read_float(hi+6) * temperature * temperature * humidity;
-      heatindex += pgm_read_float(hi+7) * temperature * humidity * humidity;
-      heatindex += pgm_read_float(hi+8) * temperature * temperature * humidity * humidity;
-      if (tempUnit != TempUnit_Celsius) {
-              return (int)round(heatindex * (9.0 / 5.0) + 32.0); /*conversion back to [°F]*/
+    // Using both Rothfusz and Steadman's equations
+    // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
+    float heatindex(NAN);
+    if (temperature <= 40) {
+      if (tempUnit == TempUnit_Celsius) {
+        return (temperature - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
       }
       else {
-	      return (int)round(heatindex);
+        return temperature;
       }
     }
-    // logical fallback if the formula does not apply to the given values
+    heatindex = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094));
+
+    if (heatindex > 79) {
+      float tempQ, humQ;
+      tempQ = temperature * temperature;
+      humQ = humidity * humidity;
+      heatindex =  hi_coeff1 +
+                  hi_coeff2 * temperature +
+                  hi_coeff3 * humidity +
+                  hi_coeff4 * temperature * humidity +
+                  hi_coeff5 * tempQ +
+                  hi_coeff6 * humQ +
+                  hi_coeff7 * tempQ * humidity +
+                  hi_coeff8 * temperature * humQ +
+                  hi_coeff9 * tempQ * humQ;
+
+      if ((humidity < 13) && (temperature >= 80.0) && (temperature <= 112.0))
+        heatindex -= ((13.0 - humidity) * 0.25) * sqrt((17.0 - abs(temperature - 95.0)) * 0.05882);
+
+      else if ((humidity > 85.0) && (temperature >= 80.0) && (temperature <= 87.0))
+        heatindex += (0.02 * (humidity - 85.0) * (87.0 - temperature));
+    }
+
+    if (tempUnit == TempUnit_Celsius) {
+      return (heatindex - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
+    }
     else {
-      if (tempUnit != TempUnit_Celsius) {
-              return (int)(temperature * (9.0 / 5.0) + 32.0); /*conversion back to [°F]*/
-      }
-      else {
-	      return (int)temperature;
-      }
+      return heatindex;
     }
   }
   // fallback if the parameter are not useful
   else {
-	  return NAN;
+    return NAN;
   }
 }
 
