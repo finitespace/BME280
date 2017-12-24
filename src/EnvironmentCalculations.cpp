@@ -22,11 +22,10 @@ Last Updated: Dec 23 2017.
 This header must be included in any derived code or copies of the code.
 
  */
+#include "EnvironmentCalculations.h"
 
 #include <Arduino.h>
 #include <math.h>
-
-#include "EnvironmentCalculations.h"
 
 #define hi_coeff1 -42.379
 #define hi_coeff2   2.04901523
