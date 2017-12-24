@@ -150,7 +150,7 @@ float EnvironmentCalculations::Heatindex
   }
   // fallback if the parameter are not useful
   else {
-    return NAN;
+	  return NAN;
   }
 }
 
