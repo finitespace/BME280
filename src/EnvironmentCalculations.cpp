@@ -24,7 +24,7 @@ This header must be included in any derived code or copies of the code.
  */
 
 #include <Arduino.h>
-#include <Math.h>
+#include <math.h>
 
 #include "EnvironmentCalculations.h"
 
@@ -96,7 +96,7 @@ float EnvironmentCalculations::AbsoluteHumidity
 }
 
 /****************************************************************/
-float EnvironmentCalculations::Heatindex
+float EnvironmentCalculations::HeatIndex
 (
   float temperature,
   float humidity,
