@@ -119,7 +119,7 @@ float EnvironmentCalculations::HeatIndex
     }
     heatindex = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094));
 
-    if (heatindex > 79) {
+    if (heatindex >= 79) {
       float tempQ, humQ;
       tempQ = temperature * temperature;
       humQ = humidity * humidity;
