@@ -104,7 +104,7 @@ float EnvironmentCalculations::HeatIndex
 {
   if ( !isnan(temperature) && !isnan(humidity) ) {
     if (tempUnit == TempUnit_Celsius) {
-      temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°C]*/
+      temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°F]*/
     }
     // Using both Rothfusz and Steadman's equations
     // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
