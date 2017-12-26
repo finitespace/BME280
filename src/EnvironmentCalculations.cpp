@@ -83,8 +83,8 @@ float EnvironmentCalculations::AbsoluteHumidity
           
   temp = pow(2.718281828, (17.67 * temperature) / (temperature + 243.5));
   
-  //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 		//simplified version
-  return (6.112 * temp * humidity * 2.1674 * mw) / ((273.15 + temperature) * r); 	//long version
+  //return (6.112 * temp * humidity * 2.1674) / (273.15 + temperature); 	//simplified version
+  return (6.112 * temp * humidity * mw) / ((273.15 + temperature) * r); 	//long version
 }
 
 
