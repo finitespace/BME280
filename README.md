@@ -335,13 +335,12 @@ or
       values: TempUnit_Celsius = return degrees Celsius, TempUnit_Fahrenheit = return degrees Fahrenheit
 ```
 
-#### int HeatIndex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
+#### float HeatIndex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
 
   Calculate the heat index based on the temperature and humidity with the specified units. 
-  The heat index is only calculated if the temperature is above 26.7°C or 80°F and humidity above 40%.
-  The precision is +/- 0.7°C / 1.3°F. 
+  The NWS algorithm is used.
 ```
-    return: int heat index
+    return: float heat index
 
     * Temperature: float
       values: any float related to TempUnit

@@ -134,15 +134,8 @@ void printBME280Data
    client->print(String( presUnit == BME280::PresUnit_hPa ? "hPa" :"Pa")); // expected hPa and Pa only
 
    client->print("\t\tHeat Index: ");
-   if (temp > (tempUnit == BME280::TempUnit_Celsius ? 26.7 : 80))
-   {
-     int heatIndex = EnvironmentCalculations::HeatIndex(temp, hum, envTempUnit);
-     client->print(heatIndex);
-   }
-   else
-   {
-      client->print("Temperature out of range");
-   }
+   float heatIndex = EnvironmentCalculations::HeatIndex(temp, hum, envTempUnit);
+   client->print(heatIndex);
 
    client->print("\t\tAbsolute Humidity: ");
    client->println(absHum);
