@@ -94,6 +94,7 @@ float EnvironmentCalculations::AbsoluteHumidity
   return (6.112 * temp * humidity * mw) / ((273.15 + temperature) * r); 	//long version
 }
 
+
 /****************************************************************/
 float EnvironmentCalculations::HeatIndex
 (
@@ -102,28 +103,36 @@ float EnvironmentCalculations::HeatIndex
   TempUnit tempUnit
 )
 {
-  if ( !isnan(temperature) && !isnan(humidity) ) {
-    if (tempUnit == TempUnit_Celsius) {
-      temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°F]*/
-    }
-    // Using both Rothfusz and Steadman's equations
-    // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-    float heatindex(NAN);
-    if (temperature <= 40) {
-      if (tempUnit == TempUnit_Celsius) {
-        return (temperature - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
-      }
-      else {
-        return temperature;
-      }
-    }
-    heatindex = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094));
+  float heatIndex(NAN);
 
-    if (heatindex >= 79) {
+  if ( isnan(temperature) || isnan(humidity) ) 
+  {
+    return heatIndex;
+  }
+
+  if (tempUnit == TempUnit_Celsius) 
+  {
+    temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°F]*/
+  }
+  
+  if (temperature <= 40) 
+  {
+    heatIndex = temperature;
+  }
+  else
+  {
+    heatIndex = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094));
+
+    if (heatIndex >= 79) 
+    {
+      // Using both Rothfusz and Steadman's equations
+      // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
       float tempQ, humQ;
+
       tempQ = temperature * temperature;
       humQ = humidity * humidity;
-      heatindex =  hi_coeff1 +
+
+      heatIndex = hi_coeff1 +
                   hi_coeff2 * temperature +
                   hi_coeff3 * humidity +
                   hi_coeff4 * temperature * humidity +
@@ -134,24 +143,26 @@ float EnvironmentCalculations::HeatIndex
                   hi_coeff9 * tempQ * humQ;
 
       if ((humidity < 13) && (temperature >= 80.0) && (temperature <= 112.0))
-        heatindex -= ((13.0 - humidity) * 0.25) * sqrt((17.0 - abs(temperature - 95.0)) * 0.05882);
-
+      {
+        heatIndex -= ((13.0 - humidity) * 0.25) * sqrt((17.0 - abs(temperature - 95.0)) * 0.05882);
+      }
       else if ((humidity > 85.0) && (temperature >= 80.0) && (temperature <= 87.0))
-        heatindex += (0.02 * (humidity - 85.0) * (87.0 - temperature));
-    }
-
-    if (tempUnit == TempUnit_Celsius) {
-      return (heatindex - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
-    }
-    else {
-      return heatindex;
+      {
+        heatIndex += (0.02 * (humidity - 85.0) * (87.0 - temperature));
+      }
     }
   }
-  // fallback if the parameter are not useful
-  else {
-	  return NAN;
+
+  if (tempUnit == TempUnit_Celsius) 
+  {
+    return (heatIndex - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
+  }
+  else 
+  {
+    return heatIndex;
   }
 }
+
 
 /****************************************************************/
 float EnvironmentCalculations::EquivalentSeaLevelPressure
