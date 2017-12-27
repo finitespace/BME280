@@ -58,7 +58,7 @@ bool BME280::Initialize()
       {
         InitializeFilter();
       }
-      
+
       WriteSettings();
    }
 
@@ -151,6 +151,25 @@ bool BME280::begin
    return success;
 }
 
+
+/****************************************************************/
+bool BME280::ReadStatus
+(
+  Status& status
+)
+{
+  bool success(true);
+  uint8_t statusBits(0);
+
+  success &= ReadRegister(STATUS_ADDR, &statusBits, STATUS_LENGTH);
+  
+  status.im_update = statusBits & 0x01; // Bit 0.  
+  status.measuring = statusBits & 0x04; // Bit 3.
+  
+  return success;
+}
+
+
 /****************************************************************/
 void BME280::CalculateRegisters
 (
@@ -210,17 +229,28 @@ bool BME280::ReadData
    int32_t data[SENSOR_DATA_LENGTH]
 )
 {
-   bool success;
+   bool success(true);
    uint8_t buffer[SENSOR_DATA_LENGTH];
 
-   // For forced mode we need to write the mode to BME280 register before reading
+   // For forced mode we need to write the mode to BME280 register 
+   // before reading.
    if (m_settings.mode == Mode_Forced)
    {
       WriteSettings();
    }
 
-   // Registers are in order. So we can start at the pressure register and read 8 bytes.
-   success = ReadRegister(PRESS_ADDR, buffer, SENSOR_DATA_LENGTH);
+   Status status;
+
+   // Wait until measurements are finished.
+   do
+   {
+      success &= ReadStatus(status);
+   }
+   while(success && status.im_update && status.measuring);
+
+   // Registers are in order. So we can start at the pressure register
+   // and read 8 bytes.
+   success &= ReadRegister(PRESS_ADDR, buffer, SENSOR_DATA_LENGTH);
 
    for(int i = 0; i < SENSOR_DATA_LENGTH; ++i)
    {

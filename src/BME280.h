@@ -147,6 +147,16 @@ public:
       SpiEnable spiEnable;
    };
 
+   struct Status
+   {
+      Status():
+        measuring(false),
+        im_update(false) {}
+        
+      bool measuring;
+      bool im_update;
+   };
+
 /*****************************************************************/
 /* INIT FUNCTIONS                                                */
 /*****************************************************************/
@@ -245,6 +255,7 @@ private:
    static const uint8_t HUM_DIG_ADDR1   = 0xA1;
    static const uint8_t HUM_DIG_ADDR2   = 0xE1;
    static const uint8_t ID_ADDR         = 0xD0;
+   static const uint8_t STATUS_ADDR     = 0xF3;
 
    static const uint8_t TEMP_DIG_LENGTH         = 6;
    static const uint8_t PRESS_DIG_LENGTH        = 18;
@@ -252,6 +263,7 @@ private:
    static const uint8_t HUM_DIG_ADDR2_LENGTH    = 7;
    static const uint8_t DIG_LENGTH              = 32;
    static const uint8_t SENSOR_DATA_LENGTH      = 8;
+   static const uint8_t STATUS_LENGTH           = 1;
 
 
 /*****************************************************************/
@@ -288,6 +300,10 @@ private:
 /*****************************************************************/
 
    /////////////////////////////////////////////////////////////////
+   /// Write the settings to the chip.
+   bool ReadStatus(Status& status);
+
+   /////////////////////////////////////////////////////////////////
    /// Calculates registers based on settings.
    void CalculateRegisters(
       uint8_t& ctrlHum,
@@ -297,7 +313,6 @@ private:
    /////////////////////////////////////////////////////////////////
    /// Write the settings to the chip.
    bool WriteSettings();
-
 
    /////////////////////////////////////////////////////////////////
    /// Read the the chip id data from the BME280, return true if
