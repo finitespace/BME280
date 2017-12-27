@@ -81,7 +81,8 @@ class BME280SpiSw: public BME280{
 protected:
 
    ////////////////////////////////////////////////////////////////
-   /// Method used at start up to initialize the class. Starts the I2C interface.
+   /// Method used at start up to initialize the class. Starts the
+   /// software SPI interface.
    virtual bool Initialize();
 
 private:
