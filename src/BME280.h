@@ -211,7 +211,7 @@ protected:
    virtual bool Initialize();
 
    ///////////////////////////////////////////////////////////////
-   /// Force a non-filtered measurement to populate the filter 
+   /// Force a unfiltered measurement to populate the filter 
    /// buffer.
    bool InitializeFilter();
 
