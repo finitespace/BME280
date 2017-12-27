@@ -127,20 +127,9 @@ float EnvironmentCalculations::HeatIndex
     {
       // Using both Rothfusz and Steadman's equations
       // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-      float tempQ, humQ;
-
-      tempQ = temperature * temperature;
-      humQ = humidity * humidity;
-
-      heatIndex = hi_coeff1 +
-                  hi_coeff2 * temperature +
-                  hi_coeff3 * humidity +
-                  hi_coeff4 * temperature * humidity +
-                  hi_coeff5 * tempQ +
-                  hi_coeff6 * humQ +
-                  hi_coeff7 * tempQ * humidity +
-                  hi_coeff8 * temperature * humQ +
-                  hi_coeff9 * tempQ * humQ;
+      heatIndex = hi_coeff1
+      + (hi_coeff2 + hi_coeff4 * humidity + temperature * (hi_coeff5 + hi_coeff7 * humidity)) * temperature
+      + (hi_coeff3 + humidity * (hi_coeff6 + temperature * (hi_coeff8 + hi_coeff9 * temperature))) * humidity;
 
       if ((humidity < 13) && (temperature >= 80.0) && (temperature <= 112.0))
       {
