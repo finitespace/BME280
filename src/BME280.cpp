@@ -128,6 +128,13 @@ bool BME280::begin
 }
 
 /****************************************************************/
+void BME280::reset()
+{
+   WriteRegister(RESET_ADDR, RESET_VALUE);
+   delay(2); //max. startup time according to datasheet
+}
+
+/****************************************************************/
 void BME280::CalculateRegisters
 (
    uint8_t& ctrlHum,
