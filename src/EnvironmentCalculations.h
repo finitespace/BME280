@@ -70,6 +70,8 @@ namespace EnvironmentCalculations
   /////////////////////////////////////////////////////////////////
   /// Calculate the heatindex based on the humidity and temperature
   /// in tempUnit.
+  /// The formula based on the Heat Index Equation of the US National Weather Service
+  /// http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
   /// @param temperature in tempUnit
   /// @param humidity in percentage
   /// @param temptUnit in °C or °F. default=TempUnit_Celsius
