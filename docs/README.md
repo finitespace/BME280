@@ -338,9 +338,9 @@ or
 #### float HeatIndex(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)
 
   Calculate the heat index based on the temperature and humidity with the specified units. 
-  The NWS algorithm is used.
+  The U.S. NWS algorithm is used.
 ```
-    return: float heat index
+    return: float heat index in TempUnit
 
     * Temperature: float
       values: any float related to TempUnit

@@ -136,6 +136,7 @@ void printBME280Data
    client->print("\t\tHeat Index: ");
    float heatIndex = EnvironmentCalculations::HeatIndex(temp, hum, envTempUnit);
    client->print(heatIndex);
+   client->print("°"+ String(envTempUnit == EnvironmentCalculations::TempUnit_Celsius ? "C" :"F"));
 
    client->print("\t\tAbsolute Humidity: ");
    client->println(absHum);
