@@ -28,7 +28,7 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include "config.h"
+#include "Config.h"
 
 #ifdef USING_SOFTWARE_WIRE
 

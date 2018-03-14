@@ -33,7 +33,7 @@ courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
 
 #include "BME280I2C_BRZO.h"
 
-#include "config.h"
+#include "Config.h"
 
 #ifdef USING_BRZO
 
