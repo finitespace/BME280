@@ -61,6 +61,7 @@ const BME280I2C::Settings& BME280I2C::getSettings() const
 }
 
 
+#ifdef USING_WIRE
 /****************************************************************/
 bool BME280I2C::WriteRegister
 (
@@ -100,3 +101,5 @@ bool BME280I2C::ReadRegister
 
   return ord == length;
 }
+
+#endif

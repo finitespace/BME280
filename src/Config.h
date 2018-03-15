@@ -29,6 +29,7 @@ This header must be included in any derived code or copies of the code.
 #ifndef TG_BME_280_CONFIG_H
 #define TG_BME_280_CONFIG_H
 
+//#define USING_WIRE 1
 //#define USING_SOFTWARE_WIRE 1
 //#define USING_BRZO 1
 
