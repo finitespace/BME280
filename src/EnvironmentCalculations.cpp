@@ -22,13 +22,20 @@ Last Updated: Dec 23 2017.
 This header must be included in any derived code or copies of the code.
 
  */
-
 #include "EnvironmentCalculations.h"
 
 #include <Arduino.h>
 #include <math.h>
 
-
+#define hi_coeff1 -42.379
+#define hi_coeff2   2.04901523
+#define hi_coeff3  10.14333127
+#define hi_coeff4  -0.22475541
+#define hi_coeff5  -0.00683783
+#define hi_coeff6  -0.05481717
+#define hi_coeff7   0.00122874
+#define hi_coeff8   0.00085282
+#define hi_coeff9  -0.00000199
 /****************************************************************/
 float EnvironmentCalculations::Altitude
 (
@@ -44,7 +51,7 @@ float EnvironmentCalculations::Altitude
   if (!isnan(pressure) && !isnan(referencePressure) && !isnan(outdoorTemp))
   {
       if(tempUnit != TempUnit_Celsius)
-          outdoorTemp = (outdoorTemp - 32.0) * (5.0 / 9.0); /*conversion to [�C]*/
+          outdoorTemp = (outdoorTemp - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
 
       altitude = pow(referencePressure / pressure, 0.190234) - 1;
       altitude *= ((outdoorTemp + 273.15) / 0.0065);
@@ -89,39 +96,68 @@ float EnvironmentCalculations::AbsoluteHumidity
 
 
 /****************************************************************/
-int EnvironmentCalculations::HeatIndex
+//FYI: https://ehp.niehs.nih.gov/1206273/ in detail this flow graph: https://ehp.niehs.nih.gov/wp-content/uploads/2013/10/ehp.1206273.g003.png
+float EnvironmentCalculations::HeatIndex
 (
   float temperature,
   float humidity,
   TempUnit tempUnit
 )
 {
-  float heatindex = NAN;
-  bool metric = true;
-  float hi[2][9] = { {-8.784695,1.61139411,2.338549,-0.14611605,-1.2308094/100,-1.6424828/100,2.211732/1000,7.2546/10000,-3.582/1000000},
-  {-42.379,2.04901523,10.1433127,-0.22475541,-6.83783/1000,-5.481717/100,1.22874/1000,8.5282/10000,-1.99/1000000} };
+  float heatIndex(NAN);
 
-  //taken from https://de.wikipedia.org/wiki/Hitzeindex#Berechnung
-  if (tempUnit != TempUnit_Celsius)
+  if ( isnan(temperature) || isnan(humidity) ) 
   {
-	  metric = false;
+    return heatIndex;
   }
-  if (!isnan(humidity) && !isnan(temperature) && humidity>40 && (metric ? temperature>26.7 : temperature>80)) {
-    heatindex =  hi[metric ? 0: 1][0];
-    heatindex =+ hi[metric ? 0: 1][1] * temperature;
-    heatindex =+ hi[metric ? 0: 1][2] * humidity;
-    heatindex =+ hi[metric ? 0: 1][3] * temperature * humidity;
-    heatindex =+ hi[metric ? 0: 1][4] * temperature * temperature;
-    heatindex =+ hi[metric ? 0: 1][5] * humidity * humidity;
-    heatindex =+ hi[metric ? 0: 1][6] * temperature * temperature * humidity;
-    heatindex =+ hi[metric ? 0: 1][7] * temperature * humidity * humidity;
-    heatindex =+ hi[metric ? 0: 1][8] * temperature * temperature * humidity * humidity;
-    return int(heatindex);
+
+  if (tempUnit == TempUnit_Celsius) 
+  {
+    temperature = (temperature * (9.0 / 5.0) + 32.0); /*conversion to [°F]*/
   }
-  else {
-    return NAN;
+  // Using both Rothfusz and Steadman's equations
+  // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
+  if (temperature <= 40) 
+  {
+    heatIndex = temperature;	//first red block
+  }
+  else
+  {
+    heatIndex = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094));	//calculate A -- from the official site, not the flow graph
+
+    if (heatIndex >= 79) 
+    {
+      /*
+      * calculate B  
+      * the following calculation is optimized. Simply spoken, reduzed cpu-operations to minimize used ram and runtime. 
+      * Check the correctness with the following link:
+      * http://www.wolframalpha.com/input/?source=nav&i=b%3D+x1+%2B+x2*T+%2B+x3*H+%2B+x4*T*H+%2B+x5*T*T+%2B+x6*H*H+%2B+x7*T*T*H+%2B+x8*T*H*H+%2B+x9*T*T*H*H
+      */
+      heatIndex = hi_coeff1
+      + (hi_coeff2 + hi_coeff4 * humidity + temperature * (hi_coeff5 + hi_coeff7 * humidity)) * temperature
+      + (hi_coeff3 + humidity * (hi_coeff6 + temperature * (hi_coeff8 + hi_coeff9 * temperature))) * humidity;
+      //third red block
+      if ((humidity < 13) && (temperature >= 80.0) && (temperature <= 112.0))
+      {
+        heatIndex -= ((13.0 - humidity) * 0.25) * sqrt((17.0 - abs(temperature - 95.0)) * 0.05882);
+      } //fourth red block
+      else if ((humidity > 85.0) && (temperature >= 80.0) && (temperature <= 87.0))
+      {
+        heatIndex += (0.02 * (humidity - 85.0) * (87.0 - temperature));
+      }
+    }
+  }
+
+  if (tempUnit == TempUnit_Celsius) 
+  {
+    return (heatIndex - 32.0) * (5.0 / 9.0); /*conversion back to [°C]*/
+  }
+  else 
+  {
+    return heatIndex; //fifth red block
   }
 }
+
 
 /****************************************************************/
 float EnvironmentCalculations::EquivalentSeaLevelPressure
@@ -137,7 +173,7 @@ float EnvironmentCalculations::EquivalentSeaLevelPressure
     if(!isnan(altitude) && !isnan(temp) && !isnan(pres))
     {
         if(tempUnit != TempUnit_Celsius)
-            temp = (temp - 32.0) * (5.0 / 9.0); /*conversion to [�C]*/
+            temp = (temp - 32.0) * (5.0 / 9.0); /*conversion to [°C]*/
 
         if(altUnit != AltitudeUnit_Meters)
             altitude *= 0.3048; /*conversion to meters*/
