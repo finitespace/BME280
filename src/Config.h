@@ -31,6 +31,7 @@ This header must be included in any derived code or copies of the code.
 
 //#define USING_WIRE 1
 //#define USING_SOFTWARE_WIRE 1
+//#define USING_SPI
 //#define USING_BRZO 1
 
 #endif

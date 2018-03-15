@@ -28,10 +28,13 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include <Wire.h>
-
 #include "BME280I2C.h"
 
+#include "Config.h"
+
+#ifdef USING_WIRE
+#include <Wire.h>
+#endif
 
 /****************************************************************/
 BME280I2C::BME280I2C

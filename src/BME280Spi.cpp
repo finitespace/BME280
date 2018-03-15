@@ -28,10 +28,14 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include "Arduino.h"
 #include "BME280Spi.h"
 
+#include "Config.h"
+
+#ifdef USING_SPI
+
 #include <SPI.h>
+#include "Arduino.h"
 
 /****************************************************************/
 BME280Spi::BME280Spi
@@ -132,3 +136,5 @@ bool BME280Spi::WriteRegister
 
    return true;
 }
+
+#endif
