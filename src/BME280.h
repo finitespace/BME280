@@ -205,9 +205,15 @@ protected:
 /* CONSTRUCTOR INIT FUNCTIONS                                    */
 /*****************************************************************/
 
-   //////////////////////////////////////////////////////////////////
+   ///////////////////////////////////////////////////////////////
    /// Write configuration to BME280, return true if successful.
+   /// Must be called from any child classes.
    virtual bool Initialize();
+
+   ///////////////////////////////////////////////////////////////
+   /// Force a unfiltered measurement to populate the filter 
+   /// buffer.
+   bool InitializeFilter();
 
 
 /*****************************************************************/
