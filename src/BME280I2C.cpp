@@ -73,7 +73,7 @@ bool BME280I2C::WriteRegister
   Wire.write(data);
   Wire.endTransmission();
 
-  return true; // TODO: Chech return values from wire calls.
+  return true; // TODO: Check return values from wire calls.
 }
 
 
