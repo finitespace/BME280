@@ -61,6 +61,7 @@ public:
       PresUnit_inHg,
       PresUnit_atm,
       PresUnit_bar,
+      PresUnit_mbar,
       PresUnit_torr,
       PresUnit_psi
    };
