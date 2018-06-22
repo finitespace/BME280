@@ -163,7 +163,7 @@ public:
 
    ////////////////////////////////////////////////////////////////
    /// Method to restart BME280. begin() needs to beed called afterwards
-   void reset();
+   bool reset();
 
 /*****************************************************************/
 /* ENVIRONMENTAL FUNCTIONS                                       */
