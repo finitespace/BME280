@@ -82,6 +82,8 @@ bool BME280::InitializeFilter()
   read(dummy, dummy, dummy);
 
   m_settings.filter = filter;
+
+  return true;
 }
 
 
