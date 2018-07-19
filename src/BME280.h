@@ -200,6 +200,14 @@ public:
    /// Force measurement if in forced mode, returns true on success.
    bool force();
 
+   /////////////////////////////////////////////////////////////////
+   /// True if device is currently measuring.
+   bool busy();
+
+   /////////////////////////////////////////////////////////////////
+   /// Read the current measurement mode from the BME280.
+   Mode mode();
+
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
 /*****************************************************************/
@@ -244,6 +252,7 @@ private:
 /*****************************************************************/
 
    static const uint8_t CTRL_HUM_ADDR   = 0xF2;
+   static const uint8_t STATUS_ADDR     = 0xF3;
    static const uint8_t CTRL_MEAS_ADDR  = 0xF4;
    static const uint8_t CONFIG_ADDR     = 0xF5;
    static const uint8_t PRESS_ADDR      = 0xF7;
@@ -327,6 +336,19 @@ private:
    /// true if successful.
    bool ReadData(
       int32_t data[8]);
+
+
+   /////////////////////////////////////////////////////////////////
+   /// Read status register from the BME280, return
+   /// true if successful.
+   bool ReadStatus(
+     bool& measuring,
+     bool& im_update);
+
+   /////////////////////////////////////////////////////////////////
+   /// Read measurement control register from the BME280, return
+   /// true if successful.
+   bool ReadCtrlMeas(uint8_t& data);
 
 
    /////////////////////////////////////////////////////////////////

@@ -242,6 +242,35 @@ bool BME280::ReadData
 
 
 /****************************************************************/
+bool BME280::ReadStatus
+(
+  bool& measuring,
+  bool& im_update
+ )
+{
+  uint8_t status = 0;
+  bool success = ReadRegister(STATUS_ADDR, &status, 1);
+
+  if(success) {
+    measuring = status & (1 << 3);
+    im_update = status & 1;
+  }
+
+  return success;
+}
+
+
+/****************************************************************/
+bool BME280::ReadCtrlMeas
+(
+ uint8_t& data
+)
+{
+  return ReadRegister(CTRL_MEAS_ADDR, &data, 1);
+}
+
+
+/****************************************************************/
 float BME280::CalculateTemperature
 (
    int32_t raw,
@@ -405,6 +434,30 @@ bool BME280::force()
 
 
 /****************************************************************/
+bool BME280::busy()
+{
+  bool measuring, dummy;
+
+  if(!ReadStatus(measuring, dummy)) { return false; }
+
+  return measuring;
+}
+
+
+/****************************************************************/
+BME280::Mode BME280::mode()
+{
+  uint8_t ctrlMeas;
+
+  if(!ReadCtrlMeas(ctrlMeas)) {
+    return static_cast<Mode>(0);
+  }
+
+  return static_cast<Mode>(ctrlMeas & 3);
+}
+
+
+/****************************************************************/
 void BME280::read
 (
    float& pressure,
@@ -430,9 +483,7 @@ void BME280::read
 
 
 /****************************************************************/
-BME280::ChipModel BME280::chipModel
-(
-)
+BME280::ChipModel BME280::chipModel()
 {
    return m_chip_model;
 }
