@@ -37,26 +37,27 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 
 //////////////////////////////////////////////////////////////////
 /// BME280I2C_BRZO - I2C Implementation of BME280.
-class BME280I2C_BRZO : public BME280I2C
+class BME280I2C_BRZO : public BME280
 {
 
 public:
 
-   struct Settings : public BME280I2C::Settings
+   struct Settings : public BME280::Settings
    {
       Settings(
-      OSR _tosr       = OSR_X1,
-      OSR _hosr       = OSR_X1,
-      OSR _posr       = OSR_X1,
-      Mode _mode      = Mode_Forced,
-      StandbyTime _st = StandbyTime_1000ms,
-      Filter _filter  = Filter_Off,
-      SpiEnable _se   = SpiEnable_False,
-      uint16_t _cr    = 400
-     ): BME280I2C::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
-        i2cClockRate(_cr) {}
+        OSR _tosr       = OSR_X1,
+        OSR _hosr       = OSR_X1,
+        OSR _posr       = OSR_X1,
+        Mode _mode      = Mode_Forced,
+        StandbyTime _st = StandbyTime_1000ms,
+        Filter _filter  = Filter_Off,
+        I2CAddr _addr   = I2CAddr_0x76,
+        uint16_t _cr    = 400
+      ) : BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, SpiEnable_False),
+          bme280Addr(_addr), i2cClockRate(_cr) {}
 
-      uint16_t i2cClockRate;
+     I2CAddr bme280Addr;
+     uint16_t i2cClockRate;
    };
 
    ///////////////////////////////////////////////////////////////

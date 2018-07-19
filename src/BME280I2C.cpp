@@ -68,10 +68,11 @@ bool BME280I2C::WriteRegister
   uint8_t data
 )
 {
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.write(data);
-  Wire.endTransmission();
+  TwoWire* wire = m_settings.bme280Port;
+  wire->beginTransmission(m_settings.bme280Addr);
+  wire->write(addr);
+  wire->write(data);
+  wire->endTransmission();
 
   return true; // TODO: Check return values from wire calls.
 }
@@ -87,15 +88,16 @@ bool BME280I2C::ReadRegister
 {
   uint8_t ord(0);
 
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.endTransmission();
+  TwoWire* wire = m_settings.bme280Port;
+  wire->beginTransmission(m_settings.bme280Addr);
+  wire->write(addr);
+  wire->endTransmission();
 
-  Wire.requestFrom(static_cast<uint8_t>(m_settings.bme280Addr), length);
+  wire->requestFrom(static_cast<uint8_t>(m_settings.bme280Addr), length);
 
-  while(Wire.available())
+  while(wire->available())
   {
-    data[ord++] = Wire.read();
+    data[ord++] = wire->read();
   }
 
   return ord == length;

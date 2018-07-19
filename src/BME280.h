@@ -109,6 +109,12 @@ public:
       SpiEnable_True = 1
    };
 
+   enum I2CAddr
+   {
+     I2CAddr_0x76 = 0x76,
+     I2CAddr_0x77 = 0x77
+   };
+
    enum ChipModel
    {
       ChipModel_UNKNOWN = 0,
