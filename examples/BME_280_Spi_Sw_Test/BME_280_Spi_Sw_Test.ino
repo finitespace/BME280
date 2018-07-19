@@ -73,6 +73,9 @@ void printBME280Data
    Stream* client
 )
 {
+   bme.force();
+   while(bme.busy()) delay(1);
+
    float temp(NAN), hum(NAN), pres(NAN);
 
    BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
@@ -89,6 +92,4 @@ void printBME280Data
    client->print("\t\tPressure: ");
    client->print(pres);
    client->println("Pa");
-
-   delay(1000);
 }

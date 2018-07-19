@@ -69,7 +69,6 @@ BME280I2C::Settings settings(
    BME280::Mode_Forced,
    BME280::StandbyTime_1000ms,
    BME280::Filter_Off,
-   BME280::SpiEnable_False,
    BME280I2C::I2CAddr_0x76 // I2C address. I2C specific.
 );
 
@@ -111,7 +110,7 @@ void setup()
 void loop()
 {
    printBME280Data(&Serial);
-   delay(500);
+   delay(1000);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -120,13 +119,19 @@ void printBME280Data
    Stream* client
 )
 {
-   float temp(NAN), hum(NAN), pres(NAN);
+  // Force measurement and wait till it is completed (see Data sheet)
+  bme.force();
+  while(bme.busy()) delay(1);
+
+  // Read last measurement
+  float temp(NAN), hum(NAN), pres(NAN);
 
    BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
    BME280::PresUnit presUnit(BME280::PresUnit_Pa);
 
    bme.read(pres, temp, hum, tempUnit, presUnit);
 
+   // Print result
    client->print("Temp: ");
    client->print(temp);
    client->print("°"+ String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
@@ -136,6 +141,4 @@ void printBME280Data
    client->print("\t\tPressure: ");
    client->print(pres);
    client->println("Pa");
-
-   delay(1000);
 }
