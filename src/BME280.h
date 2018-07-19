@@ -190,6 +190,9 @@ public:
       TempUnit  tempUnit    = TempUnit_Celsius,
       PresUnit  presUnit    = PresUnit_hPa);
 
+   /////////////////////////////////////////////////////////////////
+   /// Force measurement if in forced mode, returns true on success.
+   bool force();
 
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
@@ -264,6 +267,8 @@ private:
 
    bool m_initialized;
 
+   uint8_t mCtrlHum, mCtrlMeas, mConfig;
+
 
 /*****************************************************************/
 /* ABSTRACT FUNCTIONS                                            */
@@ -289,10 +294,7 @@ private:
 
    /////////////////////////////////////////////////////////////////
    /// Calculates registers based on settings.
-   void CalculateRegisters(
-      uint8_t& ctrlHum,
-      uint8_t& ctrlMeas,
-      uint8_t& config);
+   void CalculateRegisters();
 
    /////////////////////////////////////////////////////////////////
    /// Write the settings to the chip.
@@ -308,6 +310,11 @@ private:
    /// Read the the trim data from the BME280, return true if
    /// successful.
    bool ReadTrim();
+
+   /////////////////////////////////////////////////////////////////
+   /// Force the BME280 to take a measurement, return true if
+   /// successful.
+   bool ForceMeasurement();
 
    /////////////////////////////////////////////////////////////////
    /// Read the raw data from the BME280 into an array and return

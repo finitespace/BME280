@@ -114,13 +114,13 @@ bool BME280::ReadChipID()
 /****************************************************************/
 bool BME280::WriteSettings()
 {
-   uint8_t ctrlHum, ctrlMeas, config;
+   CalculateRegisters();
 
-   CalculateRegisters(ctrlHum, ctrlMeas, config);
+   WriteRegister(CTRL_HUM_ADDR, mCtrlHum);
+   WriteRegister(CTRL_MEAS_ADDR, mCtrlMeas);
+   WriteRegister(CONFIG_ADDR, mConfig);
 
-   WriteRegister(CTRL_HUM_ADDR, ctrlHum);
-   WriteRegister(CTRL_MEAS_ADDR, ctrlMeas);
-   WriteRegister(CONFIG_ADDR, config);
+   return true;
 }
 
 
@@ -154,19 +154,14 @@ bool BME280::begin
 }
 
 /****************************************************************/
-void BME280::CalculateRegisters
-(
-   uint8_t& ctrlHum,
-   uint8_t& ctrlMeas,
-   uint8_t& config
-)
+void BME280::CalculateRegisters()
 {
    // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
-   ctrlHum = (uint8_t)m_settings.humOSR;
+   mCtrlHum = (uint8_t)m_settings.humOSR;
    // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
-   ctrlMeas = ((uint8_t)m_settings.tempOSR << 5) | ((uint8_t)m_settings.presOSR << 2) | (uint8_t)m_settings.mode;
+   mCtrlMeas = ((uint8_t)m_settings.tempOSR << 5) | ((uint8_t)m_settings.presOSR << 2) | (uint8_t)m_settings.mode;
    // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-   config = ((uint8_t)m_settings.standbyTime << 5) | ((uint8_t)m_settings.filter << 2) | (uint8_t)m_settings.spiEnable;
+   mConfig = ((uint8_t)m_settings.standbyTime << 5) | ((uint8_t)m_settings.filter << 2) | (uint8_t)m_settings.spiEnable;
 }
 
 
@@ -207,6 +202,14 @@ bool BME280::ReadTrim()
 
 
 /****************************************************************/
+bool BME280::ForceMeasurement()
+{
+  // For forced mode we need to write the mode to BME280 register before reading
+  return (m_settings.mode == Mode_Forced) && WriteRegister(CTRL_MEAS_ADDR, mCtrlMeas);
+}
+
+
+/****************************************************************/
 bool BME280::ReadData
 (
    int32_t data[SENSOR_DATA_LENGTH]
@@ -215,11 +218,6 @@ bool BME280::ReadData
    bool success;
    uint8_t buffer[SENSOR_DATA_LENGTH];
 
-   // For forced mode we need to write the mode to BME280 register before reading
-   if (m_settings.mode == Mode_Forced)
-   {
-      WriteSettings();
-   }
 
    // Registers are in order. So we can start at the pressure register and read 8 bytes.
    success = ReadRegister(PRESS_ADDR, buffer, SENSOR_DATA_LENGTH);
@@ -396,6 +394,13 @@ float BME280::hum()
    uint32_t rawHumidity = (data[6] << 8) | data[7];
    CalculateTemperature(rawTemp, t_fine);
    return CalculateHumidity(rawHumidity, t_fine);
+}
+
+
+/****************************************************************/
+bool BME280::force()
+{
+  return ForceMeasurement();
 }
 
 
