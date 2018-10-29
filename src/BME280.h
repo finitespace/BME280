@@ -199,6 +199,11 @@ public:
    /// Method used to return ChipModel.
    ChipModel chipModel();
 
+   ////////////////////////////////////////////////////////////////
+   /// Method to return compensation parameters.
+   uint8_t* compensationParameters(
+      uint8_t   parameters[32]);
+
 protected:
 
 /*****************************************************************/
