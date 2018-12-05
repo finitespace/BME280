@@ -30,7 +30,7 @@ Provides an Arduino library for reading and interpreting Bosch BME280 data over 
       - [float Altitude(float pressure, bool metric = true, float seaLevelPressure = 101325)](#environment-calculations)
       - [float AbsoluteHumidity(float temperature, float humidity, TempUnit tempUnit = TempUnit_Celsius)](#environment-calculations)
       - [float EquivalentSeaLevelPressure(float altitude, float temp, float pres)](#environment-calculations)
-      - [float DewPoint(float temp, float hum, bool metric = true)](#environment-calculations)
+      - [float DewPoint(float temp, float hum, TempUnit tempunit = TempUnit_Celsius)](#environment-calculations)
       - [int HeatIndex(float temperature, float humidity, TempUnit tempunit = TempUnit_Celsius)](#environment-calculations)
 10. [Contributing](#contributing)
 11. [History](#history)
@@ -373,6 +373,8 @@ or
 - Oct   7, 2017  - Version 2.2.0 released (Enums, begin restructure)
 - Oct  10, 2017  - Version 2.2.1 released (Bug fixes)
 - Nov  21, 2017  - Version 2.3.0 released (Examples updates, env calc fixes, bugs)
+- Brief intermission
+- Dec  xx, 2018. - Version 3.0.0 pending  (A lot)
 
 ## Credits
 
