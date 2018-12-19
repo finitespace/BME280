@@ -38,7 +38,6 @@ BME280I2C::Settings settings(
    BME280::Mode_Forced,
    BME280::StandbyTime_1000ms,
    BME280::Filter_16,
-   BME280::SpiEnable_False,
    BME280I2C::I2CAddr_0x76
 );
 
@@ -81,7 +80,7 @@ void setup()
 void loop()
 {
    printBME280Data(&Serial);
-   delay(500);
+   delay(1000);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -90,6 +89,9 @@ void printBME280Data
    Stream* client
 )
 {
+   bme.force();
+   while(bme.busy()) delay(1);
+
    float temp(NAN), hum(NAN), pres(NAN);
 
    BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
@@ -140,6 +142,4 @@ void printBME280Data
 
    client->print("\t\tAbsolute Humidity: ");
    client->println(absHum);
-
-   delay(1000);
 }

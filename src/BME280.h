@@ -109,6 +109,12 @@ public:
       SpiEnable_True = 1
    };
 
+   enum I2CAddr
+   {
+     I2CAddr_0x76 = 0x76,
+     I2CAddr_0x77 = 0x77
+   };
+
    enum ChipModel
    {
       ChipModel_UNKNOWN = 0,
@@ -190,6 +196,17 @@ public:
       TempUnit  tempUnit    = TempUnit_Celsius,
       PresUnit  presUnit    = PresUnit_hPa);
 
+   /////////////////////////////////////////////////////////////////
+   /// Force measurement if in forced mode, returns true on success.
+   bool force();
+
+   /////////////////////////////////////////////////////////////////
+   /// True if device is currently measuring.
+   bool busy();
+
+   /////////////////////////////////////////////////////////////////
+   /// Read the current measurement mode from the BME280.
+   Mode mode();
 
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
@@ -235,6 +252,7 @@ private:
 /*****************************************************************/
 
    static const uint8_t CTRL_HUM_ADDR   = 0xF2;
+   static const uint8_t STATUS_ADDR     = 0xF3;
    static const uint8_t CTRL_MEAS_ADDR  = 0xF4;
    static const uint8_t CONFIG_ADDR     = 0xF5;
    static const uint8_t PRESS_ADDR      = 0xF7;
@@ -264,6 +282,8 @@ private:
 
    bool m_initialized;
 
+   uint8_t mCtrlHum, mCtrlMeas, mConfig;
+
 
 /*****************************************************************/
 /* ABSTRACT FUNCTIONS                                            */
@@ -289,10 +309,7 @@ private:
 
    /////////////////////////////////////////////////////////////////
    /// Calculates registers based on settings.
-   void CalculateRegisters(
-      uint8_t& ctrlHum,
-      uint8_t& ctrlMeas,
-      uint8_t& config);
+   void CalculateRegisters();
 
    /////////////////////////////////////////////////////////////////
    /// Write the settings to the chip.
@@ -310,10 +327,28 @@ private:
    bool ReadTrim();
 
    /////////////////////////////////////////////////////////////////
+   /// Force the BME280 to take a measurement, return true if
+   /// successful.
+   bool ForceMeasurement();
+
+   /////////////////////////////////////////////////////////////////
    /// Read the raw data from the BME280 into an array and return
    /// true if successful.
    bool ReadData(
       int32_t data[8]);
+
+
+   /////////////////////////////////////////////////////////////////
+   /// Read status register from the BME280, return
+   /// true if successful.
+   bool ReadStatus(
+     bool& measuring,
+     bool& im_update);
+
+   /////////////////////////////////////////////////////////////////
+   /// Read measurement control register from the BME280, return
+   /// true if successful.
+   bool ReadCtrlMeas(uint8_t& data);
 
 
    /////////////////////////////////////////////////////////////////

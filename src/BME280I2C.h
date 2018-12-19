@@ -32,19 +32,14 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 
 #include "BME280.h"
 
+#include <Wire.h>
+
 //////////////////////////////////////////////////////////////////
 /// BME280I2C - I2C Implementation of BME280.
 class BME280I2C: public BME280
 {
 
 public:
-
-   enum I2CAddr
-   {
-      I2CAddr_0x76 = 0x76,
-      I2CAddr_0x77 = 0x77
-   };
-
 
    struct Settings : public BME280::Settings
    {
@@ -55,12 +50,13 @@ public:
          Mode _mode      = Mode_Forced,
          StandbyTime _st = StandbyTime_1000ms,
          Filter _filter  = Filter_16,
-         SpiEnable _se   = SpiEnable_False,
-         I2CAddr _addr   = I2CAddr_0x76
-        ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
-           bme280Addr(_addr) {}
+         I2CAddr _addr   = I2CAddr_0x76,
+         TwoWire* _port  = &Wire
+       ) : BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, SpiEnable_False),
+           bme280Addr(_addr), bme280Port(_port) {}
 
       I2CAddr bme280Addr;
+      TwoWire* bme280Port;
    };
 
    ///////////////////////////////////////////////////////////////
@@ -80,9 +76,6 @@ public:
 
    /////////////////////////////////////////////////////////////////
    const Settings& getSettings() const;
-
-
-protected:
 
 private:
 

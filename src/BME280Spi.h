@@ -46,10 +46,9 @@ public:
          OSR _posr       = OSR_X1,
          Mode _mode      = Mode_Forced,
          StandbyTime _st = StandbyTime_1000ms,
-         Filter _filter  = Filter_Off,
-         SpiEnable _se   = SpiEnable_False
-        ): BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, _se),
-           spiCsPin(_cspin) {}
+         Filter _filter  = Filter_Off
+      ) : BME280::Settings(_tosr, _hosr, _posr, _mode, _st, _filter, SpiEnable_True),
+          spiCsPin(_cspin) {}
 
       uint8_t spiCsPin;
    };

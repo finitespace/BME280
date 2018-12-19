@@ -82,6 +82,8 @@ bool BME280::InitializeFilter()
   read(dummy, dummy, dummy);
 
   m_settings.filter = filter;
+
+  return true;
 }
 
 
@@ -112,13 +114,13 @@ bool BME280::ReadChipID()
 /****************************************************************/
 bool BME280::WriteSettings()
 {
-   uint8_t ctrlHum, ctrlMeas, config;
+   CalculateRegisters();
 
-   CalculateRegisters(ctrlHum, ctrlMeas, config);
+   WriteRegister(CTRL_HUM_ADDR, mCtrlHum);
+   WriteRegister(CTRL_MEAS_ADDR, mCtrlMeas);
+   WriteRegister(CONFIG_ADDR, mConfig);
 
-   WriteRegister(CTRL_HUM_ADDR, ctrlHum);
-   WriteRegister(CTRL_MEAS_ADDR, ctrlMeas);
-   WriteRegister(CONFIG_ADDR, config);
+   return true;
 }
 
 
@@ -152,19 +154,14 @@ bool BME280::begin
 }
 
 /****************************************************************/
-void BME280::CalculateRegisters
-(
-   uint8_t& ctrlHum,
-   uint8_t& ctrlMeas,
-   uint8_t& config
-)
+void BME280::CalculateRegisters()
 {
    // ctrl_hum register. (ctrl_hum[2:0] = Humidity oversampling rate.)
-   ctrlHum = (uint8_t)m_settings.humOSR;
+   mCtrlHum = (uint8_t)m_settings.humOSR;
    // ctrl_meas register. (ctrl_meas[7:5] = temperature oversampling rate, ctrl_meas[4:2] = pressure oversampling rate, ctrl_meas[1:0] = mode.)
-   ctrlMeas = ((uint8_t)m_settings.tempOSR << 5) | ((uint8_t)m_settings.presOSR << 2) | (uint8_t)m_settings.mode;
+   mCtrlMeas = ((uint8_t)m_settings.tempOSR << 5) | ((uint8_t)m_settings.presOSR << 2) | (uint8_t)m_settings.mode;
    // config register. (config[7:5] = standby time, config[4:2] = filter, ctrl_meas[0] = spi enable.)
-   config = ((uint8_t)m_settings.standbyTime << 5) | ((uint8_t)m_settings.filter << 2) | (uint8_t)m_settings.spiEnable;
+   mConfig = ((uint8_t)m_settings.standbyTime << 5) | ((uint8_t)m_settings.filter << 2) | (uint8_t)m_settings.spiEnable;
 }
 
 
@@ -205,6 +202,14 @@ bool BME280::ReadTrim()
 
 
 /****************************************************************/
+bool BME280::ForceMeasurement()
+{
+  // For forced mode we need to write the mode to BME280 register before reading
+  return (m_settings.mode == Mode_Forced) && WriteRegister(CTRL_MEAS_ADDR, mCtrlMeas);
+}
+
+
+/****************************************************************/
 bool BME280::ReadData
 (
    int32_t data[SENSOR_DATA_LENGTH]
@@ -213,11 +218,6 @@ bool BME280::ReadData
    bool success;
    uint8_t buffer[SENSOR_DATA_LENGTH];
 
-   // For forced mode we need to write the mode to BME280 register before reading
-   if (m_settings.mode == Mode_Forced)
-   {
-      WriteSettings();
-   }
 
    // Registers are in order. So we can start at the pressure register and read 8 bytes.
    success = ReadRegister(PRESS_ADDR, buffer, SENSOR_DATA_LENGTH);
@@ -238,6 +238,35 @@ bool BME280::ReadData
 #endif
 
    return success;
+}
+
+
+/****************************************************************/
+bool BME280::ReadStatus
+(
+  bool& measuring,
+  bool& im_update
+ )
+{
+  uint8_t status = 0;
+  bool success = ReadRegister(STATUS_ADDR, &status, 1);
+
+  if(success) {
+    measuring = status & (1 << 3);
+    im_update = status & 1;
+  }
+
+  return success;
+}
+
+
+/****************************************************************/
+bool BME280::ReadCtrlMeas
+(
+ uint8_t& data
+)
+{
+  return ReadRegister(CTRL_MEAS_ADDR, &data, 1);
 }
 
 
@@ -398,6 +427,37 @@ float BME280::hum()
 
 
 /****************************************************************/
+bool BME280::force()
+{
+  return ForceMeasurement();
+}
+
+
+/****************************************************************/
+bool BME280::busy()
+{
+  bool measuring, dummy;
+
+  if(!ReadStatus(measuring, dummy)) { return false; }
+
+  return measuring;
+}
+
+
+/****************************************************************/
+BME280::Mode BME280::mode()
+{
+  uint8_t ctrlMeas;
+
+  if(!ReadCtrlMeas(ctrlMeas)) {
+    return static_cast<Mode>(0);
+  }
+
+  return static_cast<Mode>(ctrlMeas & 3);
+}
+
+
+/****************************************************************/
 void BME280::read
 (
    float& pressure,
@@ -423,9 +483,7 @@ void BME280::read
 
 
 /****************************************************************/
-BME280::ChipModel BME280::chipModel
-(
-)
+BME280::ChipModel BME280::chipModel()
 {
    return m_chip_model;
 }
