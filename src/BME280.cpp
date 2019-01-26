@@ -398,7 +398,7 @@ float BME280::hum()
 
 
 /****************************************************************/
-void BME280::read
+bool BME280::read
 (
    float& pressure,
    float& temp,
@@ -411,7 +411,7 @@ void BME280::read
    int32_t t_fine;
    if(!ReadData(data)){
       pressure = temp = humidity = NAN;
-      return;
+      return false;
    }
    uint32_t rawPressure = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4);
    uint32_t rawTemp = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4);
@@ -419,6 +419,7 @@ void BME280::read
    temp = CalculateTemperature(rawTemp, t_fine, tempUnit);
    pressure = CalculatePressure(rawPressure, t_fine, presUnit);
    humidity = CalculateHumidity(rawHumidity, t_fine);
+   return true;
 }
 
 

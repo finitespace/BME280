@@ -183,7 +183,7 @@ public:
 
    /////////////////////////////////////////////////////////////////
    /// Read the data from the BME280 in the specified unit.
-   void   read(
+   bool read(
       float&    pressure,
       float&    temperature,
       float&    humidity,

@@ -28,16 +28,16 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include <Wire.h>
-
 #include "BME280I2C.h"
 
 
 /****************************************************************/
 BME280I2C::BME280I2C
 (
+  TwoWire& wire,
   const Settings& settings
 ):BME280(settings),
+  m_wire(wire),
   m_settings(settings)
 {
 }
@@ -68,12 +68,10 @@ bool BME280I2C::WriteRegister
   uint8_t data
 )
 {
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.write(data);
-  Wire.endTransmission();
-
-  return true; // TODO: Check return values from wire calls.
+  m_wire.beginTransmission(m_settings.bme280Addr);
+  m_wire.write(addr);
+  m_wire.write(data);
+  return m_wire.endTransmission() == 0;
 }
 
 
@@ -85,18 +83,24 @@ bool BME280I2C::ReadRegister
   uint8_t length
 )
 {
-  uint8_t ord(0);
 
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.endTransmission();
-
-  Wire.requestFrom(static_cast<uint8_t>(m_settings.bme280Addr), length);
-
-  while(Wire.available())
+  m_wire.beginTransmission(m_settings.bme280Addr);
+  m_wire.write(addr);
+  if (m_wire.endTransmission() != 0)
   {
-    data[ord++] = Wire.read();
+	  return false;
   }
 
-  return ord == length;
+  if (m_wire.requestFrom(static_cast<uint8_t>(m_settings.bme280Addr), length) != length)
+  {
+	  return false;
+  }
+
+  uint8_t bytesRead = 0;
+  while(bytesRead < length && m_wire.available())
+  {
+    data[bytesRead++] = m_wire.read();
+  }
+
+  return bytesRead == length;
 }

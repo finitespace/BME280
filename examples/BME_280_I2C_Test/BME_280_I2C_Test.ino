@@ -25,35 +25,18 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 
 #define SERIAL_BAUD 115200
 
-BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
+BME280I2C bme(Wire);    // Default : forced mode, standby time = 1000 ms
                   // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
 
 //////////////////////////////////////////////////////////////////
+
+bool isBmeConnected = false;
+
 void setup()
 {
   Serial.begin(SERIAL_BAUD);
 
   while(!Serial) {} // Wait
-
-  Wire.begin();
-
-  while(!bme.begin())
-  {
-    Serial.println("Could not find BME280 sensor!");
-    delay(1000);
-  }
-
-  switch(bme.chipModel())
-  {
-     case BME280::ChipModel_BME280:
-       Serial.println("Found BME280 sensor! Success.");
-       break;
-     case BME280::ChipModel_BMP280:
-       Serial.println("Found BMP280 sensor! No Humidity available.");
-       break;
-     default:
-       Serial.println("Found UNKNOWN sensor! Error!");
-  }
 }
 
 //////////////////////////////////////////////////////////////////
@@ -64,27 +47,66 @@ void loop()
 }
 
 //////////////////////////////////////////////////////////////////
+
+void PrintSensorModel()
+{
+	switch (bme.chipModel())
+	{
+	case BME280::ChipModel_BME280:
+		Serial.println("Found BME280 sensor! Success.");
+		break;
+	case BME280::ChipModel_BMP280:
+		Serial.println("Found BMP280 sensor! No Humidity available.");
+		break;
+	default:
+		Serial.println("Found UNKNOWN sensor! Error!");
+	}
+}
+
 void printBME280Data
 (
-   Stream* client
+	Stream* client
 )
 {
-   float temp(NAN), hum(NAN), pres(NAN);
+	if (!isBmeConnected)
+	{
+		if (bme.begin())
+		{
+			isBmeConnected = true;
+			PrintSensorModel();
+		}
+		else
+		{
+			client->println("BME280/BMP280 not found");
+		}
+	}
 
-   BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
-   BME280::PresUnit presUnit(BME280::PresUnit_Pa);
+	if (!isBmeConnected)
+	{
+		return;
+	}
 
-   bme.read(pres, temp, hum, tempUnit, presUnit);
+	BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
+	BME280::PresUnit presUnit(BME280::PresUnit_hPa);
+	float temp, hum, pres;
 
-   client->print("Temp: ");
-   client->print(temp);
-   client->print("°"+ String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
-   client->print("\t\tHumidity: ");
-   client->print(hum);
-   client->print("% RH");
-   client->print("\t\tPressure: ");
-   client->print(pres);
-   client->println("Pa");
+	if (bme.read(pres, temp, hum, tempUnit, presUnit))
+	{
+		client->print("Temp: ");
+		client->print(temp);
+		client->print("°" + String(tempUnit == BME280::TempUnit_Celsius ? 'C' : 'F'));
+		client->print("\t\tHumidity: ");
+		client->print(hum);
+		client->print("% RH");
+		client->print("\t\tPressure: ");
+		client->print(pres);
+		client->println("hPa");
+	}
+	else
+	{
+		client->println("BME280/BMP280 unplugged");
+		isBmeConnected = false;
+	}
 
-   delay(1000);
+	delay(1000);
 }

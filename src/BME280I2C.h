@@ -31,6 +31,7 @@ Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 #define TG_BME_280_I2C_H
 
 #include "BME280.h"
+#include <Wire.h>
 
 //////////////////////////////////////////////////////////////////
 /// BME280I2C - I2C Implementation of BME280.
@@ -66,7 +67,7 @@ public:
    ///////////////////////////////////////////////////////////////
    /// Constructor used to create the class. All parameters have
    /// default values.
-   BME280I2C(
+   BME280I2C(TwoWire& wire,
       const Settings& settings = Settings());
 
 
@@ -85,7 +86,7 @@ public:
 protected:
 
 private:
-
+   TwoWire& m_wire;
    Settings m_settings;
 
    //////////////////////////////////////////////////////////////////
