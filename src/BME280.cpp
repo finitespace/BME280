@@ -434,14 +434,15 @@ BME280::ChipModel BME280::chipModel
    return m_chip_model;
 }
 
-
 /****************************************************************/
-uint8_t * BME280::compensationParameters
+uint32_t BME280::UniqueId
 (
-   uint8_t parameters[]
 )
 {
-   memcpy(parameters, m_dig, sizeof(m_dig));
-   return &parameters[0];
+   uint8_t buffer[4];
+   bool success;
+   success = ReadRegister(UNIQUE_ID_ADDR, buffer, 4);
+   return ((((uint32_t)buffer[3] + ((uint32_t)buffer[2] << 8)) & 0x7fff) << 16) + (((uint32_t)buffer[1]) << 8)+ (uint32_t)buffer[0];
 }
+
 

@@ -200,9 +200,8 @@ public:
    ChipModel chipModel();
 
    ////////////////////////////////////////////////////////////////
-   /// Method to return compensation parameters.
-   uint8_t* compensationParameters(
-      uint8_t   parameters[32]);
+   /// Unique Id of BME chip.
+   uint32_t UniqueId();
 
 protected:
 
@@ -250,6 +249,7 @@ private:
    static const uint8_t HUM_DIG_ADDR1   = 0xA1;
    static const uint8_t HUM_DIG_ADDR2   = 0xE1;
    static const uint8_t ID_ADDR         = 0xD0;
+   static const uint8_t UNIQUE_ID_ADDR  = 0x83;
 
    static const uint8_t TEMP_DIG_LENGTH         = 6;
    static const uint8_t PRESS_DIG_LENGTH        = 18;
