@@ -100,5 +100,9 @@ private:
       uint8_t addr,
       uint8_t data);
 
+   /////////////////////////////////////////////////////////////////
+   /// check if BME280 is connected and available.
+   virtual bool IsConnected(void);
+
 };
 #endif // TG_BME_280_SPI_H

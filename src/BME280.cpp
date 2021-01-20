@@ -48,21 +48,23 @@ bool BME280::Initialize()
 {
    bool success(true);
 
-   success &= ReadChipID();
+   if(IsConnected()) {
+      success &= ReadChipID();
 
-   if(success)
-   {
-      success &= ReadTrim();
-
-      if(m_settings.filter != Filter_Off)
+      if(success)
       {
-        InitializeFilter();
-      }
-      
-      WriteSettings();
-   }
+         success &= ReadTrim();
 
-   m_initialized = success;
+         if(m_settings.filter != Filter_Off)
+         {
+           InitializeFilter();
+         }
+
+         WriteSettings();
+      }
+
+      m_initialized = success;
+   }
 
    return m_initialized;
 }

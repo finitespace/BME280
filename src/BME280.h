@@ -211,7 +211,7 @@ protected:
    virtual bool Initialize();
 
    ///////////////////////////////////////////////////////////////
-   /// Force a unfiltered measurement to populate the filter 
+   /// Force a unfiltered measurement to populate the filter
    /// buffer.
    bool InitializeFilter();
 
@@ -281,6 +281,10 @@ private:
       uint8_t addr,
       uint8_t data[],
       uint8_t length)=0;
+
+   /////////////////////////////////////////////////////////////////
+   /// check if BME280 is connected and available.
+   virtual bool IsConnected(void)=0;
 
 
 /*****************************************************************/

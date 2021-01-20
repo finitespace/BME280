@@ -97,5 +97,9 @@ private:
       uint8_t data[],
       uint8_t length);
 
+   /////////////////////////////////////////////////////////////////
+   /// check if BME280 is connected and available.
+   virtual bool IsConnected(void);
+
 };
 #endif // BME280I2C_BRZO_H

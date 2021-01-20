@@ -40,6 +40,7 @@ BME280I2C::BME280I2C
 ):BME280(settings),
   m_settings(settings)
 {
+  Wire.begin();
 }
 
 
@@ -99,4 +100,16 @@ bool BME280I2C::ReadRegister
   }
 
   return ord == length;
+}
+
+
+/****************************************************************/
+bool BME280I2C::IsConnected(void)
+{
+  bool connected = false;
+  Wire.beginTransmission(m_settings.bme280Addr);
+  if(0 == Wire.endTransmission())
+    connected = true;
+
+  return connected;
 }

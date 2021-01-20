@@ -94,4 +94,16 @@ bool BME280I2C_BRZO::ReadRegister
     return (brzo_i2c_end_transaction()==0);
 }
 
+
+/****************************************************************/
+bool BME280I2C_BRZO::IsConnected(void)
+{
+  bool connected = false;
+  brzo_i2c_start_transaction(m_settings.bme280Addr, m_settings.i2cClockRate);
+  if(0 == brzo_i2c_end_transaction())
+    connected = true;
+
+  return connected;
+}
+
 #endif
