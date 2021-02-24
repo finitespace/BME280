@@ -69,7 +69,7 @@ bool BME280::Initialize()
 
 
 /****************************************************************/
-bool BME280::InitializeFilter()
+void BME280::InitializeFilter()
 {
   // Force an unfiltered measurement to populate the filter buffer.
   // This fixes a bug that causes the first read to always be 28.82 °C 81732.34 hPa.
@@ -110,7 +110,7 @@ bool BME280::ReadChipID()
 
 
 /****************************************************************/
-bool BME280::WriteSettings()
+void BME280::WriteSettings()
 {
    uint8_t ctrlHum, ctrlMeas, config;
 
