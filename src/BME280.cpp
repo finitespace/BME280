@@ -341,6 +341,9 @@ float BME280::CalculatePressure
       case PresUnit_bar: /* bar */
          final /= 100000.0;               /* final pa * 1 bar/100kPa */
          break;
+      case PresUnit_mbar: /* mbar */
+         final /= 100.0;               /* final pa * 1 bar/100Pa */
+         break;
       case PresUnit_torr: /* torr */
          final /= 133.32236534674;            /* final pa * 1 torr/133.32236534674Pa */
          break;
