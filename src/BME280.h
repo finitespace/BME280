@@ -162,6 +162,10 @@ public:
    /// Method used to initialize the class.
    bool begin();
 
+   ////////////////////////////////////////////////////////////////
+   /// Method to restart BME280. begin() needs to beed called afterwards
+   bool reset();
+
 /*****************************************************************/
 /* ENVIRONMENTAL FUNCTIONS                                       */
 /*****************************************************************/
@@ -246,6 +250,9 @@ private:
    static const uint8_t HUM_DIG_ADDR1   = 0xA1;
    static const uint8_t HUM_DIG_ADDR2   = 0xE1;
    static const uint8_t ID_ADDR         = 0xD0;
+   static const uint8_t RESET_ADDR	= 0xE0;
+
+   static const uint8_t RESET_VALUE	= 0xB6;
 
    static const uint8_t TEMP_DIG_LENGTH         = 6;
    static const uint8_t PRESS_DIG_LENGTH        = 18;
@@ -304,6 +311,7 @@ private:
    /// Read the the chip id data from the BME280, return true if
    /// successful and the id matches a known value.
    bool ReadChipID();
+
 
    /////////////////////////////////////////////////////////////////
    /// Read the the trim data from the BME280, return true if
