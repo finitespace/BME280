@@ -274,8 +274,8 @@ float BME280::CalculateHumidity
    uint8_t   dig_H1 =   m_dig[24];
    int16_t dig_H2 = (m_dig[26] << 8) | m_dig[25];
    uint8_t   dig_H3 =   m_dig[27];
-   int16_t dig_H4 = (m_dig[28] << 4) | (0x0F & m_dig[29]);
-   int16_t dig_H5 = (m_dig[30] << 4) | ((m_dig[29] >> 4) & 0x0F);
+   int16_t dig_H4 = ((int8_t)m_dig[28] * 16) | (0x0F & m_dig[29]);
+   int16_t dig_H5 = ((int8_t)m_dig[30] * 16) | ((m_dig[29] >> 4) & 0x0F);
    int8_t   dig_H6 =   m_dig[31];
 
    var1 = (t_fine - ((int32_t)76800));
