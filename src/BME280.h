@@ -213,7 +213,7 @@ protected:
    ///////////////////////////////////////////////////////////////
    /// Force a unfiltered measurement to populate the filter 
    /// buffer.
-   bool InitializeFilter();
+   void InitializeFilter();
 
 
 /*****************************************************************/
@@ -296,7 +296,7 @@ private:
 
    /////////////////////////////////////////////////////////////////
    /// Write the settings to the chip.
-   bool WriteSettings();
+   void WriteSettings();
 
 
    /////////////////////////////////////////////////////////////////
