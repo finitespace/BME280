@@ -147,13 +147,6 @@ bool BME280SpiSw::WriteRegister
    // de-select the device
    digitalWrite(m_settings.spiCsPin, HIGH);
 
-   return true;
+return true;
 }
 
-
-/****************************************************************/
-bool BME280SpiSw::IsConnected(void) {
-  // not possible here. Connection state can be discovered by reading the
-  // chip ID which is done during initalization
-  return true;
-}

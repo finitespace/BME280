@@ -132,11 +132,3 @@ bool BME280Spi::WriteRegister
 
    return true;
 }
-
-
-/****************************************************************/
-bool BME280Spi::IsConnected(void) {
-  // not possible here. Connection state can be discovered by reading the
-  // chip ID which is done during initalization
-  return true;
-}

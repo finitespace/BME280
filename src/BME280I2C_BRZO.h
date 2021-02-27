@@ -65,6 +65,15 @@ public:
    BME280I2C_BRZO(
       const Settings& settings = Settings());
 
+/*****************************************************************/
+/* CONSTRUCTOR INIT FUNCTIONS                                    */
+/*****************************************************************/
+
+   ///////////////////////////////////////////////////////////////
+   /// Write configuration to BME280, return true if successful.
+   /// Must be called from any child classes.
+   virtual bool Initialize();
+
 
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
@@ -96,10 +105,6 @@ private:
       uint8_t addr,
       uint8_t data[],
       uint8_t length);
-
-   /////////////////////////////////////////////////////////////////
-   /// check if BME280 is connected and available.
-   virtual bool IsConnected(void);
 
 };
 #endif // BME280I2C_BRZO_H
