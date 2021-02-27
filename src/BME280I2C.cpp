@@ -40,6 +40,24 @@ BME280I2C::BME280I2C
 ):BME280(settings),
   m_settings(settings)
 {
+  Wire.begin();
+}
+
+
+/****************************************************************/
+bool BME280I2C::Initialize()
+{
+  bool success(false);
+  Wire.beginTransmission(m_settings.bme280Addr);
+  if(0 == Wire.endTransmission())
+    success = true;
+
+  if(success)
+  {
+    success = BME280::Initialize();
+  }
+
+  return success;
 }
 
 

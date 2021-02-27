@@ -46,6 +46,24 @@ BME280I2C_BRZO::BME280I2C_BRZO
 {
 }
 
+
+/****************************************************************/
+bool BME280I2C_BRZO::Initialize()
+{
+  bool success(false);
+  brzo_i2c_start_transaction(m_settings.bme280Addr, m_settings.i2cClockRate);
+  if(0 == brzo_i2c_end_transaction())
+    success = true;
+
+  if(success)
+  {
+    success = BME280::Initialize();
+  }
+
+  return success;
+}
+
+
 /****************************************************************/
 void BME280I2C_BRZO::setSettings
 (

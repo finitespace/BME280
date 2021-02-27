@@ -65,6 +65,15 @@ public:
    BME280I2C_BRZO(
       const Settings& settings = Settings());
 
+/*****************************************************************/
+/* CONSTRUCTOR INIT FUNCTIONS                                    */
+/*****************************************************************/
+
+   ///////////////////////////////////////////////////////////////
+   /// Write configuration to BME280, return true if successful.
+   /// Must be called from any child classes.
+   virtual bool Initialize();
+
 
 /*****************************************************************/
 /* ACCESSOR FUNCTIONS                                            */
