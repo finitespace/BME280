@@ -1,7 +1,7 @@
 /*
-BME280I2CI2C.cpp
-This code records data from the BME280I2C sensor and provides an API.
-This file is part of the Arduino BME280I2C library.
+BME280I2CSoftwareWireI2C.cpp
+This code records data from the BME280I2CSoftwareWire sensor and provides an API.
+This file is part of the Arduino BME280I2CSoftwareWire library.
 Copyright (C) 2016  Tyler Glenn
 
 This program is free software: you can redistribute it and/or modify
@@ -22,67 +22,49 @@ Last Updated: Jan 1 2016. - Happy New year!
 
 This header must be included in any derived code or copies of the code.
 
-Based on the data sheet provided by Bosch for the BME280I2C environmental sensor,
+Based on the data sheet provided by Bosch for the BME280I2CSoftwareWire environmental sensor,
 calibration code based on algorithms providedBosch, some unit conversations courtesy
 of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
-#include "BME280I2C.h"
-
 #include "Config.h"
 
-#ifdef USING_WIRE
-#include <Wire.h>
-#endif
+#ifdef USING_SOFTWARE_WIRE
+
+#include "SoftwareWire.h"
+
+#include "BME280I2CSoftwareWire.h"
+
 
 /****************************************************************/
-BME280I2C::BME280I2C
+BME280I2CSoftwareWire::BME280I2CSoftwareWire
 (
+  SoftwareWire& softwareWire,
   const Settings& settings
-):BME280(settings),
-  m_settings(settings)
+):BME280I2C(settings),
+  m_softwareWire(softwareWire)
 {
 }
 
-
 /****************************************************************/
-void BME280I2C::setSettings
-(
-   const Settings& settings
-)
-{
-   m_settings = settings;
-   BME280::setSettings(settings);
-}
-
-
-/****************************************************************/
-const BME280I2C::Settings& BME280I2C::getSettings() const
-{
-   return m_settings;
-}
-
-
-#ifdef USING_WIRE
-/****************************************************************/
-bool BME280I2C::WriteRegister
+bool BME280I2CSoftwareWire::WriteRegister
 (
   uint8_t addr,
   uint8_t data
 )
 {
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.write(data);
-  Wire.endTransmission();
+  m_softwareWire.beginTransmission(getSettings().bme280Addr);
+  m_softwareWire.write(addr);
+  m_softwareWire.write(data);
+  m_softwareWire.endTransmission();
 
-  return true; // TODO: Check return values from wire calls.
+  return true; // TODO: Chech return values from wire calls.
 }
 
 
 /****************************************************************/
-bool BME280I2C::ReadRegister
+bool BME280I2CSoftwareWire::ReadRegister
 (
   uint8_t addr,
   uint8_t data[],
@@ -91,15 +73,15 @@ bool BME280I2C::ReadRegister
 {
   uint8_t ord(0);
 
-  Wire.beginTransmission(m_settings.bme280Addr);
-  Wire.write(addr);
-  Wire.endTransmission();
+  m_softwareWire.beginTransmission(getSettings().bme280Addr);
+  m_softwareWire.write(addr);
+  m_softwareWire.endTransmission();
 
-  Wire.requestFrom(static_cast<uint8_t>(m_settings.bme280Addr), length);
+  m_softwareWire.requestFrom(static_cast<uint8_t>(getSettings().bme280Addr), length);
 
-  while(Wire.available())
+  while(m_softwareWire.available())
   {
-    data[ord++] = Wire.read();
+    data[ord++] = m_softwareWire.read();
   }
 
   return ord == length;
