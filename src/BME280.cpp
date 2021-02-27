@@ -69,7 +69,7 @@ bool BME280::Initialize()
 
 
 /****************************************************************/
-bool BME280::InitializeFilter()
+void BME280::InitializeFilter()
 {
   // Force an unfiltered measurement to populate the filter buffer.
   // This fixes a bug that causes the first read to always be 28.82 °C 81732.34 hPa.
@@ -110,7 +110,7 @@ bool BME280::ReadChipID()
 
 
 /****************************************************************/
-bool BME280::WriteSettings()
+void BME280::WriteSettings()
 {
    uint8_t ctrlHum, ctrlMeas, config;
 
@@ -149,6 +149,14 @@ bool BME280::begin
    success &= m_initialized;
 
    return success;
+}
+
+/****************************************************************/
+bool BME280::reset()
+{
+   WriteRegister(RESET_ADDR, RESET_VALUE);
+   delay(2); //max. startup time according to datasheet
+   return(begin());
 }
 
 /****************************************************************/
@@ -274,8 +282,8 @@ float BME280::CalculateHumidity
    uint8_t   dig_H1 =   m_dig[24];
    int16_t dig_H2 = (m_dig[26] << 8) | m_dig[25];
    uint8_t   dig_H3 =   m_dig[27];
-   int16_t dig_H4 = (m_dig[28] << 4) | (0x0F & m_dig[29]);
-   int16_t dig_H5 = (m_dig[30] << 4) | ((m_dig[29] >> 4) & 0x0F);
+   int16_t dig_H4 = ((int8_t)m_dig[28] * 16) | (0x0F & m_dig[29]);
+   int16_t dig_H5 = ((int8_t)m_dig[30] * 16) | ((m_dig[29] >> 4) & 0x0F);
    int8_t   dig_H6 =   m_dig[31];
 
    var1 = (t_fine - ((int32_t)76800));
@@ -340,6 +348,9 @@ float BME280::CalculatePressure
          break;
       case PresUnit_bar: /* bar */
          final /= 100000.0;               /* final pa * 1 bar/100kPa */
+         break;
+      case PresUnit_mbar: /* mbar */
+         final /= 100.0;               /* final pa * 1 bar/100Pa */
          break;
       case PresUnit_torr: /* torr */
          final /= 133.32236534674;            /* final pa * 1 torr/133.32236534674Pa */

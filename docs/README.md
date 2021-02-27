@@ -180,6 +180,8 @@ or
 #### bool  begin()
 
   Method used at start up to initialize the class. Starts the I2C or SPI interface. Can be called again to re-initialize the mode settings.
+  
+  ***Note: To allow the user to provide their own wire implementation, Wire.begin() (or the equalivant) must be called before bme.begin()***
  ```
    * return: bool, true = success, false = failure (no device found)
  ```
