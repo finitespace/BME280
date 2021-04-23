@@ -386,6 +386,6 @@ Special thanks to Mike Glenn for editing and reviewing the code.
 
 ## License
 
-GNU GPL, see License.txt
+MIT License, see `LICENSE`.
 </content>
 </snippet>
