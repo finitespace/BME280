@@ -6,7 +6,7 @@ This code records data from the BME280 sensor and provides an API.
 This file is part of the Arduino BME280 library.
 
 
-Copyright (c) 2015-2021 Tyler Glenn, et al.
+Copyright (c) 2017 Tyler Glenn, et al.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

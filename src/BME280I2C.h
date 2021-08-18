@@ -6,7 +6,7 @@ This file is part of the Arduino BME280 library.
 Based on the data sheet provided by Bosch for the Bme280 environmental sensor.
 
 
-Copyright (c) 2015-2021 Tyler Glenn, et al.
+Copyright (c) 2016 Tyler Glenn, et al.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -16,7 +16,7 @@ SDA (Serial Data)   ->  D2 on ESP8266
 SCK (Serial Clock)  ->  D1 on ESP8266
 
 
-Copyright (c) 2015-2021 Tyler Glenn, Alex Shavlovsky, et al.
+Copyright (c) 2016 Tyler Glenn, Alex Shavlovsky, et al.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
