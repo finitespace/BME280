@@ -28,6 +28,7 @@ of www.endmemo.com, altitude equation courtesy of NOAA, and dew point equation
 courtesy of Brian McNoldy at http://andrew.rsmas.miami.edu.
  */
 
+#include <Arduino.h>
 #include <Wire.h>
 
 #include "BME280I2C.h"
